@@ -4,8 +4,7 @@ import pandas as pd
 def main():
     st.set_page_config(page_title="RISK TWIN OSS", layout="wide")
     st.title("🌪️ RISK TWIN OSS: Era Swap Simulator")
-    st.markdown("Simulate Counterfactual Risks on Causally-Constrained World Models.")
-    
+    st.markdown("Simulate Counterfactual Risks on Causally-Constrained World Models.")    
     st.sidebar.header("Configure Macro Environment")
     domain = st.sidebar.selectbox("Domain", ["Walmart (Retail)", "DataCo (Supply Chain)"])
     
@@ -30,14 +29,26 @@ def main():
         
         # Display Metrics
         col1, col2, col3 = st.columns(3)
-        col1.metric("Baseline Risk (2024 DNA)", f"{baseline_risk*100:.1f}%")
+        col1.metric("Baseline Risk (2026 DNA)", f"{baseline_risk*100:.1f}%")
         col2.metric("Counterfactual Risk (Era Swap)", f"{simulated_risk*100:.1f}%", f"+{(simulated_risk - baseline_risk)*100:.1f}%")
         
-        # Display Visual Comparison
+        st.divider() # Adds a clean visual break before the chart
+        st.markdown("#### Scenario Comparison Analysis")
+        
+        # Display Visual Comparison with Axis Labels
         chart_data = pd.DataFrame(
-            {"Risk Type": ["Baseline", "Counterfactual"], "Probability (%)": [baseline_risk * 100, simulated_risk * 100]}
-        ).set_index("Risk Type")
-        st.bar_chart(chart_data, height=250)
+            {"Scenario": ["Baseline", "Counterfactual"], "Probability (%)": [baseline_risk * 100, simulated_risk * 100]}
+        ).set_index("Scenario")
+        
+        st.bar_chart(
+            chart_data, 
+            height=300,
+            x_label="Macroeconomic Scenario",
+            y_label="Stockout Probability (%)"
+        )
+        
+        # Add Chart Description
+        st.caption("📊 **Chart Description:** This visual contrasts the expected probability of inventory stockouts under standard 2026 operational parameters (Baseline) against the modeled outcomes when subjected to the selected macroeconomic shock (Counterfactual Era).")
         
         if simulated_risk > 0.15:
             st.error("⚠️ TAIL RISK DETECTED: Model predicts stockout probability exceeds 15% threshold.")
@@ -64,14 +75,27 @@ def main():
         
         # Display Metrics
         col1, col2, col3 = st.columns(3)
-        col1.metric("Baseline Risk (2024 Routes)", f"{baseline_risk*100:.1f}%")
+        col1.metric("Baseline Risk (2026 Routes)", f"{baseline_risk*100:.1f}%")
         col2.metric("Counterfactual Risk (Era Swap)", f"{simulated_risk*100:.1f}%", f"+{(simulated_risk - baseline_risk)*100:.1f}%")
         
-        # Display Visual Comparison
+        st.divider()
+        st.markdown("#### Scenario Comparison Analysis")
+        
+        # Display Visual Comparison with Axis Labels
         chart_data = pd.DataFrame(
-            {"Risk Type": ["Baseline", "Counterfactual"], "Probability (%)": [baseline_risk * 100, simulated_risk * 100]}
-        ).set_index("Risk Type")
-        st.bar_chart(chart_data, height=250, color="#ff4b4b")
+            {"Scenario": ["Baseline", "Counterfactual"], "Probability (%)": [baseline_risk * 100, simulated_risk * 100]}
+        ).set_index("Scenario")
+        
+        st.bar_chart(
+            chart_data, 
+            height=300, 
+            color="#ff4b4b",
+            x_label="Logistics Environment",
+            y_label="Late Delivery Risk (%)"
+        )
+        
+        # Add Chart Description
+        st.caption("📊 **Chart Description:** This visual compares the historical probability of shipment delays under standard routing structures (Baseline) versus the elevated risk calculated during the simulated logistics bottleneck (Counterfactual Era).")
         
         if simulated_risk > 0.65:
             st.error("⚠️ EXTREME CONGESTION DETECTED: Late delivery probability critically high.")
