@@ -36,3 +36,57 @@ Below is a breakdown of the repository's architecture and the purpose of each to
 **Getting Started:**
 To launch the interactive simulator locally, ensure your environment is set up (see `notebooks/Setup.ipynb`), then run the following command from the root directory:
 `streamlit run dashboard.py`
+
+## 📊 Simulation Results & Dashboards
+
+The **RISK TWIN OSS** dashboard allows us to interactively inject historical macroeconomic shocks into our current-day (2026) supply chain and retail "DNA." 
+
+By simulating these "Era Swaps," we can definitively prove that static, traditional Operations Research (OR) policies fail under severe economic stress, highlighting the necessity of Causal Reinforcement Learning.
+
+### 🛒 Domain 1: Walmart (Retail Operations)
+In the retail environment, the causal model tracks how external labor markets (Unemployment) and inflationary pressures (CPI) directly influence the probability of inventory stockouts.
+
+**1. The "Sunny Day" Baseline (2026 DNA)**
+Under standard macroeconomic conditions (5.0% Unemployment, 210 CPI), the system is stable. The traditional inventory policies maintain a safe **4.2%** stockout probability.
+![Walmart Baseline](assets/image_fe4d25.png)
+
+**2. Labor Shock Scenario (2008 Great Financial Crisis)**
+Injecting the 2008 GFC metrics isolates the effect of labor disruptions. Even with inflation holding steady, simply doubling the unemployment rate to 10.0% causes the stockout risk to nearly double to **8.2%**.
+![Walmart 2008 Shock](assets/image_fe50a5.png)
+
+**3. The Dual-Shock Scenario (COVID-19 Retail Era)**
+When hit simultaneously by massive unemployment (14.7%) and severe inflation (256 CPI), the baseline operational policies fail catastrophically. The risk of stockouts skyrockets to **14.3%**, triggering a tail-risk alert.
+![Walmart COVID Shock](assets/image_fe5027.png)
+
+#### Retail Analytical Takeaway:
+| Scenario | Unemployment | CPI | Stockout Risk | vs. Baseline |
+| :--- | :--- | :--- | :--- | :--- |
+| **Baseline (2026)** | 5.0% | 210.0 | **4.2%** | N/A |
+| **GFC 2008** | 10.0% | 210.0 | **8.2%** | +4.0% |
+| **COVID 2020** | 14.7% | 256.0 | **14.3%** | +10.1% |
+*The retail supply chain is highly sensitive to labor availability and completely collapses under compounded economic crises.*
+
+---
+
+### 🚢 Domain 2: DataCo (Logistics Operations)
+In the logistics environment, the causal model tracks how global shipping congestion (measured by the NY Fed's GSCPI) impacts the probability of late deliveries.
+
+**1. The Stretched Baseline (2026 Routes)**
+Unlike the retail side, the logistics network is fundamentally strained. Even in a perfect global environment with zero supply chain pressure (GSCPI 0.0), the baseline probability of a late delivery is already severely high at **54.3%**.
+![DataCo Baseline](assets/image_feb25f.png)
+
+**2. The Global Bottleneck Scenario (COVID-19 Logistics Era)**
+When the simulator injects the massive port congestion and supply chain gridlock seen during the pandemic (a GSCPI spike of 4.3 standard deviations), the routing network completely buckles. Late delivery probabilities surge to **71.5%**, resulting in extreme congestion.
+![DataCo COVID Shock](assets/image_feb55f.png)
+
+#### Logistics Analytical Takeaway:
+| Scenario | GSCPI (SD) | Fuel Price | Late Delivery Risk | vs. Baseline |
+| :--- | :--- | :--- | :--- | :--- |
+| **Baseline (2026)** | 0.00 | $75.00 | **54.3%** | N/A |
+| **COVID 2020** | 4.30 | $75.00 | **71.5%** | +17.2% |
+*The DataCo network has zero buffer to absorb macro-shocks. Traditional routing algorithms cannot adjust lead times fast enough when global ports back up.*
+
+---
+
+### 🧠 The Core Conclusion
+These simulations strictly validate the necessity of this project. **Traditional baseline policies are optimized only for normal, stable conditions.** Because they cannot dynamically adapt to extreme shifts in macro variables, they fail drastically during economic hurricanes.
