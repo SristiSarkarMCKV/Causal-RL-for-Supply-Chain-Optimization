@@ -24,6 +24,24 @@ def main():
             color: #1e293b;
         }
 
+        /* Completely disable and hide all header anchor link icons */
+        [data-testid="stHeaderActionElements"],
+        .stMarkdown a[href*="#"],
+        a.header-anchor,
+        .header-anchor,
+        [data-testid="stMarkdownContainer"] h1 a,
+        [data-testid="stMarkdownContainer"] h2 a,
+        [data-testid="stMarkdownContainer"] h3 a,
+        [data-testid="stMarkdownContainer"] h4 a,
+        [data-testid="stMarkdownContainer"] h5 a,
+        [data-testid="stMarkdownContainer"] h6 a {
+            display: none !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+            opacity: 0 !important;
+            text-decoration: none !important;
+        }
+
         /* 1. Page 1 Hero: Electric Ocean to Emerald Gradient */
         .hero-title-p1 {
             font-family: 'Outfit', sans-serif;
@@ -81,6 +99,63 @@ def main():
             color: #475569;
             margin-bottom: 22px;
             letter-spacing: -0.01em;
+            text-align: center;
+        }
+
+        /* Custom Non-Anchor Section Headings */
+        .section-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-top: 14px;
+            margin-bottom: 12px;
+        }
+
+        /* Custom Non-Anchor Card Headings */
+        .card-header-blue {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.22rem;
+            font-weight: 800;
+            color: #1e3a8a;
+            margin-top: 4px;
+            margin-bottom: 10px;
+        }
+
+        .card-header-brown {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.22rem;
+            font-weight: 800;
+            color: #7c2d12;
+            margin-top: 4px;
+            margin-bottom: 10px;
+        }
+
+        .card-header-pink {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.22rem;
+            font-weight: 800;
+            color: #be185d;
+            margin-top: 4px;
+            margin-bottom: 10px;
+        }
+
+        .card-header-indigo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.22rem;
+            font-weight: 800;
+            color: #4338ca;
+            margin-top: 4px;
+            margin-bottom: 10px;
+        }
+
+        .card-header-purple {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.22rem;
+            font-weight: 800;
+            color: #7c3aed;
+            margin-top: 4px;
+            margin-bottom: 10px;
         }
 
         /* Glassmorphic & Modern Colorful Feature Cards */
@@ -185,9 +260,9 @@ def main():
             st.markdown("""
             <div class="feature-card">
                 <span class="metric-badge">🛒 RETAIL TWIN DOMAIN</span>
-                <h3 style="margin-top:4px; color: #1e3a8a; font-family: 'Outfit', sans-serif;">🏪 Domain 1: Walmart (Retail Operations)</h3>
-                <ul style="line-height: 1.7; font-size: 0.95rem; color: #334155;">
-                    <li>🎯 <b>Causal Mechanism:</b> Tracks how external labor markets (<b>👥 Unemployment</b>) and inflationary pressures (<b>🏷️ CPI</b>) drive  retail inventory stockout risks.</li>
+                <div class="card-header-blue">🏪 Domain 1: Walmart (Retail Operations)</div>
+                <ul style="line-height: 1.7; font-size: 0.95rem; color: #334155; margin-bottom: 0;">
+                    <li>🎯 <b>Causal Mechanism:</b> Tracks how external labor markets (<b>👥 Unemployment</b>) and inflationary pressures (<b>🏷️ CPI</b>) drive retail inventory stockout risks.</li>
                     <li>🌱 <b>Baseline State (2026 DNA):</b> Stable operational conditions with an expected baseline stockout rate of <b style="color: #16a34a;">4.2%</b>.</li>
                     <li>🔥 <b>Stress Regimes:</b> Evaluates severe labor-isolation shocks (📉 2008 GFC) and compounded dual-shocks (🦠 COVID-19 Retail Era).</li>
                 </ul>
@@ -198,8 +273,8 @@ def main():
             st.markdown("""
             <div class="feature-card">
                 <span class="metric-badge">🚢 LOGISTICS TWIN DOMAIN</span>
-                <h3 style="margin-top:4px; color: #7c2d12; font-family: 'Outfit', sans-serif;">📦 Domain 2: DataCo (Logistics Operations)</h3>
-                <ul style="line-height: 1.7; font-size: 0.95rem; color: #334155;">
+                <div class="card-header-brown">📦 Domain 2: DataCo (Logistics Operations)</div>
+                <ul style="line-height: 1.7; font-size: 0.95rem; color: #334155; margin-bottom: 0;">
                     <li>🎯 <b>Causal Mechanism:</b> Tracks how port congestion (<b>⚓ NY Fed GSCPI</b>) paired with global energy costs (<b>⛽ Fuel Price</b>) impact delivery latency.</li>
                     <li>🌱 <b>Baseline State (2026 Routes):</b> High inherent routing friction with a baseline late delivery risk of <b style="color: #d97706;">54.3%</b>.</li>
                     <li>🔥 <b>Stress Regimes:</b> Simulates multi-port gridlocks, trade embargoes, and acute global supply bottlenecks.</li>
@@ -207,7 +282,7 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
-        st.markdown("### 🎯 Benchmark Findings & Stress-Test Matrix")
+        st.markdown('<div class="section-header">🎯 Benchmark Findings & Stress-Test Matrix</div>', unsafe_allow_html=True)
         tab1, tab2 = st.tabs(["🛒 Retail Stress Takeaways", "🚢 Logistics Stress Takeaways"])
         with tab1:
             retail_summary = pd.DataFrame({
@@ -232,7 +307,7 @@ def main():
             st.caption("💡 **Takeaway:** Traditional lead-time routing algorithms fail severely when international logistics choke points back up.")
 
         st.divider()
-        st.markdown("#### 🚀 Explore the Platform")
+        st.markdown('<div class="section-header" style="font-size: 1.2rem;">🚀 Explore the Platform</div>', unsafe_allow_html=True)
         nav_c1, nav_c2, _ = st.columns([1.1, 1.4, 1.5])
         with nav_c1:
             st.button("📈 Launch Simulator", on_click=set_page, args=("📈 Era Swap Simulator",), use_container_width=True)
@@ -249,12 +324,12 @@ def main():
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊🧾📊</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle"><br>🧪 <b>Interactive Sandbox:</b> Simulate Counterfactual Shocks on Causally-Constrained World Models ⚡</p>', unsafe_allow_html=True)
         
-        st.sidebar.header("🎛️ Configure Macro Environment")
+        st.sidebar.markdown('<div class="section-header" style="font-size: 1.15rem; margin-top:0;">🎛️ Configure Macro Environment</div>', unsafe_allow_html=True)
         domain = st.sidebar.selectbox("🎯 Domain Selection", ["Walmart (Retail)", "DataCo (Supply Chain)"])
         
         # WALMART / RETAIL UI
         if domain == "Walmart (Retail)":
-            st.sidebar.subheader("🛒 Retail Macro Shocks")
+            st.sidebar.markdown('<div class="card-header-blue" style="font-size: 1rem; margin-top:8px;">🛒 Retail Macro Shocks</div>', unsafe_allow_html=True)
             era = st.sidebar.selectbox("⚡ Load Predefined Era", ["Custom 🛠️", "COVID_2020_RETAIL 🦠", "GFC_2008_MORTGAGE 📉"])
             
             def_unemp = 14.7 if "COVID" in era else (10.0 if "GFC" in era else 5.0)
@@ -263,7 +338,7 @@ def main():
             unemployment = st.sidebar.slider("👥 Unemployment Rate (%)", 3.0, 20.0, float(def_unemp))
             cpi = st.sidebar.slider("🏷️ CPI (Inflation Index)", 180.0, 300.0, float(def_cpi))
             
-            st.subheader("🛒 Walmart Portfolio Risk: Stockout Probability Analysis")
+            st.markdown('<div class="section-header">🛒 Walmart Portfolio Risk: Stockout Probability Analysis</div>', unsafe_allow_html=True)
             
             baseline_risk = 0.042
             simulated_risk = baseline_risk + ((unemployment - 5.0) * 0.008) + ((cpi - 210.0) * 0.0005)
@@ -275,7 +350,7 @@ def main():
             col3.metric("📊 Macro Strain Index", f"{((unemployment/5.0 + cpi/210.0)/2):.2f}x")
             
             st.divider()
-            st.markdown("#### 📊 Scenario Comparison Analysis")
+            st.markdown('<div class="section-header" style="font-size: 1.2rem;">📊 Scenario Comparison Analysis</div>', unsafe_allow_html=True)
             
             chart_data = pd.DataFrame(
                 {"Scenario": ["Baseline", "Counterfactual"], "Stockout Risk (%)": [baseline_risk * 100, simulated_risk * 100]}
@@ -298,7 +373,7 @@ def main():
 
         # DATACO / SUPPLY CHAIN UI
         elif domain == "DataCo (Supply Chain)":
-            st.sidebar.subheader("🚢 Logistics Macro Shocks")
+            st.sidebar.markdown('<div class="card-header-brown" style="font-size: 1rem; margin-top:8px;">🚢 Logistics Macro Shocks</div>', unsafe_allow_html=True)
             era = st.sidebar.selectbox("⚡ Load Predefined Era", ["Custom 🛠️", "COVID_2020_LOGISTICS 🚢"])
             
             def_gscpi = 4.3 if "COVID" in era else 0.0
@@ -307,7 +382,7 @@ def main():
             gscpi = st.sidebar.slider("⚓ GSCPI (Standard Deviations)", -2.0, 5.0, float(def_gscpi))
             fuel = st.sidebar.slider("⛽ Global Oil Price ($/bbl)", 40.0, 150.0, 75.0)
             
-            st.subheader("🚢 DataCo Logistics Risk: Late Delivery Probability Analysis")
+            st.markdown('<div class="section-header">🚢 DataCo Logistics Risk: Late Delivery Probability Analysis</div>', unsafe_allow_html=True)
             
             baseline_risk = 0.543 
             simulated_risk = baseline_risk + (gscpi * 0.04) + ((fuel - 75.0) * 0.001)
@@ -319,7 +394,7 @@ def main():
             col3.metric("⚓ Port Pressure Index", f"{gscpi:+.2f} SD")
             
             st.divider()
-            st.markdown("#### 📊 Scenario Comparison Analysis")
+            st.markdown('<div class="section-header" style="font-size: 1.2rem;">📊 Scenario Comparison Analysis</div>', unsafe_allow_html=True)
             
             chart_data = pd.DataFrame(
                 {"Scenario": ["Baseline", "Counterfactual"], "Late Delivery Risk (%)": [baseline_risk * 100, simulated_risk * 100]}
@@ -349,7 +424,7 @@ def main():
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🖥📑🖥</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle"><br>🧩 <b>System Blueprint:</b> Data Pipelines, Directed Acyclic Graphs (DAGs), Simulation Engines & RL Baselines ⚡</p>', unsafe_allow_html=True)
         
-        st.markdown("### 🗺️ End-to-End System Execution Flow")
+        st.markdown('<div class="section-header">🗺️ End-to-End System Execution Flow</div>', unsafe_allow_html=True)
         st.graphviz_chart("""
         digraph G {
             rankdir=LR;
@@ -397,14 +472,14 @@ def main():
         }
         """)
 
-        st.markdown("### 📚 Notebook & Component Deep Dive")
+        st.markdown('<div class="section-header">📚 Notebook & Component Deep Dive</div>', unsafe_allow_html=True)
         
         c1, c2 = st.columns(2)
         with c1:
             st.markdown("""
             <div class="feature-card">
-                <h4 style="color: #4338ca; font-family: 'Outfit', sans-serif;">📓 Core Research Notebooks</h4>
-                <ul style="line-height:1.7; font-size:0.95rem; color: #334155;">
+                <div class="card-header-indigo">📓 Core Research Notebooks</div>
+                <ul style="line-height:1.7; font-size:0.95rem; color: #334155; margin-bottom: 0;">
                     <li>🛠️ <b><code>Setup.ipynb</code>:</b> Configures the runtime environment, installs critical dependencies (<code>xlrd</code>, <code>openpyxl</code>), and streams live macroeconomic datasets including the NY Fed GSCPI index.</li>
                     <li>📊 <b><code>DataCo Supply Chain EDA.ipynb</code>:</b> Performs exploratory data analysis on shipping routes, establishes late delivery distributions, and isolates missing data anomalies.</li>
                     <li>🕸️ <b><code>causal_graph.ipynb</code>:</b> Formulates Directed Acyclic Graphs (DAGs) and Structural Causal Models (SCMs) linking macro variables to transit lateness to neutralize confounding bias.</li>
@@ -416,8 +491,8 @@ def main():
         with c2:
             st.markdown("""
             <div class="feature-card">
-                <h4 style="color: #be185d; font-family: 'Outfit', sans-serif;">⚙️ Simulation Engines & Baselines</h4>
-                <ul style="line-height:1.7; font-size:0.95rem; color: #334155;">
+                <div class="card-header-pink">⚙️ Simulation Engines & Baselines</div>
+                <ul style="line-height:1.7; font-size:0.95rem; color: #334155; margin-bottom: 0;">
                     <li>🌪️ <b><code>era_swap.ipynb</code>:</b> Implements the counterfactual engine that injects macroeconomic shocks (e.g., COVID-2020 logistics stress or 2008 financial shocks) into current operational states.</li>
                     <li>🎮 <b><code>simulators.ipynb</code>:</b> Wraps world models and era-swapping mechanics into standard step-action-reward interfaces compatible with RL frameworks.</li>
                     <li>🚀 <b><code>risk_twin_pipeline.ipynb</code>:</b> Unifies data ingestion, causal graph construction, world modeling, and simulation into an automated end-to-end execution pipeline.</li>
@@ -427,7 +502,7 @@ def main():
             """, unsafe_allow_html=True)
 
         st.divider()
-        st.markdown("### 👩‍💻 Lead Developer & Research Contact")
+        st.markdown('<div class="section-header">👩‍💻 Lead Developer & Research Contact</div>', unsafe_allow_html=True)
         
         dev_col1, dev_col2 = st.columns([1, 1.8])
         with dev_col1:
@@ -439,7 +514,7 @@ def main():
         with dev_col2:
             st.markdown("""
             <div class="feature-card">
-                <h4 style="color: #7c3aed; font-family: 'Outfit', sans-serif;">🤝 Collaborations, Research & Extensions</h4>
+                <div class="card-header-purple">🤝 Collaborations, Research & Extensions</div>
                 <p style="margin: 0; line-height: 1.7; font-size: 0.95rem; color: #334155;">
                     For baseline extensions, structural causal model (SCM) contributions, custom gym environment wrappers, or integration with enterprise supply chain control towers, feel free to reach out via the provided channels! 🚀
                 </p>
