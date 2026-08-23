@@ -167,9 +167,9 @@ def main():
     # ---------------------------------------------------------
     if st.session_state.current_page == "🏠 Project Overview":
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">⛓️⚙️⛓️</p>', unsafe_allow_html=True)
-        st.markdown('<p class="hero-title-p1"><br>Causal-RL<br>for<br>Supply Chain Optimization</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p1">Causal-RL<br>for<br>Supply Chain Optimization</p>', unsafe_allow_html=True)
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">⛓️⚙️⛓️</p>', unsafe_allow_html=True)
-        st.markdown('<p class="hero-subtitle">🌐 <b>RISK TWIN OSS:</b> Causally-Constrained World Model Simulation & Macro Stress-Testing 🛡️</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-subtitle"><br>🌐 <b>RISK TWIN OSS:</b> Causally-Constrained World Model Simulation & Macro Stress-Testing 🛡️</p>', unsafe_allow_html=True)
         
         st.markdown("""
         <div class="feature-card">
@@ -243,8 +243,11 @@ def main():
     # 2. PREDICTION SECTION (ERA SWAP SIMULATOR)
     # ---------------------------------------------------------
     elif st.session_state.current_page == "📈 Era Swap Simulator":
-        st.markdown('<p class="hero-title-p2">📊🧾📊<br>RISK TWIN OSS<br>Era Swap Simulator<br>📊🧾📊</p>', unsafe_allow_html=True)
-        st.markdown('<p class="hero-subtitle">🧪 <b>Interactive Sandbox:</b> Simulate Counterfactual Shocks on Causally-Constrained World Models ⚡</p>', unsafe_allow_html=True)
+        
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊🧾📊</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p2">RISK TWIN OSS<br>Era Swap Simulator</p>', unsafe_allow_html=True)
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊🧾📊</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-subtitle"><br>🧪 <b>Interactive Sandbox:</b> Simulate Counterfactual Shocks on Causally-Constrained World Models ⚡</p>', unsafe_allow_html=True)
         
         st.sidebar.header("🎛️ Configure Macro Environment")
         domain = st.sidebar.selectbox("🎯 Domain Selection", ["Walmart (Retail)", "DataCo (Supply Chain)"])
@@ -341,8 +344,10 @@ def main():
     # 3. ABOUT & TECHNICAL ARCHITECTURE
     # ---------------------------------------------------------
     elif st.session_state.current_page == "🔬 Technical Architecture & Developer":
-        st.markdown('<p class="hero-title-p3">🖥📑🖥<br>Technical Architecture<br>and<br>Implementation<br>🖥📑🖥</p>', unsafe_allow_html=True)
-        st.markdown('<p class="hero-subtitle">🧩 <b>System Blueprint:</b> Data Pipelines, Directed Acyclic Graphs (DAGs), Simulation Engines & RL Baselines ⚡</p>', unsafe_allow_html=True)
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🖥📑🖥</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p3">Technical Architecture<br>and<br>Implementation</p>', unsafe_allow_html=True)
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🖥📑🖥</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-subtitle"><br>🧩 <b>System Blueprint:</b> Data Pipelines, Directed Acyclic Graphs (DAGs), Simulation Engines & RL Baselines ⚡</p>', unsafe_allow_html=True)
         
         st.markdown("### 🗺️ End-to-End System Execution Flow")
         st.graphviz_chart("""
@@ -440,7 +445,6 @@ def main():
                 </p>
             </div>
             """, unsafe_allow_html=True)
-
 
 if __name__ == "__main__":
     main()
