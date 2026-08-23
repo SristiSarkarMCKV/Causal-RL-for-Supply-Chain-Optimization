@@ -166,7 +166,7 @@ def main():
     # 1. PROJECT OVERVIEW / HOME
     # ---------------------------------------------------------
     if st.session_state.current_page == "🏠 Project Overview":
-        st.markdown('<p class="hero-title-p1">⛓️⚙️⛓️<br>Causal-RL<br>for Supply Chain Optimization<br>⛓️⚙️⛓️</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p1">⛓️⚙️⛓️<br>Causal-RL<br>for<br>Supply Chain Optimization<br>⛓️⚙️⛓️</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">🌐 <b>RISK TWIN OSS:</b> Causally-Constrained World Model Simulation & Macro Stress-Testing 🛡️</p>', unsafe_allow_html=True)
         
         st.markdown("""
