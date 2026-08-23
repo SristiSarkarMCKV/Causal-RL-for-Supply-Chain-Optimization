@@ -166,8 +166,9 @@ def main():
     # 1. PROJECT OVERVIEW / HOME
     # ---------------------------------------------------------
     if st.session_state.current_page == "🏠 Project Overview":
-        st.markdown('⛓️⚙️⛓️', unsafe_allow_html=True)
-        st.markdown('<p class="hero-title-p1">⛓️⚙️⛓️<br>Causal-RL<br>for<br>Supply Chain Optimization<br>⛓️⚙️⛓️</p>', unsafe_allow_html=True)
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">⛓️⚙️⛓️</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p1"><br>Causal-RL<br>for<br>Supply Chain Optimization</p>', unsafe_allow_html=True)
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">⛓️⚙️⛓️</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">🌐 <b>RISK TWIN OSS:</b> Causally-Constrained World Model Simulation & Macro Stress-Testing 🛡️</p>', unsafe_allow_html=True)
         
         st.markdown("""
@@ -186,7 +187,7 @@ def main():
                 <span class="metric-badge">🛒 RETAIL TWIN DOMAIN</span>
                 <h3 style="margin-top:4px; color: #1e3a8a; font-family: 'Outfit', sans-serif;">🏪 Domain 1: Walmart (Retail Operations)</h3>
                 <ul style="line-height: 1.7; font-size: 0.95rem; color: #334155;">
-                    <li>🎯 <b>Causal Mechanism:</b> Tracks how external labor markets (<b>👥 Unemployment</b>) and inflationary pressures (<b>🏷️ CPI</b>) drive retail inventory stockout risks.</li>
+                    <li>🎯 <b>Causal Mechanism:</b> Tracks how external labor markets (<b>👥 Unemployment</b>) and inflationary pressures (<b>🏷️ CPI</b>) drive  retail inventory stockout risks.</li>
                     <li>🌱 <b>Baseline State (2026 DNA):</b> Stable operational conditions with an expected baseline stockout rate of <b style="color: #16a34a;">4.2%</b>.</li>
                     <li>🔥 <b>Stress Regimes:</b> Evaluates severe labor-isolation shocks (📉 2008 GFC) and compounded dual-shocks (🦠 COVID-19 Retail Era).</li>
                 </ul>
