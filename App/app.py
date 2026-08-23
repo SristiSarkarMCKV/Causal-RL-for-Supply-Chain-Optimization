@@ -1,65 +1,5 @@
 import streamlit as st
 import pandas as pd
-import base64
-import os
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-
-# Function to auto-generate the GIF if it doesn't already exist
-def ensure_gif_exists(gif_path="risk_twin_simulation.gif"):
-    if not os.path.exists(gif_path):
-        fig, (ax_retail, ax_logistics) = plt.subplots(1, 2, figsize=(11, 5.5), facecolor="#0E1117")
-        scenarios = ["Baseline (2026)", "GFC 2008 Shock", "COVID 2020 Shock"]
-        retail_risks = [4.2, 8.2, 14.3]
-        logistics_risks = [54.3, 62.0, 71.5]
-        frames_per_step = 20
-        total_steps = len(scenarios)
-        total_frames = frames_per_step * total_steps
-
-        def update(frame):
-            ax_retail.clear()
-            ax_logistics.clear()
-            step_idx = min(frame // frames_per_step, total_steps - 1)
-            sub_progress = (frame % frames_per_step) / float(frames_per_step)
-            prev_idx = max(0, step_idx - 1) if sub_progress < 1.0 else step_idx
-
-            current_retail = [
-                retail_risks[i] if i < step_idx else (
-                    retail_risks[prev_idx] + (retail_risks[i] - retail_risks[prev_idx]) * sub_progress 
-                    if i == step_idx else 0
-                )
-                for i in range(total_steps)
-            ]
-            current_logistics = [
-                logistics_risks[i] if i < step_idx else (
-                    logistics_risks[prev_idx] + (logistics_risks[i] - logistics_risks[prev_idx]) * sub_progress 
-                    if i == step_idx else 0
-                )
-                for i in range(total_steps)
-            ]
-
-            ax_retail.set_facecolor("#161B22")
-            bars_retail = ax_retail.bar(scenarios, current_retail, color=["#38BDF8", "#F59E0B", "#EF4444"], width=0.55)
-            ax_retail.set_ylim(0, 20)
-            ax_retail.set_ylabel("Stockout Probability (%)", color="#E2E8F0", fontsize=11, fontweight="bold")
-            ax_retail.set_title("🛒 Walmart Retail: Stockout Risk", color="#38BDF8", fontsize=13, fontweight="bold", pad=12)
-            ax_retail.tick_params(colors="#94A3B8", labelsize=9)
-            ax_retail.grid(axis="y", linestyle="--", alpha=0.2, color="#94A3B8")
-
-            ax_logistics.set_facecolor("#161B22")
-            bars_logistics = ax_logistics.bar(scenarios, current_logistics, color=["#38BDF8", "#F59E0B", "#EF4444"], width=0.55)
-            ax_logistics.set_ylim(0, 90)
-            ax_logistics.set_ylabel("Late Delivery Risk (%)", color="#E2E8F0", fontsize=11, fontweight="bold")
-            ax_logistics.set_title("🚢 DataCo Logistics: Delay Risk", color="#F87171", fontsize=13, fontweight="bold", pad=12)
-            ax_logistics.tick_params(colors="#94A3B8", labelsize=9)
-            ax_logistics.grid(axis="y", linestyle="--", alpha=0.2, color="#94A3B8")
-
-            fig.suptitle(f"🌪️ RISK TWIN OSS: Stress Test [{scenarios[step_idx]}]", fontsize=14, fontweight="bold", color="#F8FAFC", y=0.98)
-
-        anim = animation.FuncAnimation(fig, update, frames=total_frames, interval=80)
-        anim.save(gif_path, writer="pillow", fps=15)
-        plt.close(fig)
 
 def set_page(page_name):
     st.session_state.current_page = page_name
@@ -71,102 +11,64 @@ def main():
         layout="wide"
     )
 
-    gif_file = "risk_twin_simulation.gif"
-    ensure_gif_exists(gif_file)
-
-    # Encode GIF to base64 for background embedding
-    with open(gif_file, "rb") as f:
-        data = f.read()
-        b64_gif = base64.b64encode(data).decode()
-
     if "current_page" not in st.session_state:
         st.session_state.current_page = "🏠 Project Overview"
 
-    # CSS Injection for background GIF overlay with readability filters
-    st.markdown(f"""
+    # Subtle typography and visual styling keeping default theme background
+    st.markdown("""
         <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         
-        html, body, [class*="css"] {{
+        html, body, [class*="css"] {
             font-family: 'Plus Jakarta Sans', sans-serif;
-        }}
+        }
 
-        /* Full page animated GIF background with subtle opacity */
-        .stApp {{
-            background: linear-gradient(rgba(14, 17, 23, 0.92), rgba(14, 17, 23, 0.92)), url("data:image/gif;base64,{b64_gif}");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-        }}
+        .hero-title {
+            font-size: 2.3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 2px;
+        }
 
-        .hero-title {{
-            font-family: 'Cabinet Grotesk', sans-serif;
-            font-size: 3.6rem;
-            font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            margin-bottom: 6px;
-        }}
-
-        .hero-subtitle {{
-            font-size: 1.2rem;
+        .hero-subtitle {
+            font-size: 1.05rem;
             font-weight: 500;
             opacity: 0.85;
-            margin-bottom: 24px;
-        }}
+            margin-bottom: 20px;
+        }
 
-        .page-watermark {{
-            position: fixed;
-            top: 55%;
-            left: 55%;
-            transform: translate(-50%, -50%) rotate(-12deg);
-            font-family: 'Cabinet Grotesk', sans-serif;
-            font-size: 15vw;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.03);
-            white-space: nowrap;
-            user-select: none;
-            pointer-events: none;
-            z-index: 0;
-            letter-spacing: 0.05em;
-        }}
-
-        .feature-card {{
-            position: relative;
-            z-index: 1;
+        .feature-card {
             border-radius: 12px;
-            padding: 22px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(22, 27, 34, 0.7);
-            backdrop-filter: blur(10px);
+            padding: 20px;
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            background: rgba(128, 128, 128, 0.05);
             margin-bottom: 16px;
-        }}
+        }
 
-        .metric-badge {{
+        .metric-badge {
             display: inline-block;
             padding: 3px 10px;
             border-radius: 9999px;
             font-size: 0.75rem;
             font-weight: 700;
-            border: 1px solid rgba(56, 189, 248, 0.5);
-            background: rgba(56, 189, 248, 0.1);
-            color: #38bdf8;
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 8px;
-        }}
+        }
 
-        .stButton>button {{
+        .stButton>button {
             border-radius: 8px;
             font-weight: 600;
             padding: 8px 20px;
             transition: all 0.2s ease;
-        }}
+        }
         </style>
     """, unsafe_allow_html=True)
 
-    # Sidebar Navigation
+    # Navigation Sidebar
     st.sidebar.title("🌪️ RISK TWIN OSS")
     pages = ["🏠 Project Overview", "📈 Era Swap Simulator", "🔬 Technical Architecture & Developer"]
     selected_page = st.sidebar.radio(
@@ -184,14 +86,13 @@ def main():
     # 1. PROJECT OVERVIEW / HOME
     # ---------------------------------------------------------
     if st.session_state.current_page == "🏠 Project Overview":
-        st.markdown('<div class="page-watermark">RISK TWIN</div>', unsafe_allow_html=True)
         st.markdown('<p class="hero-title">🌪️ Causal-RL for Supply Chain Optimization</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">RISK TWIN OSS: Causally-Constrained World Model Simulation</p>', unsafe_allow_html=True)
         
         st.markdown("""
         <div class="feature-card">
             <span class="metric-badge">System Core</span>
-            <p style="font-size: 1.05rem; line-height: 1.6; margin: 0;">
+            <p style="font-size: 1rem; line-height: 1.6; margin: 0;">
                 <b>RISK TWIN OSS</b> builds a causally-constrained simulation environment (a <b>World Model</b>) to train and evaluate Reinforcement Learning (RL) agents for supply chain and retail optimization. By combining formal Causal Inference with RL this system simulates extreme macroeconomic shocks (<b>Era Swaps</b>) to stress-test logistics and inventory policies under volatile conditions.
             </p>
         </div>
@@ -260,7 +161,6 @@ def main():
     # 2. PREDICTION SECTION (ERA SWAP SIMULATOR)
     # ---------------------------------------------------------
     elif st.session_state.current_page == "📈 Era Swap Simulator":
-        st.markdown('<div class="page-watermark">SIMULATION</div>', unsafe_allow_html=True)
         st.markdown('<p class="hero-title">🌪️ RISK TWIN OSS: Era Swap Simulator</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">Simulate Counterfactual Risks on Causally-Constrained World Models.</p>', unsafe_allow_html=True)
         
@@ -358,7 +258,6 @@ def main():
     # 3. ABOUT & TECHNICAL ARCHITECTURE
     # ---------------------------------------------------------
     elif st.session_state.current_page == "🔬 Technical Architecture & Developer":
-        st.markdown('<div class="page-watermark">ARCHITECTURE</div>', unsafe_allow_html=True)
         st.markdown('<p class="hero-title">🔬 Technical Architecture & Implementation</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">Comprehensive blueprint of data transformations causal graphs simulation engines and baseline policies.</p>', unsafe_allow_html=True)
         
@@ -454,7 +353,6 @@ def main():
                 </p>
             </div>
             """, unsafe_allow_html=True)
-
 
 if __name__ == "__main__":
     main()
