@@ -139,7 +139,7 @@ def main():
     """, unsafe_allow_html=True)
 
     # Navigation Sidebar
-    st.sidebar.title("🌪️⚡ RISK TWIN OSS")
+    st.sidebar.title("🌪️⚡ RISK TWIN OSS ⚡🌪️")
     st.sidebar.caption("🚀 *Causally-Constrained World Model Simulation*")
     pages = ["🏠 Project Overview", "📈 Era Swap Simulator", "🔬 Technical Architecture & Developer"]
     selected_page = st.sidebar.radio(
@@ -157,7 +157,7 @@ def main():
     # 1. PROJECT OVERVIEW / HOME
     # ---------------------------------------------------------
     if st.session_state.current_page == "🏠 Project Overview":
-        st.markdown('<p class="hero-title-p1">🌐🔗 Causal-RL for Supply Chain Optimization</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p1">🌐🔗 Causal-RL for Supply Chain Optimization 🔗🌐</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">🌐 <b>RISK TWIN OSS:</b> Causally-Constrained World Model Simulation & Macro Stress-Testing 🛡️</p>', unsafe_allow_html=True)
         
         st.markdown("""
@@ -232,7 +232,7 @@ def main():
     # 2. PREDICTION SECTION (ERA SWAP SIMULATOR)
     # ---------------------------------------------------------
     elif st.session_state.current_page == "📈 Era Swap Simulator":
-        st.markdown('<p class="hero-title-p2">🌪️⚡ RISK TWIN OSS: Era Swap Simulator</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p2">🌪️⚡ RISK TWIN OSS: Era Swap Simulator ⚡🌪️</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">🧪 <b>Interactive Sandbox:</b> Simulate Counterfactual Shocks on Causally-Constrained World Models ⚡</p>', unsafe_allow_html=True)
         
         st.sidebar.header("🎛️ Configure Macro Environment")
@@ -330,7 +330,7 @@ def main():
     # 3. ABOUT & TECHNICAL ARCHITECTURE
     # ---------------------------------------------------------
     elif st.session_state.current_page == "🔬 Technical Architecture & Developer":
-        st.markdown('<p class="hero-title-p3">🛠️🔬 Technical Architecture & Implementation</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p3">🛠️🔬 Technical Architecture & Implementation 🔬🛠️</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">🧩 <b>System Blueprint:</b> Data Pipelines, Directed Acyclic Graphs (DAGs), Simulation Engines & RL Baselines ⚡</p>', unsafe_allow_html=True)
         
         st.markdown("### 🗺️ End-to-End System Execution Flow")
