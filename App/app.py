@@ -14,34 +14,57 @@ def main():
     if "current_page" not in st.session_state:
         st.session_state.current_page = "🏠 Project Overview"
 
-    # Subtle typography and visual styling keeping default theme background
+    # Subtle typography, giant styled headers, and page watermarks
     st.markdown("""
         <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
         
         html, body, [class*="css"] {
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
+        /* Large Display Headers */
         .hero-title {
-            font-size: 2.3rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-bottom: 2px;
+            font-family: 'Cabinet Grotesk', sans-serif;
+            font-size: 3.6rem;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 6px;
         }
 
         .hero-subtitle {
-            font-size: 1.05rem;
+            font-size: 1.2rem;
             font-weight: 500;
             opacity: 0.85;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+        }
+
+        /* Fixed Background Page Watermark */
+        .page-watermark {
+            position: fixed;
+            top: 55%;
+            left: 55%;
+            transform: translate(-50%, -50%) rotate(-12deg);
+            font-family: 'Cabinet Grotesk', sans-serif;
+            font-size: 16vw;
+            font-weight: 900;
+            color: rgba(128, 128, 128, 0.04);
+            white-space: nowrap;
+            user-select: none;
+            pointer-events: none;
+            z-index: 0;
+            letter-spacing: 0.05em;
         }
 
         .feature-card {
+            position: relative;
+            z-index: 1;
             border-radius: 12px;
-            padding: 20px;
+            padding: 22px;
             border: 1px solid rgba(128, 128, 128, 0.2);
             background: rgba(128, 128, 128, 0.05);
+            backdrop-filter: blur(8px);
             margin-bottom: 16px;
         }
 
@@ -86,13 +109,14 @@ def main():
     # 1. PROJECT OVERVIEW / HOME
     # ---------------------------------------------------------
     if st.session_state.current_page == "🏠 Project Overview":
+        st.markdown('<div class="page-watermark">RISK TWIN</div>', unsafe_allow_html=True)
         st.markdown('<p class="hero-title">🌪️ Causal-RL for Supply Chain Optimization</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">RISK TWIN OSS: Causally-Constrained World Model Simulation</p>', unsafe_allow_html=True)
         
         st.markdown("""
         <div class="feature-card">
             <span class="metric-badge">System Core</span>
-            <p style="font-size: 1rem; line-height: 1.6; margin: 0;">
+            <p style="font-size: 1.05rem; line-height: 1.6; margin: 0;">
                 <b>RISK TWIN OSS</b> builds a causally-constrained simulation environment (a <b>World Model</b>) to train and evaluate Reinforcement Learning (RL) agents for supply chain and retail optimization. By combining formal Causal Inference with RL this system simulates extreme macroeconomic shocks (<b>Era Swaps</b>) to stress-test logistics and inventory policies under volatile conditions.
             </p>
         </div>
@@ -161,6 +185,7 @@ def main():
     # 2. PREDICTION SECTION (ERA SWAP SIMULATOR)
     # ---------------------------------------------------------
     elif st.session_state.current_page == "📈 Era Swap Simulator":
+        st.markdown('<div class="page-watermark">SIMULATION</div>', unsafe_allow_html=True)
         st.markdown('<p class="hero-title">🌪️ RISK TWIN OSS: Era Swap Simulator</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">Simulate Counterfactual Risks on Causally-Constrained World Models.</p>', unsafe_allow_html=True)
         
@@ -258,6 +283,7 @@ def main():
     # 3. ABOUT & TECHNICAL ARCHITECTURE
     # ---------------------------------------------------------
     elif st.session_state.current_page == "🔬 Technical Architecture & Developer":
+        st.markdown('<div class="page-watermark">ARCHITECTURE</div>', unsafe_allow_html=True)
         st.markdown('<p class="hero-title">🔬 Technical Architecture & Implementation</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">Comprehensive blueprint of data transformations causal graphs simulation engines and baseline policies.</p>', unsafe_allow_html=True)
         
