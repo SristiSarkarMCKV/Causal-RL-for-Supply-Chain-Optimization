@@ -241,7 +241,7 @@ def main():
     # 2. PREDICTION SECTION (ERA SWAP SIMULATOR)
     # ---------------------------------------------------------
     elif st.session_state.current_page == "📈 Era Swap Simulator":
-        st.markdown('<p class="hero-title-p2">📈📉📈<br>RISK TWIN OSS<br>Era Swap Simulator<>br>📈📉📈</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p2">📊🧾📊<br>RISK TWIN OSS<br>Era Swap Simulator<br>📊🧾📊</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">🧪 <b>Interactive Sandbox:</b> Simulate Counterfactual Shocks on Causally-Constrained World Models ⚡</p>', unsafe_allow_html=True)
         
         st.sidebar.header("🎛️ Configure Macro Environment")
