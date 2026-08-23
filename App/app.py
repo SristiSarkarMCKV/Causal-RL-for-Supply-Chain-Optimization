@@ -14,7 +14,7 @@ def main():
     if "current_page" not in st.session_state:
         st.session_state.current_page = "🏠 Project Overview"
 
-    # Enhanced Typography, Vibrant Gradients, Modern Cards, and Font Styling
+    # Enhanced Typography, Distinct Gradients for Hero Headings, Modern Cards, and Font Styling
     st.markdown("""
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap');
@@ -24,18 +24,46 @@ def main():
             color: #1e293b;
         }
 
-        /* Standout Hero Page Title (Highest prominence, vibrant gradient, largest size) */
-        .hero-title-showcase {
+        /* 1. Page 1 Hero: Electric Ocean to Emerald Gradient */
+        .hero-title-p1 {
             font-family: 'Outfit', sans-serif;
             font-size: 2.85rem !important;
             font-weight: 900 !important;
             letter-spacing: -0.03em;
             line-height: 1.15;
-            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%);
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 45%, #059669 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 6px;
-            filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.25));
+            filter: drop-shadow(0 2px 10px rgba(2, 132, 199, 0.25));
+        }
+
+        /* 2. Page 2 Hero: Fiery Sunset to Crimson-Amber Gradient */
+        .hero-title-p2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.85rem !important;
+            font-weight: 900 !important;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            background: linear-gradient(135deg, #ea580c 0%, #dc2626 50%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+            filter: drop-shadow(0 2px 10px rgba(234, 88, 12, 0.25));
+        }
+
+        /* 3. Page 3 Hero: Deep Cyberpunk Indigo-Violet to Neon Fuchsia Gradient */
+        .hero-title-p3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.85rem !important;
+            font-weight: 900 !important;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            background: linear-gradient(135deg, #7c3aed 0%, #9333ea 45%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+            filter: drop-shadow(0 2px 10px rgba(124, 58, 237, 0.25));
         }
 
         .hero-subtitle {
@@ -129,7 +157,7 @@ def main():
     # 1. PROJECT OVERVIEW / HOME
     # ---------------------------------------------------------
     if st.session_state.current_page == "🏠 Project Overview":
-        st.markdown('<p class="hero-title-showcase">🌪️ Causal-RL for Supply Chain Optimization</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p1">🌐🔗 Causal-RL for Supply Chain Optimization</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">🌐 <b>RISK TWIN OSS:</b> Causally-Constrained World Model Simulation & Macro Stress-Testing 🛡️</p>', unsafe_allow_html=True)
         
         st.markdown("""
@@ -204,7 +232,7 @@ def main():
     # 2. PREDICTION SECTION (ERA SWAP SIMULATOR)
     # ---------------------------------------------------------
     elif st.session_state.current_page == "📈 Era Swap Simulator":
-        st.markdown('<p class="hero-title-showcase">🌪️ RISK TWIN OSS: Era Swap Simulator</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p2">🌪️⚡ RISK TWIN OSS: Era Swap Simulator</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">🧪 <b>Interactive Sandbox:</b> Simulate Counterfactual Shocks on Causally-Constrained World Models ⚡</p>', unsafe_allow_html=True)
         
         st.sidebar.header("🎛️ Configure Macro Environment")
@@ -242,7 +270,7 @@ def main():
             st.bar_chart(
                 chart_data, 
                 height=320,
-                color="#7c3aed",
+                color="#ea580c",
                 x_label="Macroeconomic Scenario",
                 y_label="Stockout Probability (%)"
             )
@@ -286,7 +314,7 @@ def main():
             st.bar_chart(
                 chart_data, 
                 height=320, 
-                color="#ef4444",
+                color="#dc2626",
                 x_label="Logistics Environment",
                 y_label="Late Delivery Risk (%)"
             )
@@ -302,8 +330,8 @@ def main():
     # 3. ABOUT & TECHNICAL ARCHITECTURE
     # ---------------------------------------------------------
     elif st.session_state.current_page == "🔬 Technical Architecture & Developer":
-        st.markdown('<p class="hero-title-showcase">🔬 Technical Architecture & Implementation</p>', unsafe_allow_html=True)
-        st.markdown('<p class="hero-subtitle">🛠️ <b>System Blueprint:</b> Data Pipelines, Directed Acyclic Graphs (DAGs), Simulation Engines & RL Baselines 🧩</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p3">🛠️🔬 Technical Architecture & Implementation</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-subtitle">🧩 <b>System Blueprint:</b> Data Pipelines, Directed Acyclic Graphs (DAGs), Simulation Engines & RL Baselines ⚡</p>', unsafe_allow_html=True)
         
         st.markdown("### 🗺️ End-to-End System Execution Flow")
         st.graphviz_chart("""
@@ -359,7 +387,7 @@ def main():
         with c1:
             st.markdown("""
             <div class="feature-card">
-                <h4 style="color: #1e3a8a; font-family: 'Outfit', sans-serif;">📓 Core Research Notebooks</h4>
+                <h4 style="color: #4338ca; font-family: 'Outfit', sans-serif;">📓 Core Research Notebooks</h4>
                 <ul style="line-height:1.7; font-size:0.95rem; color: #334155;">
                     <li>🛠️ <b><code>Setup.ipynb</code>:</b> Configures the runtime environment, installs critical dependencies (<code>xlrd</code>, <code>openpyxl</code>), and streams live macroeconomic datasets including the NY Fed GSCPI index.</li>
                     <li>📊 <b><code>DataCo Supply Chain EDA.ipynb</code>:</b> Performs exploratory data analysis on shipping routes, establishes late delivery distributions, and isolates missing data anomalies.</li>
@@ -372,7 +400,7 @@ def main():
         with c2:
             st.markdown("""
             <div class="feature-card">
-                <h4 style="color: #7c2d12; font-family: 'Outfit', sans-serif;">⚙️ Simulation Engines & Baselines</h4>
+                <h4 style="color: #be185d; font-family: 'Outfit', sans-serif;">⚙️ Simulation Engines & Baselines</h4>
                 <ul style="line-height:1.7; font-size:0.95rem; color: #334155;">
                     <li>🌪️ <b><code>era_swap.ipynb</code>:</b> Implements the counterfactual engine that injects macroeconomic shocks (e.g., COVID-2020 logistics stress or 2008 financial shocks) into current operational states.</li>
                     <li>🎮 <b><code>simulators.ipynb</code>:</b> Wraps world models and era-swapping mechanics into standard step-action-reward interfaces compatible with RL frameworks.</li>
@@ -390,19 +418,17 @@ def main():
             st.info("""
             ✨ **Lead Developer:** Sristi Sarkar  
             📧 **Email:** [emailsristisarkar@gmail.com](mailto:emailsristisarkar@gmail.com)  
-            💬 **WhatsApp:** [+91 8240580651](https://wa.me/918240580651)  
-            🐙 **Repository:** Open Source (OSS)
+            📱 **Contact:** [+91 8240580651](https://wa.me/918240580651)  
             """)
         with dev_col2:
             st.markdown("""
             <div class="feature-card">
-                <h4 style="color: #4338ca; font-family: 'Outfit', sans-serif;">🤝 Collaborations, Research & Extensions</h4>
+                <h4 style="color: #7c3aed; font-family: 'Outfit', sans-serif;">🤝 Collaborations, Research & Extensions</h4>
                 <p style="margin: 0; line-height: 1.7; font-size: 0.95rem; color: #334155;">
                     For baseline extensions, structural causal model (SCM) contributions, custom gym environment wrappers, or integration with enterprise supply chain control towers, feel free to reach out via the provided channels! 🚀
                 </p>
             </div>
             """, unsafe_allow_html=True)
-
 
 if __name__ == "__main__":
     main()
