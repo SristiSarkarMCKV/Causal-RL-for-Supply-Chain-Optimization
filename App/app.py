@@ -8,98 +8,75 @@ def main():
     st.set_page_config(
         page_title="RISK TWIN OSS",
         page_icon="🌪️",
-        layout="wide",
-        initial_sidebar_state="expanded"
+        layout="wide"
     )
 
     if "current_page" not in st.session_state:
         st.session_state.current_page = "🏠 Project Overview"
 
-    # Custom UI Styling
+    # Subtle typography and visual styling keeping default theme background
     st.markdown("""
         <style>
-        .stApp {
-            background: linear-gradient(135deg, #090e17 0%, #101c2e 50%, #0d1522 100%);
-            color: #e2e8f0;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         
-        .main-header {
-            background: linear-gradient(90deg, #1e3a8a, #3b82f6, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 2.8rem;
+        html, body, [class*="css"] {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .hero-title {
+            font-size: 2.3rem;
             font-weight: 800;
             letter-spacing: -0.02em;
-            margin-bottom: 0.2rem;
+            margin-bottom: 2px;
         }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            backdrop-filter: blur(12px);
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            font-weight: 500;
+            opacity: 0.85;
             margin-bottom: 20px;
         }
 
-        .glass-card-accent {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.05) 100%);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid rgba(59, 130, 246, 0.25);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            backdrop-filter: blur(12px);
-            margin-bottom: 20px;
+        .feature-card {
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            background: rgba(128, 128, 128, 0.05);
+            margin-bottom: 16px;
         }
 
         .metric-badge {
             display: inline-block;
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 9999px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            border: 1px solid rgba(59, 130, 246, 0.4);
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             margin-bottom: 8px;
         }
 
-        div[data-testid="stMetricValue"] {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #38bdf8;
-        }
-        
         .stButton>button {
-            background: linear-gradient(90deg, #2563eb, #3b82f6);
-            color: white;
-            border-radius: 10px;
-            border: none;
-            padding: 10px 24px;
+            border-radius: 8px;
             font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
-        }
-        .stButton>button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
-            color: white;
+            padding: 8px 20px;
+            transition: all 0.2s ease;
         }
         </style>
     """, unsafe_allow_html=True)
 
-    # Sidebar Navigation
-    st.sidebar.markdown("<h2 style='color:#38bdf8;'>🌪️ RISK TWIN OSS</h2>", unsafe_allow_html=True)
-    st.sidebar.markdown("---")
-    
+    # Navigation Sidebar
+    st.sidebar.title("🌪️ RISK TWIN OSS")
     pages = ["🏠 Project Overview", "📈 Era Swap Simulator", "🔬 Technical Architecture & Developer"]
     selected_page = st.sidebar.radio(
         "Navigation",
         pages,
         index=pages.index(st.session_state.current_page)
     )
+    st.sidebar.divider()
 
     if selected_page != st.session_state.current_page:
         st.session_state.current_page = selected_page
@@ -109,14 +86,14 @@ def main():
     # 1. PROJECT OVERVIEW / HOME
     # ---------------------------------------------------------
     if st.session_state.current_page == "🏠 Project Overview":
-        st.markdown('<p class="main-header">Causal-RL for Supply Chain Optimization</p>', unsafe_allow_html=True)
-        st.markdown("<h4 style='color:#94a3b8; font-weight:400;'>Simulating Macroeconomic Counterfactual Stress on Supply Chain Digital Twins</h4>", unsafe_allow_html=True)
+        st.markdown('<p class="hero-title">🌪️ Causal-RL for Supply Chain Optimization</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-subtitle">RISK TWIN OSS: Causally-Constrained World Model Simulation</p>', unsafe_allow_html=True)
         
         st.markdown("""
-        <div class="glass-card-accent">
+        <div class="feature-card">
             <span class="metric-badge">System Core</span>
-            <p style="font-size: 1.05rem; line-height: 1.6; margin: 0; color: #cbd5e1;">
-                <b>RISK TWIN OSS</b> builds a causally-constrained simulation environment (a <b>World Model</b>) to train and evaluate Reinforcement Learning agents for supply chain and retail optimization. By combining formal Causal Inference with RL this system simulates extreme macroeconomic shocks (<b>Era Swaps</b>) to stress-test logistics and inventory policies under volatile conditions.
+            <p style="font-size: 1rem; line-height: 1.6; margin: 0;">
+                <b>RISK TWIN OSS</b> builds a causally-constrained simulation environment (a <b>World Model</b>) to train and evaluate Reinforcement Learning (RL) agents for supply chain and retail optimization. By combining formal Causal Inference with RL this system simulates extreme macroeconomic shocks (<b>Era Swaps</b>) to stress-test logistics and inventory policies under volatile conditions.
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -124,60 +101,56 @@ def main():
         col1, col2 = st.columns(2)
         with col1:
             st.markdown("""
-            <div class="glass-card">
+            <div class="feature-card">
                 <span class="metric-badge">Retail Twin</span>
-                <h3 style="color:#60a5fa; margin-top:4px;">🛒 Walmart Operations</h3>
-                <p style="color:#cbd5e1; font-size: 0.95rem;">
-                    Models how labor markets (<b>Unemployment</b>) and inflationary pressure (<b>CPI</b>) impact stockout risks.
-                </p>
-                <ul style="color:#94a3b8; font-size:0.9rem;">
-                    <li><b>Baseline Rate:</b> 4.2% safe inventory stockout probability</li>
-                    <li><b>GFC 2008 Shock:</b> Doubles risk to 8.2% via labor disruption</li>
-                    <li><b>COVID 2020 Shock:</b> Compounds risk to 14.3% triggering tail-risk alerts</li>
+                <h3 style="margin-top:2px;">🛒 Domain 1: Walmart (Retail Operations)</h3>
+                <ul style="line-height: 1.6; font-size: 0.95rem;">
+                    <li><b>Mechanism:</b> Tracks how external labor markets (<b>Unemployment</b>) and inflationary pressures (<b>CPI</b>) drive retail inventory stockout risks.</li>
+                    <li><b>Baseline State (2026 DNA):</b> Stable operational conditions with an expected stockout rate of <b>4.2%</b>.</li>
+                    <li><b>Stress Regimes:</b> Evaluates labor-isolation shocks (2008 GFC) and compounded dual-shocks (COVID-19 Retail Era).</li>
                 </ul>
             </div>
             """, unsafe_allow_html=True)
 
         with col2:
             st.markdown("""
-            <div class="glass-card">
+            <div class="feature-card">
                 <span class="metric-badge">Logistics Twin</span>
-                <h3 style="color:#f87171; margin-top:4px;">🚢 DataCo Routing</h3>
-                <p style="color:#cbd5e1; font-size: 0.95rem;">
-                    Tracks how global port bottlenecks (<b>NY Fed GSCPI</b>) and energy prices trigger network delays.
-                </p>
-                <ul style="color:#94a3b8; font-size:0.9rem;">
-                    <li><b>Baseline Rate:</b> 54.3% high baseline late delivery risk</li>
-                    <li><b>COVID 2020 Shock:</b> GSCPI spikes +4.3 SD sending delay risk to 71.5%</li>
-                    <li><b>Vulnerability:</b> Heuristic static routing breaks under global congestion</li>
+                <h3 style="margin-top:2px;">🚢 Domain 2: DataCo (Logistics Operations)</h3>
+                <ul style="line-height: 1.6; font-size: 0.95rem;">
+                    <li><b>Mechanism:</b> Tracks how port congestion and supply chain pressure (<b>NY Fed GSCPI</b>) paired with global energy costs impact delivery schedules.</li>
+                    <li><b>Baseline State (2026 Routes):</b> High inherent routing friction with a baseline late delivery risk of <b>54.3%</b>.</li>
+                    <li><b>Stress Regimes:</b> Simulates supply chain gridlocks and extreme global port bottlenecks.</li>
                 </ul>
             </div>
             """, unsafe_allow_html=True)
 
-        st.markdown("<h3 style='color:#f1f5f9; margin-top: 15px;'>📊 Empirical Stress Benchmarks</h3>", unsafe_allow_html=True)
-        tab1, tab2 = st.tabs(["🛒 Retail Shock Benchmark", "🚢 Logistics Shock Benchmark"])
+        st.markdown("### 🎯 Benchmark Findings")
+        tab1, tab2 = st.tabs(["🛒 Retail Stress Takeaways", "🚢 Logistics Stress Takeaways"])
         with tab1:
-            retail_df = pd.DataFrame({
+            retail_summary = pd.DataFrame({
                 "Scenario": ["Baseline (2026)", "GFC 2008 Shock", "COVID 2020 Shock"],
                 "Unemployment": ["5.0%", "10.0%", "14.7%"],
                 "CPI": [210.0, 210.0, 256.0],
                 "Stockout Risk": ["4.2%", "8.2%", "14.3%"],
-                "Risk Shift": ["Baseline", "+4.0%", "+10.1%"]
+                "Delta vs Baseline": ["—", "+4.0%", "+10.1%"]
             })
-            st.dataframe(retail_df, use_container_width=True, hide_index=True)
+            st.dataframe(retail_summary, use_container_width=True, hide_index=True)
+            st.caption("Traditional inventory baselines collapse under compounded inflation and labor disruption.")
 
         with tab2:
-            logistics_df = pd.DataFrame({
+            logistics_summary = pd.DataFrame({
                 "Scenario": ["Baseline (2026)", "COVID 2020 Shock"],
                 "GSCPI (SD)": [0.00, 4.30],
                 "Fuel Price": ["$75.00", "$75.00"],
                 "Late Delivery Risk": ["54.3%", "71.5%"],
-                "Risk Shift": ["Baseline", "+17.2%"]
+                "Delta vs Baseline": ["—", "+17.2%"]
             })
-            st.dataframe(logistics_df, use_container_width=True, hide_index=True)
+            st.dataframe(logistics_summary, use_container_width=True, hide_index=True)
+            st.caption("Traditional lead-time routing heuristics fail when global logistics networks back up.")
 
         st.divider()
-        st.markdown("<h4 style='color:#f8fafc;'>Explore the Platform</h4>", unsafe_allow_html=True)
+        st.markdown("#### Explore the Platform")
         nav_c1, nav_c2, _ = st.columns([1, 1.2, 1.8])
         with nav_c1:
             st.button("📈 Launch Simulator", on_click=set_page, args=("📈 Era Swap Simulator",), use_container_width=True)
@@ -188,141 +161,140 @@ def main():
     # 2. PREDICTION SECTION (ERA SWAP SIMULATOR)
     # ---------------------------------------------------------
     elif st.session_state.current_page == "📈 Era Swap Simulator":
-        st.markdown('<p class="main-header">Era Swap Counterfactual Simulator</p>', unsafe_allow_html=True)
-        st.markdown("<p style='color:#94a3b8;'>Simulate macroeconomic counterfactual interventions on causally-constrained environment twins.</p>", unsafe_allow_html=True)
+        st.markdown('<p class="hero-title">🌪️ RISK TWIN OSS: Era Swap Simulator</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-subtitle">Simulate Counterfactual Risks on Causally-Constrained World Models.</p>', unsafe_allow_html=True)
         
-        domain = st.sidebar.selectbox("Select Operational Domain", ["Walmart (Retail)", "DataCo (Supply Chain)"])
+        st.sidebar.header("Configure Macro Environment")
+        domain = st.sidebar.selectbox("Domain", ["Walmart (Retail)", "DataCo (Supply Chain)"])
         
+        # WALMART / RETAIL UI
         if domain == "Walmart (Retail)":
-            st.sidebar.markdown("### Retail Macro Variables")
-            era = st.sidebar.selectbox("Load Macro Scenario", ["Custom", "COVID_2020_RETAIL", "GFC_2008_MORTGAGE"])
+            st.sidebar.subheader("Retail Macro Shocks")
+            era = st.sidebar.selectbox("Load Predefined Era", ["Custom", "COVID_2020_RETAIL", "GFC_2008_MORTGAGE"])
             
             def_unemp = 14.7 if era == "COVID_2020_RETAIL" else (10.0 if era == "GFC_2008_MORTGAGE" else 5.0)
             def_cpi = 256.0 if era == "COVID_2020_RETAIL" else 210.0
             
             unemployment = st.sidebar.slider("Unemployment Rate (%)", 3.0, 20.0, float(def_unemp))
-            cpi = st.sidebar.slider("Consumer Price Index (CPI)", 180.0, 300.0, float(def_cpi))
+            cpi = st.sidebar.slider("CPI (Inflation)", 180.0, 300.0, float(def_cpi))
+            
+            st.subheader("Walmart Portfolio Risk: Stockout Probability")
             
             baseline_risk = 0.042
             simulated_risk = baseline_risk + ((unemployment - 5.0) * 0.008) + ((cpi - 210.0) * 0.0005)
             simulated_risk = max(0.01, min(simulated_risk, 0.99))
             
-            st.markdown("""
-            <div class="glass-card">
-                <h3 style="color:#60a5fa; margin-top:0;">Walmart Portfolio: Stockout Risk Calculation</h3>
-                <p style="color:#94a3b8;">Estimates stockout probabilities under simulated labor constraints and inflationary pressure.</p>
-            </div>
-            """, unsafe_allow_html=True)
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Baseline Risk (2026 DNA)", f"{baseline_risk*100:.1f}%")
+            col2.metric("Counterfactual Risk (Era Swap)", f"{simulated_risk*100:.1f}%", f"+{(simulated_risk - baseline_risk)*100:.1f}%")
+            col3.metric("Macro Strain Index", f"{((unemployment/5.0 + cpi/210.0)/2):.2f}x")
             
-            m1, m2, m3 = st.columns(3)
-            m1.metric("Baseline Risk (2026 DNA)", f"{baseline_risk*100:.1f}%")
-            delta_val = (simulated_risk - baseline_risk) * 100
-            m2.metric("Counterfactual Risk (Era Swap)", f"{simulated_risk*100:.1f}%", f"{delta_val:+.1f}%", delta_color="inverse")
-            m3.metric("Macro Strain Index", f"{((unemployment/5.0 + cpi/210.0)/2):.2f}x")
+            st.divider()
+            st.markdown("#### Scenario Comparison Analysis")
             
-            st.markdown("#### Scenario Risk Distribution")
-            chart_df = pd.DataFrame({
-                "Scenario": ["2026 Baseline", "Simulated Counterfactual"],
-                "Stockout Probability (%)": [baseline_risk * 100, simulated_risk * 100]
-            }).set_index("Scenario")
+            chart_data = pd.DataFrame(
+                {"Scenario": ["Baseline", "Counterfactual"], "Probability (%)": [baseline_risk * 100, simulated_risk * 100]}
+            ).set_index("Scenario")
             
-            st.bar_chart(chart_df, height=320, color="#3b82f6")
-            st.caption("Comparison between 2026 baseline inventory reliability and the counterfactual scenario under macroeconomic stress.")
+            st.bar_chart(
+                chart_data, 
+                height=300,
+                x_label="Macroeconomic Scenario",
+                y_label="Stockout Probability (%)"
+            )
             
-            if simulated_risk > 0.14:
-                st.error("⚠️ TAIL RISK ALERT: Inventory stockout probability exceeds the critical operational limit of 14%.")
+            st.caption("📊 **Chart Description:** This visual contrasts the expected probability of inventory stockouts under standard 2026 operational parameters (Baseline) against the modeled outcomes when subjected to the selected macroeconomic shock (Counterfactual Era).")
+            
+            if simulated_risk > 0.15:
+                st.error("⚠️ TAIL RISK DETECTED: Model predicts stockout probability exceeds 15% threshold.")
             elif simulated_risk > baseline_risk + 0.03:
-                st.warning("⚠️ ELEVATED STRESS: Inventory buffers require proactive replenishment adjustment.")
+                st.warning("⚠️ ELEVATED INVENTORY RISK: Policy adjustments advised.")
 
+        # DATACO / SUPPLY CHAIN UI
         elif domain == "DataCo (Supply Chain)":
-            st.sidebar.markdown("### Logistics Macro Variables")
-            era = st.sidebar.selectbox("Load Macro Scenario", ["Custom", "COVID_2020_LOGISTICS"])
+            st.sidebar.subheader("Logistics Macro Shocks")
+            era = st.sidebar.selectbox("Load Predefined Era", ["Custom", "COVID_2020_LOGISTICS"])
             
             def_gscpi = 4.3 if era == "COVID_2020_LOGISTICS" else 0.0
-            gscpi = st.sidebar.slider("GSCPI (Standard Deviations)", -2.0, 5.0, float(def_gscpi))
-            fuel = st.sidebar.slider("Crude Oil Benchmark ($/bbl)", 40.0, 150.0, 75.0)
             
-            baseline_risk = 0.543
+            st.sidebar.markdown("**Global Supply Chain Pressure Index (GSCPI)**")
+            gscpi = st.sidebar.slider("GSCPI (Standard Deviations)", -2.0, 5.0, float(def_gscpi))
+            fuel = st.sidebar.slider("Global Oil Price ($/bbl)", 40.0, 150.0, 75.0)
+            
+            st.subheader("DataCo Logistics Risk: Late Delivery Probability")
+            
+            baseline_risk = 0.543 
             simulated_risk = baseline_risk + (gscpi * 0.04) + ((fuel - 75.0) * 0.001)
             simulated_risk = max(0.10, min(simulated_risk, 0.99))
             
-            st.markdown("""
-            <div class="glass-card">
-                <h3 style="color:#f87171; margin-top:0;">DataCo Logistics: Late Delivery Risk Calculation</h3>
-                <p style="color:#94a3b8;">Estimates shipment delay probabilities when global maritime routes and fuel prices fluctuate.</p>
-            </div>
-            """, unsafe_allow_html=True)
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Baseline Risk (2026 Routes)", f"{baseline_risk*100:.1f}%")
+            col2.metric("Counterfactual Risk (Era Swap)", f"{simulated_risk*100:.1f}%", f"+{(simulated_risk - baseline_risk)*100:.1f}%")
+            col3.metric("Port Pressure Index", f"{gscpi:+.2f} SD")
             
-            m1, m2, m3 = st.columns(3)
-            m1.metric("Baseline Risk (2026 Routes)", f"{baseline_risk*100:.1f}%")
-            delta_val = (simulated_risk - baseline_risk) * 100
-            m2.metric("Counterfactual Risk (Era Swap)", f"{simulated_risk*100:.1f}%", f"{delta_val:+.1f}%", delta_color="inverse")
-            m3.metric("Port Pressure Index", f"{gscpi:+.2f} SD")
+            st.divider()
+            st.markdown("#### Scenario Comparison Analysis")
             
-            st.markdown("#### Scenario Risk Distribution")
-            chart_df = pd.DataFrame({
-                "Scenario": ["2026 Baseline", "Simulated Counterfactual"],
-                "Late Delivery Risk (%)": [baseline_risk * 100, simulated_risk * 100]
-            }).set_index("Scenario")
+            chart_data = pd.DataFrame(
+                {"Scenario": ["Baseline", "Counterfactual"], "Probability (%)": [baseline_risk * 100, simulated_risk * 100]}
+            ).set_index("Scenario")
             
-            st.bar_chart(chart_df, height=320, color="#ef4444")
-            st.caption("Comparison of shipment failure rates between standard operating conditions and simulated logistics congestion.")
+            st.bar_chart(
+                chart_data, 
+                height=300, 
+                color="#ff4b4b",
+                x_label="Logistics Environment",
+                y_label="Late Delivery Risk (%)"
+            )
             
-            if simulated_risk > 0.68:
-                st.error("⚠️ CRITICAL GRIDLOCK: Network delivery failure probability exceeds sustainable logistics capacity.")
+            st.caption("📊 **Chart Description:** This visual compares the historical probability of shipment delays under standard routing structures (Baseline) versus the elevated risk calculated during the simulated logistics bottleneck (Counterfactual Era).")
+            
+            if simulated_risk > 0.65:
+                st.error("⚠️ EXTREME CONGESTION DETECTED: Late delivery probability critically high.")
             elif simulated_risk > baseline_risk + 0.05:
-                st.warning("⚠️ DELAY WARNING: Supply chain bottleneck detected. Routing buffer expansion recommended.")
+                st.warning("📉 Supply Chain Stress detected. Delays likely.")
 
     # ---------------------------------------------------------
     # 3. ABOUT & TECHNICAL ARCHITECTURE
     # ---------------------------------------------------------
     elif st.session_state.current_page == "🔬 Technical Architecture & Developer":
-        st.markdown('<p class="main-header">System Architecture & Pipeline</p>', unsafe_allow_html=True)
-        st.markdown("<p style='color:#94a3b8;'>Comprehensive blueprint of data transformations causal graphs simulation engines and baseline policies.</p>", unsafe_allow_html=True)
+        st.markdown('<p class="hero-title">🔬 Technical Architecture & Implementation</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-subtitle">Comprehensive blueprint of data transformations causal graphs simulation engines and baseline policies.</p>', unsafe_allow_html=True)
         
         st.markdown("### End-to-End System Execution Flow")
         st.graphviz_chart("""
         digraph G {
             rankdir=LR;
-            bgcolor="transparent";
-            node [shape=box, style="rounded,filled", fontname="sans-serif", fontsize=10, fontcolor="#0f172a", color="#475569"];
-            edge [color="#94a3b8", fontcolor="#cbd5e1", fontsize=9, arrowsize=0.7];
+            node [shape=box, style="rounded,filled", fillcolor="#F0F2F6", fontname="sans-serif", fontsize=10];
+            edge [color="#555555", arrowsize=0.8];
             
             subgraph cluster_data {
                 label = "1. Ingestion & Preprocessing";
                 style = "dashed";
-                color = "#3b82f6";
-                fontcolor = "#93c5fd";
-                Setup [label="Setup.ipynb\\n(Env & GSCPI Ingestion)", fillcolor="#bfdbfe"];
-                EDA [label="DataCo Supply Chain EDA.ipynb\\n(Risk Profiling & Cleansing)", fillcolor="#bfdbfe"];
+                Setup [label="Setup.ipynb\\n(Env & GSCPI Ingestion)", fillcolor="#D1E8E2"];
+                EDA [label="DataCo Supply Chain EDA.ipynb\\n(Risk Profiling & Cleansing)", fillcolor="#D1E8E2"];
             }
             
             subgraph cluster_causal {
                 label = "2. Causal Architecture";
                 style = "dashed";
-                color = "#8b5cf6";
-                fontcolor = "#c4b5fd";
-                CausalGraph [label="causal_graph.ipynb\\n(SCM & DAG Definition)", fillcolor="#ddd6fe"];
-                WorldModel [label="world_model.ipynb\\n(Transition Dynamics Engine)", fillcolor="#ddd6fe"];
+                CausalGraph [label="causal_graph.ipynb\\n(SCM & DAG Definition)", fillcolor="#D9E2EC"];
+                WorldModel [label="world_model.ipynb\\n(Transition Dynamics Engine)", fillcolor="#D9E2EC"];
             }
             
             subgraph cluster_sim {
                 label = "3. Counterfactual Simulation";
                 style = "dashed";
-                color = "#06b6d4";
-                fontcolor = "#a5f3fc";
-                EraSwap [label="era_swap.ipynb\\n(Macro Shock Injection)", fillcolor="#a5f3fc"];
-                Simulators [label="simulators.ipynb\\n(Gymnasium RL Env)", fillcolor="#a5f3fc"];
-                Pipeline [label="risk_twin_pipeline.ipynb\\n(Unified Pipeline)", fillcolor="#67e8f9"];
+                EraSwap [label="era_swap.ipynb\\n(Macro Shock Injection)", fillcolor="#BCCCDC"];
+                Simulators [label="simulators.ipynb\\n(Gymnasium RL Env)", fillcolor="#BCCCDC"];
+                Pipeline [label="risk_twin_pipeline.ipynb\\n(Unified Pipeline)", fillcolor="#BCCCDC"];
             }
             
             subgraph cluster_policies {
                 label = "4. Benchmarks & Frontend";
                 style = "dashed";
-                color = "#10b981";
-                fontcolor = "#6ee7b7";
-                Baselines [label="sc_ss_policy.ipynb\\n((s, S) OR Control Policy)", fillcolor="#a7f3d0"];
-                Dashboard [label="dashboard.py\\n(Streamlit UI)", fillcolor="#6ee7b7"];
+                Baselines [label="sc_ss_policy.ipynb\\n((s, S) OR Control Policy)", fillcolor="#9AA6B2"];
+                Dashboard [label="dashboard.py\\n(Streamlit UI)", fillcolor="#F9D5D5"];
             }
             
             Setup -> EDA -> CausalGraph;
@@ -333,14 +305,14 @@ def main():
         }
         """)
 
-        st.markdown("<h3 style='color:#f1f5f9; margin-top:20px;'>Notebook & Component Breakdown</h3>", unsafe_allow_html=True)
+        st.markdown("### Notebook & Component Breakdown")
         
         c1, c2 = st.columns(2)
         with c1:
             st.markdown("""
-            <div class="glass-card">
-                <h4 style="color:#60a5fa;">📓 Core Research Notebooks</h4>
-                <ul style="color:#cbd5e1; font-size:0.9rem; line-height:1.6;">
+            <div class="feature-card">
+                <h4>📓 Core Research Notebooks</h4>
+                <ul style="line-height:1.6; font-size:0.95rem;">
                     <li><b><code>Setup.ipynb</code>:</b> Configures the runtime environment installs critical dependencies such as <code>xlrd</code> or <code>openpyxl</code> and fetches live macroeconomic datasets including the NY Fed GSCPI index.</li>
                     <li><b><code>DataCo Supply Chain EDA.ipynb</code>:</b> Performs exploratory analysis on shipping routes establishes late delivery probability distributions and isolates missing data anomalies.</li>
                     <li><b><code>causal_graph.ipynb</code>:</b> Formulates Directed Acyclic Graphs (DAGs) and Structural Causal Models (SCMs) linking macro variables to delivery lateness to mitigate confounding bias.</li>
@@ -351,9 +323,9 @@ def main():
 
         with c2:
             st.markdown("""
-            <div class="glass-card">
-                <h4 style="color:#a78bfa;">⚙️ Simulation Engines & Baselines</h4>
-                <ul style="color:#cbd5e1; font-size:0.9rem; line-height:1.6;">
+            <div class="feature-card">
+                <h4>⚙️ Simulation Engines & Baselines</h4>
+                <ul style="line-height:1.6; font-size:0.95rem;">
                     <li><b><code>era_swap.ipynb</code>:</b> Implements the counterfactual engine that swaps macroeconomic states (e.g. COVID-2020 logistics stress or 2008 financial shocks) into current operational states.</li>
                     <li><b><code>simulators.ipynb</code>:</b> Wraps world models and era-swapping mechanics into standard step-action-reward interfaces compatible with RL frameworks.</li>
                     <li><b><code>risk_twin_pipeline.ipynb</code>:</b> Unifies data ingestion causal graph generation world modeling and simulation into an automated end-to-end execution pipeline.</li>
@@ -363,28 +335,20 @@ def main():
             """, unsafe_allow_html=True)
 
         st.divider()
-        st.markdown("<h3 style='color:#f1f5f9;'>👩‍💻 Developer Contact Information</h3>", unsafe_allow_html=True)
+        st.markdown("### 👩‍💻 Developer Contact Information")
         
-        dev1, dev2 = st.columns([1, 1.2])
-        with dev1:
+        dev_col1, dev_col2 = st.columns([1, 2])
+        with dev_col1:
+            st.info("""
+            **Lead Developer:** Sristi Sarkar  
+            **Email:** [emailsristisarkar@gmail.com](mailto:emailsristisarkar@gmail.com)  
+            **WhatsApp:** [+91 8240580651](https://wa.me/918240580651)  
+            """)
+        with dev_col2:
             st.markdown("""
-            <div class="glass-card-accent">
-                <h4 style="color:#38bdf8; margin-top:0;">Sristi Sarkar</h4>
-                <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:12px;">Lead Researcher & Developer</p>
-                <p style="color:#e2e8f0; font-size:0.95rem; margin:6px 0;">
-                    <b>📧 Email:</b> <a href="mailto:emailsristisarkar@gmail.com" style="color:#60a5fa; text-decoration:none;">emailsristisarkar@gmail.com</a>
-                </p>
-                <p style="color:#e2e8f0; font-size:0.95rem; margin:6px 0;">
-                    <b>💬 WhatsApp:</b> <a href="https://wa.me/918240580651" target="_blank" style="color:#34d399; text-decoration:none;">+91 8240580651</a>
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-            
-        with dev2:
-            st.markdown("""
-            <div class="glass-card">
-                <h4 style="color:#f8fafc; margin-top:0;">Collaborations & Research</h4>
-                <p style="color:#94a3b8; font-size:0.9rem; line-height:1.6;">
+            <div class="feature-card">
+                <h4>Collaborations & Research</h4>
+                <p style="margin: 0; line-height: 1.6; font-size: 0.95rem;">
                     For baseline extensions structural causal model contributions or integration with enterprise supply chain environments reach out via the provided communication channels.
                 </p>
             </div>
