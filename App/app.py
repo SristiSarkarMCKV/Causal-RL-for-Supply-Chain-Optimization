@@ -36,6 +36,9 @@ def main():
             -webkit-text-fill-color: transparent;
             margin-bottom: 6px;
             filter: drop-shadow(0 2px 10px rgba(2, 132, 199, 0.25));
+            text-align: center;
+            width: 100%;
+            display: block;
         }
 
         /* 2. Page 2 Hero: Fiery Sunset to Crimson-Amber Gradient */
@@ -50,6 +53,9 @@ def main():
             -webkit-text-fill-color: transparent;
             margin-bottom: 6px;
             filter: drop-shadow(0 2px 10px rgba(234, 88, 12, 0.25));
+            text-align: center;
+            width: 100%;
+            display: block;
         }
 
         /* 3. Page 3 Hero: Deep Cyberpunk Indigo-Violet to Neon Fuchsia Gradient */
@@ -64,6 +70,9 @@ def main():
             -webkit-text-fill-color: transparent;
             margin-bottom: 6px;
             filter: drop-shadow(0 2px 10px rgba(124, 58, 237, 0.25));
+            text-align: center;
+            width: 100%;
+            display: block;
         }
 
         .hero-subtitle {
@@ -139,7 +148,7 @@ def main():
     """, unsafe_allow_html=True)
 
     # Navigation Sidebar
-    st.sidebar.title("🌪️⚡ RISK TWIN OSS ⚡🌪️")
+    st.sidebar.title("⚡ RISK TWIN OSS ⚡")
     st.sidebar.caption("🚀 *Causally-Constrained World Model Simulation*")
     pages = ["🏠 Project Overview", "📈 Era Swap Simulator", "🔬 Technical Architecture & Developer"]
     selected_page = st.sidebar.radio(
@@ -232,7 +241,7 @@ def main():
     # 2. PREDICTION SECTION (ERA SWAP SIMULATOR)
     # ---------------------------------------------------------
     elif st.session_state.current_page == "📈 Era Swap Simulator":
-        st.markdown('<p class="hero-title-p2">🌪️⚡ RISK TWIN OSS: Era Swap Simulator ⚡🌪️</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p2">📈📉📈<br>RISK TWIN OSS<br>Era Swap Simulator<>br>📈📉📈</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">🧪 <b>Interactive Sandbox:</b> Simulate Counterfactual Shocks on Causally-Constrained World Models ⚡</p>', unsafe_allow_html=True)
         
         st.sidebar.header("🎛️ Configure Macro Environment")
@@ -330,7 +339,7 @@ def main():
     # 3. ABOUT & TECHNICAL ARCHITECTURE
     # ---------------------------------------------------------
     elif st.session_state.current_page == "🔬 Technical Architecture & Developer":
-        st.markdown('<p class="hero-title-p3">🛠️🔬 Technical Architecture & Implementation 🔬🛠️</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p3">🖥📑🖥<br>Technical Architecture<br>and<br>Implementation<br>🖥📑🖥</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-subtitle">🧩 <b>System Blueprint:</b> Data Pipelines, Directed Acyclic Graphs (DAGs), Simulation Engines & RL Baselines ⚡</p>', unsafe_allow_html=True)
         
         st.markdown("### 🗺️ End-to-End System Execution Flow")
@@ -429,6 +438,7 @@ def main():
                 </p>
             </div>
             """, unsafe_allow_html=True)
+
 
 if __name__ == "__main__":
     main()
