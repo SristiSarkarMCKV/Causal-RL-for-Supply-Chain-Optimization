@@ -179,7 +179,7 @@
     }
   </style>
 </head>
-<body class="bg-mesh-dark text-slate-100 dark:text-slate-100 min-h-screen flex flex-col relative transition-colors duration-300">
+<body class="bg-mesh-dark text-slate-100 min-h-screen flex flex-col relative transition-colors duration-300">
 
   <!-- Top Navbar -->
   <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between shadow-sm">
@@ -205,8 +205,10 @@
     </div>
   </header>
 
-  <!-- Left Navigation Drawer -->
+  <!-- Left Navigation Drawer Overlay -->
   <div id="navOverlay" onclick="toggleNavSidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden"></div>
+  
+  <!-- Left Navigation Drawer -->
   <aside id="navSidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-slate-900 p-6 border-r border-slate-200 dark:border-slate-800 overflow-y-auto transform -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl">
     <div class="flex items-center justify-between mb-6">
       <span class="text-base font-black font-outfit text-indigo-900 dark:text-indigo-400">🧭 Navigation</span>
@@ -368,7 +370,7 @@
         <p class="text-3xl leading-none">📊🧾📊</p>
         <h1 class="hero-title-p2 my-1">RISK TWIN OSS<br>Era Swap Simulator</h1>
         <p class="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 mt-2 mb-4">
-          ⚡ <b>Interactive Sandbox:</b> Simulate Counterfactual Shocks on Causally-Constrained World Models ⚡
+          🧪 <b>Interactive Sandbox:</b> Simulate Counterfactual Shocks on Causally-Constrained World Models ⚡
         </p>
       </div>
 
@@ -569,6 +571,10 @@
       }
       localStorage.setItem('risk_twin_theme', theme);
       if (simChartInstance) updateChartTheme();
+      if (graphRendered) {
+        graphRendered = false;
+        renderGraphviz();
+      }
     }
 
     function toggleTheme() {
@@ -577,7 +583,6 @@
       applyTheme(newTheme);
     }
 
-    // Initialize Theme from localStorage or Default to Dark
     const savedTheme = localStorage.getItem('risk_twin_theme') || 'dark';
     applyTheme(savedTheme);
 
@@ -597,26 +602,31 @@
       }
     }
 
-    // State Router
-    const pages = {
-      p1: document.getElementById('page-p1'),
-      p2: document.getElementById('page-p2'),
-      p3: document.getElementById('page-p3')
-    };
+    // Direct Page Router
+    const pageIds = ['p1', 'p2', 'p3'];
     let simChartInstance = null;
 
-    function navigateTo(pageId) {
-      Object.keys(pages).forEach(key => {
-        pages[key].classList.toggle('hidden', key !== pageId);
+    function navigateTo(targetPage) {
+      pageIds.forEach(id => {
+        const sec = document.getElementById(`page-${id}`);
+        if (sec) {
+          if (id === targetPage) {
+            sec.classList.remove('hidden');
+          } else {
+            sec.classList.add('hidden');
+          }
+        }
       });
 
       if (isNavOpen) {
         toggleNavSidebar();
       }
 
-      if (pageId === 'p2') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (targetPage === 'p2') {
         renderSimulation();
-      } else if (pageId === 'p3') {
+      } else if (targetPage === 'p3') {
         renderGraphviz();
       }
     }
@@ -639,8 +649,9 @@
       }
     }
 
-    // Chart.js Setup & Theme Updating
+    // Chart Setup & Theme Sync
     function updateChartTheme() {
+      if (!simChartInstance) return;
       const isDark = htmlEl.classList.contains('dark');
       const gridColor = isDark ? '#334155' : '#f1f5f9';
       const tickColor = isDark ? '#94a3b8' : '#64748b';
@@ -664,7 +675,7 @@
         data: {
           labels: ['Baseline', 'Counterfactual'],
           datasets: [{
-            data: [0, 0],
+            data: [4.2, 4.2],
             backgroundColor: ['#f97316', '#f97316'],
             borderRadius: 6,
             barThickness: 44
@@ -679,12 +690,12 @@
               beginAtZero: true,
               grid: { color: isDark ? '#334155' : '#f1f5f9' },
               ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { weight: '600' } },
-              title: { display: true, text: '', color: isDark ? '#cbd5e1' : '#475569', font: { weight: '700' } }
+              title: { display: true, text: 'Stockout Probability (%)', color: isDark ? '#cbd5e1' : '#475569', font: { weight: '700' } }
             },
             x: {
               grid: { display: false },
               ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { weight: '600' } },
-              title: { display: true, text: '', color: isDark ? '#cbd5e1' : '#475569', font: { weight: '700' } }
+              title: { display: true, text: 'Macroeconomic Scenario', color: isDark ? '#cbd5e1' : '#475569', font: { weight: '700' } }
             }
           }
         }
@@ -767,12 +778,15 @@
       document.getElementById('simMetric3Value').innerText = metric3Val;
       document.getElementById('simChartCaption').innerHTML = captionText;
 
-      if (!simChartInstance) initChart();
+      if (!simChartInstance) {
+        initChart();
+      }
       simChartInstance.data.datasets[0].data = [baselineRisk * 100, simulatedRisk * 100];
       simChartInstance.data.datasets[0].backgroundColor = [barColor, barColor];
       simChartInstance.options.scales.x.title.text = xLabel;
       simChartInstance.options.scales.y.title.text = yLabel;
-      updateChartTheme();
+      simChartInstance.resize();
+      simChartInstance.update();
     }
 
     // Slider & Dropdown Listeners
@@ -877,7 +891,7 @@
         });
     }
 
-    // Initialize View
+    // Initial page load setup
     initChart();
   </script>
 </body>
