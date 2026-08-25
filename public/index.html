@@ -290,16 +290,17 @@
 
       <hr class="border-slate-200 my-8" />
 
-      <div>
+      <!-- Centered Explore the Platform Section -->
+      <div class="text-center">
         <h2 class="font-outfit text-sm font-bold text-slate-900 mb-4">🚀 Explore the Platform</h2>
-        <div class="flex flex-wrap gap-4">
+        <div class="flex flex-wrap justify-center gap-4">
           <button onclick="navigateTo('p2')" class="btn-gradient">📈 Launch Simulator</button>
           <button onclick="navigateTo('p3')" class="btn-gradient">🔬 View Technical Architecture</button>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 2: ERA SWAP SIMULATOR (SIMULTANEOUS CONFIG & OUTPUT VIEW) -->
+    <!-- PAGE 2: ERA SWAP SIMULATOR -->
     <section id="page-p2" class="space-y-6 hidden">
       <div class="text-center">
         <p class="text-3xl leading-none">📊🧾📊</p>
@@ -309,14 +310,13 @@
         </p>
       </div>
 
-      <!-- In-Flow Grid Layout: Controls & Outputs Fully Visible Side-by-Side (Desktop) or Stacked (Mobile) -->
+      <!-- In-Flow Grid Layout -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         <!-- Controls Column -->
         <div class="lg:col-span-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
           <div class="flex items-center justify-between mb-4">
             <span class="metric-badge m-0">🎛️ CONTROLS</span>
-            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Parameters</span>
           </div>
           
           <label class="block text-xs font-bold text-slate-700 uppercase mb-1">🎯 Domain Selection</label>
