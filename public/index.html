@@ -126,15 +126,28 @@
     }
   </style>
 </head>
-  
-<body class="bg-slate-50 min-h-screen flex flex-col md:flex-row">
+<body class="bg-slate-50 min-h-screen flex flex-col md:flex-row relative">
 
-  <!-- Sidebar -->
-  <aside class="w-full md:w-80 bg-white p-6 border-r border-slate-200 flex-shrink-0">
-    <h1 class="text-xl font-black font-outfit text-indigo-900 tracking-tight flex items-center gap-2">
-      ⚡ RISK TWIN OSS ⚡
-    </h1>
-    <p class="text-xs text-slate-500 italic mt-1 mb-6">🚀 Causally-Constrained World Model Simulation</p>
+  <!-- Floating Toggle Button for Collapsible Sidebar -->
+  <button id="sidebarToggleBtn" onclick="toggleSidebar()" class="fixed top-4 left-4 z-50 p-2.5 bg-indigo-600 text-white rounded-xl shadow-lg hover:bg-indigo-700 transition-all flex items-center gap-2">
+    <svg id="menuIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+    <span class="text-xs font-bold font-outfit uppercase tracking-wider hidden sm:inline">Menu</span>
+  </button>
+
+  <!-- Sidebar Overlay for Mobile View -->
+  <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-30 hidden"></div>
+
+  <!-- Collapsible Sidebar -->
+  <aside id="sidebarPanel" class="fixed inset-y-0 left-0 z-40 w-80 bg-white p-6 border-r border-slate-200 overflow-y-auto transform -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl">
+    <div class="flex items-center justify-between mt-10 mb-4">
+      <h1 class="text-xl font-black font-outfit text-indigo-900 tracking-tight flex items-center gap-2">
+        ⚡ RISK TWIN OSS ⚡
+      </h1>
+      <button onclick="toggleSidebar()" class="text-slate-400 hover:text-slate-600 text-xl font-bold p-1">✕</button>
+    </div>
+    <p class="text-xs text-slate-500 italic mb-6">🚀 Causally-Constrained World Model Simulation</p>
     
     <div class="mb-6">
       <label class="block text-sm font-bold text-slate-700 mb-3">🧭 Navigation Console</label>
@@ -226,7 +239,7 @@
   </aside>
 
   <!-- Main View -->
-  <main class="flex-1 p-6 md:p-10 max-w-6xl mx-auto overflow-y-auto w-full">
+  <main class="flex-1 p-6 md:p-10 pt-20 max-w-6xl mx-auto overflow-y-auto w-full transition-all duration-300">
 
     <!-- PAGE 1: PROJECT OVERVIEW -->
     <section id="page-p1" class="space-y-6">
@@ -242,7 +255,7 @@
       <div class="feature-card">
         <span class="metric-badge">⚙️ SYSTEM CORE & FOUNDATION</span>
         <p class="text-base text-slate-700 leading-relaxed m-0">
-          ✨ <b>RISK TWIN OSS</b> builds a causally-constrained simulation environment (a <b>🧠 World Model</b>) to train and evaluate Reinforcement Learning (RL) agents for supply chain and retail optimization. By combining formal Causal Inference with RL, this platform simulates extreme macroeconomic shocks (<b>🌪️ Era Swaps</b>) to stress-test logistics and inventory policies under volatile frontier regimes.
+          ✨ <b>RISK TWIN OSS</b> builds a causally-constrained simulation environment (a <b>🧠 World Model</b>) to train and evaluate Reinforcement Learning (RL) agents for supply chain and retail optimization. By combining formal Causal Inference with RL this platform simulates extreme macroeconomic shocks (<b>🌪️ Era Swaps</b>) to stress-test logistics and inventory policies under volatile frontier regimes.
         </p>
       </div>
 
@@ -263,7 +276,7 @@
           <ul class="text-sm text-slate-700 space-y-2 leading-relaxed">
             <li>🎯 <b>Causal Mechanism:</b> Tracks how port congestion (<b>⚓ NY Fed GSCPI</b>) paired with global energy costs (<b>⛽ Fuel Price</b>) impact delivery latency.</li>
             <li>🌱 <b>Baseline State (2026 Routes):</b> High inherent routing friction with a baseline late delivery risk of <b class="text-amber-600">54.3%</b>.</li>
-            <li>🔥 <b>Stress Regimes:</b> Simulates multi-port gridlocks, trade embargoes, and acute global supply bottlenecks.</li>
+            <li>🔥 <b>Stress Regimes:</b> Simulates multi-port gridlocks trade embargoes and acute global supply bottlenecks.</li>
           </ul>
         </div>
       </div>
@@ -417,7 +430,7 @@
         <h1 class="hero-title-p3 my-2">Technical Architecture<br>and<br>Implementation</h1>
         <p class="text-4xl leading-none">🖥📑🖥</p>
         <p class="text-lg font-semibold text-slate-600 mt-4 mb-6">
-          🧩 <b>System Blueprint:</b> Data Pipelines, Directed Acyclic Graphs (DAGs), Simulation Engines & RL Baselines ⚡
+          🧩 <b>System Blueprint:</b> Data Pipelines Directed Acyclic Graphs (DAGs) Simulation Engines & RL Baselines ⚡
         </p>
       </div>
 
@@ -434,8 +447,8 @@
           <div class="feature-card">
             <h3 class="font-outfit text-lg font-bold text-indigo-800 mb-3">📓 Core Research Notebooks</h3>
             <ul class="text-sm text-slate-700 space-y-2.5 leading-relaxed">
-              <li>🛠️ <b><code>Setup.ipynb</code>:</b> Configures runtime environment, installs critical dependencies (<code>xlrd</code>, <code>openpyxl</code>), and streams live macroeconomic datasets including the NY Fed GSCPI index.</li>
-              <li>📊 <b><code>DataCo Supply Chain EDA.ipynb</code>:</b> Performs exploratory data analysis on shipping routes, establishes late delivery distributions, and isolates missing data anomalies.</li>
+              <li>🛠️ <b><code>Setup.ipynb</code>:</b> Configures runtime environment installs critical dependencies (<code>xlrd</code>, <code>openpyxl</code>) and streams live macroeconomic datasets including the NY Fed GSCPI index.</li>
+              <li>📊 <b><code>DataCo Supply Chain EDA.ipynb</code>:</b> Performs exploratory data analysis on shipping routes establishes late delivery distributions and isolates missing data anomalies.</li>
               <li>🕸️ <b><code>causal_graph.ipynb</code>:</b> Formulates Directed Acyclic Graphs (DAGs) and Structural Causal Models (SCMs) linking macro variables to transit lateness to neutralize confounding bias.</li>
               <li>🧠 <b><code>world_model.ipynb</code>:</b> Trains the environment transition dynamics model to generate high-fidelity synthetic counterfactual trajectories for policy training.</li>
             </ul>
@@ -444,9 +457,9 @@
           <div class="feature-card">
             <h3 class="font-outfit text-lg font-bold text-pink-700 mb-3">⚙️ Simulation Engines & Baselines</h3>
             <ul class="text-sm text-slate-700 space-y-2.5 leading-relaxed">
-              <li>🌪️ <b><code>era_swap.ipynb</code>:</b> Implements the counterfactual engine that injects macroeconomic shocks (e.g., COVID-2020 logistics stress or 2008 financial shocks) into current operational states.</li>
+              <li>🌪️ <b><code>era_swap.ipynb</code>:</b> Implements the counterfactual engine that injects macroeconomic shocks (e.g. COVID-2020 logistics stress or 2008 financial shocks) into current operational states.</li>
               <li>🎮 <b><code>simulators.ipynb</code>:</b> Wraps world models and era-swapping mechanics into standard step-action-reward interfaces compatible with RL frameworks.</li>
-              <li>🚀 <b><code>risk_twin_pipeline.ipynb</code>:</b> Unifies data ingestion, causal graph construction, world modeling, and simulation into an automated end-to-end execution pipeline.</li>
+              <li>🚀 <b><code>risk_twin_pipeline.ipynb</code>:</b> Unifies data ingestion causal graph construction world modeling and simulation into an automated end-to-end execution pipeline.</li>
               <li>📏 <b><code>sc_ss_policy.ipynb</code>:</b> Implements classical (s, S) inventory policies as an empirical benchmark to quantify the performance gains of Causal RL algorithms.</li>
             </ul>
           </div>
@@ -464,9 +477,9 @@
             <p>📱 <b>Contact:</b> <a href="https://wa.me/918240580651" target="_blank" class="text-blue-600 hover:underline font-semibold">+91 8240580651</a></p>
           </div>
           <div class="md:col-span-7 feature-card">
-            <h3 class="font-outfit text-lg font-bold text-purple-700 mb-2">🤝 Collaborations, Research & Extensions</h3>
+            <h3 class="font-outfit text-lg font-bold text-purple-700 mb-2">🤝 Collaborations Research & Extensions</h3>
             <p class="text-sm text-slate-700 leading-relaxed m-0">
-              For baseline extensions, structural causal model (SCM) contributions, custom gym environment wrappers, or integration with enterprise supply chain control towers, feel free to reach out via the provided channels! 🚀
+              For baseline extensions structural causal model (SCM) contributions custom gym environment wrappers or integration with enterprise supply chain control towers feel free to reach out via the provided channels! 🚀
             </p>
           </div>
         </div>
@@ -476,6 +489,22 @@
   </main>
 
   <script>
+    // Collapsible Sidebar Handler
+    const sidebarPanel = document.getElementById('sidebarPanel');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    let isSidebarOpen = false;
+
+    function toggleSidebar() {
+      isSidebarOpen = !isSidebarOpen;
+      if (isSidebarOpen) {
+        sidebarPanel.classList.remove('-translate-x-full');
+        sidebarOverlay.classList.remove('hidden');
+      } else {
+        sidebarPanel.classList.add('-translate-x-full');
+        sidebarOverlay.classList.add('hidden');
+      }
+    }
+
     // State Router
     const pages = {
       p1: document.getElementById('page-p1'),
@@ -491,6 +520,10 @@
       });
       document.querySelector(`input[name="nav_page"][value="${pageId}"]`).checked = true;
       simSidebarControls.classList.toggle('hidden', pageId !== 'p2');
+
+      if (isSidebarOpen) {
+        toggleSidebar();
+      }
 
       if (pageId === 'p2') {
         renderSimulation();
