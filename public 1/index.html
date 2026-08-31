@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RISK TWIN OSS 🌪️⚡ (Dark Edition)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/viz.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/full.render.js"></script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #f1f5f9;
+      background-color: #030712;
+    }
+
+    .font-outfit {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .hero-title-p1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #38bdf8 0%, #60a5fa 45%, #34d399 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 14px rgba(56, 189, 248, 0.35));
+    }
+
+    .hero-title-p2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.25rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #fb923c 0%, #f87171 50%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 14px rgba(251, 146, 60, 0.35));
+    }
+
+    .hero-title-p3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #a78bfa 0%, #c084fc 45%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 14px rgba(167, 139, 250, 0.35));
+    }
+
+    .feature-card {
+      border-radius: 16px;
+      padding: 22px 24px;
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.65));
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -4px rgba(99, 102, 241, 0.3);
+      border-color: rgba(129, 140, 248, 0.5);
+    }
+
+    .metric-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      border: 1px solid rgba(129, 140, 248, 0.35);
+      background: linear-gradient(90deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
+      color: #a5b4fc;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+
+    .btn-gradient {
+      border-radius: 10px;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: 0.01em;
+      padding: 10px 20px;
+      border: 1px solid rgba(129, 140, 248, 0.4);
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      color: #ffffff;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.45);
+    }
+
+    .btn-gradient:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 22px rgba(124, 58, 237, 0.6);
+      border-color: #c084fc;
+    }
+
+    code {
+      font-family: 'Fira Code', monospace !important;
+      color: #f472b6 !important;
+      background-color: rgba(244, 114, 182, 0.15) !important;
+      border: 1px solid rgba(244, 114, 182, 0.25) !important;
+      padding: 2px 6px !important;
+      border-radius: 6px !important;
+      font-size: 0.88em !important;
+    }
+
+    .graphviz-container svg {
+      width: 100%;
+      height: auto;
+      max-height: 480px;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col relative antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Top Navbar -->
+  <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between shadow-md">
+    <div class="flex items-center gap-3">
+      <button onclick="toggleNavSidebar()" class="p-2 bg-indigo-950/60 text-indigo-400 border border-indigo-800/40 rounded-xl hover:bg-indigo-900/60 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+      <span class="font-black font-outfit text-indigo-300 tracking-tight text-lg">⚡ RISK TWIN OSS ⚡</span>
+    </div>
+    <div class="text-xs font-semibold text-slate-400 hidden sm:block">
+      🚀 Causally-Constrained World Model Simulation
+    </div>
+  </header>
+
+  <!-- Left Navigation Drawer -->
+  <div id="navOverlay" onclick="toggleNavSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden"></div>
+  <aside id="navSidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-slate-900 p-6 border-r border-slate-800 overflow-y-auto transform -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl">
+    <div class="flex items-center justify-between mb-6">
+      <span class="text-base font-black font-outfit text-indigo-300">🧭 Navigation</span>
+      <button onclick="toggleNavSidebar()" class="text-slate-400 hover:text-slate-200 font-bold text-lg p-1">✕</button>
+    </div>
+    <div class="space-y-2">
+      <button onclick="navigateTo('p1')" class="w-full text-left flex items-center gap-3 p-3 rounded-xl hover:bg-slate-800/80 font-semibold text-sm text-slate-200 transition-colors">
+        <span>🏠</span> Project Overview
+      </button>
+      <button onclick="navigateTo('p2')" class="w-full text-left flex items-center gap-3 p-3 rounded-xl hover:bg-slate-800/80 font-semibold text-sm text-slate-200 transition-colors">
+        <span>📈</span> Era Swap Simulator
+      </button>
+      <button onclick="navigateTo('p3')" class="w-full text-left flex items-center gap-3 p-3 rounded-xl hover:bg-slate-800/80 font-semibold text-sm text-slate-200 transition-colors">
+        <span>🔬</span> Technical Architecture
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main View Container -->
+  <main class="flex-1 p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full">
+
+    <!-- PAGE 1: PROJECT OVERVIEW -->
+    <section id="page-p1" class="space-y-6">
+      <div class="text-center">
+        <p class="text-3xl leading-none">⛓️⚙️⛓️</p>
+        <h1 class="hero-title-p1 my-2">Causal-RL<br>for<br>Supply Chain Optimization</h1>
+        <p class="text-3xl leading-none">⛓️⚙️⛓️</p>
+        <p class="text-base font-semibold text-slate-400 mt-3 mb-6">
+          🌐 <b>RISK TWIN OSS:</b> Causally-Constrained World Model Simulation & Macro Stress-Testing 🌐
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <span class="metric-badge">⚙️ SYSTEM CORE & FOUNDATION</span>
+        <p class="text-sm sm:text-base text-slate-300 leading-relaxed m-0">
+          ✨ <b>RISK TWIN OSS</b> builds a causally-constrained simulation environment (a <b>🧠 World Model</b>) to train and evaluate Reinforcement Learning (RL) agents for supply chain and retail optimization. By combining formal Causal Inference with RL, this platform simulates extreme macroeconomic shocks (<b>🌪️ Era Swaps</b>) to stress-test logistics and inventory policies under volatile frontier regimes.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="feature-card">
+          <span class="metric-badge">🛒 RETAIL TWIN DOMAIN</span>
+          <h3 class="font-outfit text-base font-bold text-sky-400 mb-2">🏪 Domain 1: Walmart (Retail Operations)</h3>
+          <ul class="text-xs sm:text-sm text-slate-300 space-y-2 leading-relaxed">
+            <li>🎯 <b>Causal Mechanism:</b> Tracks how external labor markets (<b>👥 Unemployment</b>) and inflationary pressures (<b>🏷️ CPI</b>) drive retail inventory stockout risks.</li>
+            <li>🌱 <b>Baseline State (2026 DNA):</b> Stable operational conditions with an expected baseline stockout rate of <b class="text-emerald-400">4.2%</b>.</li>
+            <li>🔥 <b>Stress Regimes:</b> Evaluates severe labor-isolation shocks (📉 2008 GFC) and compounded dual-shocks (🦠 COVID-19 Retail Era).</li>
+          </ul>
+        </div>
+
+        <div class="feature-card">
+          <span class="metric-badge">🚢 LOGISTICS TWIN DOMAIN</span>
+          <h3 class="font-outfit text-base font-bold text-amber-400 mb-2">📦 Domain 2: DataCo (Logistics Operations)</h3>
+          <ul class="text-xs sm:text-sm text-slate-300 space-y-2 leading-relaxed">
+            <li>🎯 <b>Causal Mechanism:</b> Tracks how port congestion (<b>⚓ NY Fed GSCPI</b>) paired with global energy costs (<b>⛽ Fuel Price</b>) impact delivery latency.</li>
+            <li>🌱 <b>Baseline State (2026 Routes):</b> High inherent routing friction with a baseline late delivery risk of <b class="text-amber-400">54.3%</b>.</li>
+            <li>🔥 <b>Stress Regimes:</b> Simulates multi-port gridlocks, trade embargoes, and acute global supply bottlenecks.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-4">
+        <h2 class="font-outfit text-lg font-extrabold text-slate-100 mb-4">🎯 Benchmark Findings & Stress-Test Matrix</h2>
+        
+        <div class="flex border-b border-slate-800 mb-4">
+          <button onclick="switchTab('tab-retail')" id="btn-tab-retail" class="py-2 px-4 font-bold text-xs sm:text-sm border-b-2 border-indigo-500 text-indigo-400 focus:outline-none">🛒 Retail Stress Takeaways</button>
+          <button onclick="switchTab('tab-logistics')" id="btn-tab-logistics" class="py-2 px-4 font-semibold text-xs sm:text-sm border-b-2 border-transparent text-slate-400 hover:text-slate-200 focus:outline-none">🚢 Logistics Stress Takeaways</button>
+        </div>
+
+        <div id="tab-retail" class="space-y-2">
+          <div class="overflow-x-auto bg-slate-900/90 rounded-xl border border-slate-800">
+            <table class="w-full text-xs sm:text-sm text-left">
+              <thead class="bg-slate-950/80 text-slate-400 uppercase font-bold border-b border-slate-800">
+                <tr>
+                  <th class="py-3 px-3">Scenario 🏷️</th>
+                  <th class="py-3 px-3">Unemployment 👥</th>
+                  <th class="py-3 px-3">CPI 🏷️</th>
+                  <th class="py-3 px-3">Stockout Risk ⚠️</th>
+                  <th class="py-3 px-3">Delta vs Baseline 📈</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60 font-medium text-slate-300">
+                <tr>
+                  <td class="py-3 px-3">Baseline (2026)</td>
+                  <td class="py-3 px-3">5.0%</td>
+                  <td class="py-3 px-3">210.0</td>
+                  <td class="py-3 px-3 font-bold text-emerald-400">4.2%</td>
+                  <td class="py-3 px-3 text-slate-500">—</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-3">GFC 2008 Shock 📉</td>
+                  <td class="py-3 px-3">10.0%</td>
+                  <td class="py-3 px-3">210.0</td>
+                  <td class="py-3 px-3 font-bold text-amber-400">8.2%</td>
+                  <td class="py-3 px-3 font-semibold text-amber-400">+4.0%</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-3">COVID 2020 Shock 🦠</td>
+                  <td class="py-3 px-3">14.7%</td>
+                  <td class="py-3 px-3">256.0</td>
+                  <td class="py-3 px-3 font-bold text-rose-400">14.3%</td>
+                  <td class="py-3 px-3 font-semibold text-rose-400">+10.1%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs text-slate-400">💡 <b>Takeaway:</b> Traditional inventory heuristics collapse under compounded inflation and labor disruption shocks.</p>
+        </div>
+
+        <div id="tab-logistics" class="space-y-2 hidden">
+          <div class="overflow-x-auto bg-slate-900/90 rounded-xl border border-slate-800">
+            <table class="w-full text-xs sm:text-sm text-left">
+              <thead class="bg-slate-950/80 text-slate-400 uppercase font-bold border-b border-slate-800">
+                <tr>
+                  <th class="py-3 px-3">Scenario 🏷️</th>
+                  <th class="py-3 px-3">GSCPI (SD) ⚓</th>
+                  <th class="py-3 px-3">Fuel Price ($/bbl) ⛽</th>
+                  <th class="py-3 px-3">Late Delivery Risk ⏱️</th>
+                  <th class="py-3 px-3">Delta vs Baseline 📈</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60 font-medium text-slate-300">
+                <tr>
+                  <td class="py-3 px-3">Baseline (2026)</td>
+                  <td class="py-3 px-3">0.00</td>
+                  <td class="py-3 px-3">$75.00</td>
+                  <td class="py-3 px-3 font-bold text-amber-400">54.3%</td>
+                  <td class="py-3 px-3 text-slate-500">—</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-3">COVID 2020 Shock 🚢</td>
+                  <td class="py-3 px-3">4.30</td>
+                  <td class="py-3 px-3">$75.00</td>
+                  <td class="py-3 px-3 font-bold text-rose-400">71.5%</td>
+                  <td class="py-3 px-3 font-semibold text-rose-400">+17.2%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs text-slate-400">💡 <b>Takeaway:</b> Traditional lead-time routing algorithms fail severely when international logistics choke points back up.</p>
+        </div>
+      </div>
+
+      <hr class="border-slate-800 my-8" />
+
+      <!-- Centered Explore the Platform Section -->
+      <div class="text-center">
+        <h2 class="font-outfit text-sm font-bold text-slate-200 mb-4">🚀 Explore the Platform</h2>
+        <div class="flex flex-wrap justify-center gap-4">
+          <button onclick="navigateTo('p2')" class="btn-gradient">📈 Launch Simulator</button>
+          <button onclick="navigateTo('p3')" class="btn-gradient">🔬 View Technical Architecture</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 2: ERA SWAP SIMULATOR -->
+    <section id="page-p2" class="space-y-6 hidden">
+      <div class="text-center">
+        <p class="text-3xl leading-none">📊🧾📊</p>
+        <h1 class="hero-title-p2 my-1">RISK TWIN OSS<br>Era Swap Simulator</h1>
+        <p class="text-3xl leading-none">📊🧾📊</p>
+        <p class="text-xs sm:text-sm font-semibold text-slate-400 mt-2 mb-4">
+          ⚡ <b>Interactive Sandbox:</b> Simulate Counterfactual Shocks on Causally-Constrained World Models ⚡
+        </p>
+      </div>
+
+      <!-- In-Flow Grid Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Controls Column -->
+        <div class="lg:col-span-4 bg-slate-900/90 p-5 rounded-2xl border border-slate-800 shadow-lg backdrop-blur-md">
+          <div class="flex items-center justify-between mb-4">
+            <span class="metric-badge m-0">🎛️ CONTROLS</span>
+          </div>
+          
+          <label class="block text-xs font-bold text-slate-300 uppercase mb-1">🎯 Domain Selection</label>
+          <select id="domainSelect" class="w-full bg-slate-800 text-slate-100 text-xs sm:text-sm font-semibold rounded-xl p-2.5 mb-4 border border-slate-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            <option value="walmart">Walmart (Retail)</option>
+            <option value="dataco">DataCo (Supply Chain)</option>
+          </select>
+
+          <!-- Walmart Parameters -->
+          <div id="walmartControls">
+            <label class="block text-xs font-semibold text-slate-400 mb-1">⚡ Load Predefined Era</label>
+            <select id="walmartEra" class="w-full bg-slate-800 text-slate-100 text-xs sm:text-sm rounded-xl p-2 mb-4 border border-slate-700 font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <option value="Custom">Custom 🛠️</option>
+              <option value="COVID_2020_RETAIL">COVID_2020_RETAIL 🦠</option>
+              <option value="GFC_2008_MORTGAGE">GFC_2008_MORTGAGE 📉</option>
+            </select>
+
+            <div class="mb-4 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+              <div class="flex justify-between text-xs font-bold text-slate-300">
+                <span>👥 Unemployment Rate (%)</span>
+                <span id="unempVal" class="text-orange-400">5.0%</span>
+              </div>
+              <input id="unempSlider" type="range" min="3.0" max="20.0" step="0.1" value="5.0" class="w-full mt-2 accent-orange-500 cursor-pointer" />
+            </div>
+
+            <div class="mb-2 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+              <div class="flex justify-between text-xs font-bold text-slate-300">
+                <span>🏷️ CPI (Inflation Index)</span>
+                <span id="cpiVal" class="text-orange-400">210.0</span>
+              </div>
+              <input id="cpiSlider" type="range" min="180.0" max="300.0" step="1.0" value="210.0" class="w-full mt-2 accent-orange-500 cursor-pointer" />
+            </div>
+          </div>
+
+          <!-- DataCo Parameters -->
+          <div id="datacoControls" class="hidden">
+            <label class="block text-xs font-semibold text-slate-400 mb-1">⚡ Load Predefined Era</label>
+            <select id="datacoEra" class="w-full bg-slate-800 text-slate-100 text-xs sm:text-sm rounded-xl p-2 mb-4 border border-slate-700 font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <option value="Custom">Custom 🛠️</option>
+              <option value="COVID_2020_LOGISTICS">COVID_2020_LOGISTICS 🚢</option>
+            </select>
+
+            <div class="mb-4 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+              <div class="flex justify-between text-xs font-bold text-slate-300">
+                <span>⚓ GSCPI (SD)</span>
+                <span id="gscpiVal" class="text-rose-400">0.00</span>
+              </div>
+              <input id="gscpiSlider" type="range" min="-2.0" max="5.0" step="0.1" value="0.0" class="w-full mt-2 accent-rose-500 cursor-pointer" />
+            </div>
+
+            <div class="mb-2 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+              <div class="flex justify-between text-xs font-bold text-slate-300">
+                <span>⛽ Global Oil Price ($/bbl)</span>
+                <span id="fuelVal" class="text-rose-400">$75.0</span>
+              </div>
+              <input id="fuelSlider" type="range" min="40.0" max="150.0" step="1.0" value="75.0" class="w-full mt-2 accent-rose-500 cursor-pointer" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Output Column -->
+        <div class="lg:col-span-8 space-y-4">
+          
+          <h2 id="simSectionHeader" class="font-outfit text-base sm:text-lg font-extrabold text-slate-100"></h2>
+
+          <!-- Metric Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 shadow-md">
+              <div id="simMetric1Label" class="text-[11px] font-bold text-slate-400 tracking-wide uppercase"></div>
+              <div id="simMetric1Value" class="text-2xl font-extrabold text-slate-100 mt-1 font-outfit"></div>
+            </div>
+
+            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 shadow-md">
+              <div class="text-[11px] font-bold text-slate-400 tracking-wide uppercase">💥 Counterfactual Risk</div>
+              <div class="flex items-baseline gap-2 mt-1">
+                <span id="simMetric2Value" class="text-2xl font-extrabold text-slate-100 font-outfit"></span>
+                <span id="simDeltaValue" class="text-xs font-bold text-rose-400"></span>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 shadow-md">
+              <div id="simMetric3Label" class="text-[11px] font-bold text-slate-400 tracking-wide uppercase"></div>
+              <div id="simMetric3Value" class="text-2xl font-extrabold text-slate-100 mt-1 font-outfit"></div>
+            </div>
+          </div>
+
+          <!-- Alert Container -->
+          <div id="simAlert" class="hidden p-3.5 rounded-xl border text-xs sm:text-sm font-semibold"></div>
+
+          <!-- Realtime Chart -->
+          <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 shadow-md">
+            <h3 class="font-outfit text-xs sm:text-sm font-bold text-slate-100 mb-2">📊 Scenario Comparison Analysis</h3>
+            <div class="h-64 relative">
+              <canvas id="simChart"></canvas>
+            </div>
+            <p id="simChartCaption" class="text-[11px] text-slate-400 mt-2 leading-tight"></p>
+          </div>
+        </div>
+
+      </div>
+      <hr class="border-slate-800 my-8" />
+
+      <!-- Centered Explore the Platform Section -->
+      <div class="text-center">
+        <h2 class="font-outfit text-sm font-bold text-slate-200 mb-4">🚀 Explore the Platform</h2>
+        <div class="flex flex-wrap justify-center gap-4">
+          <button onclick="navigateTo('p1')" class="btn-gradient">📑 View Project Overview</button>
+          <button onclick="navigateTo('p3')" class="btn-gradient">🔬 View Technical Architecture</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 3: TECHNICAL ARCHITECTURE -->
+    <section id="page-p3" class="space-y-6 hidden">
+      <div class="text-center">
+        <p class="text-3xl leading-none">🖥📑🖥</p>
+        <h1 class="hero-title-p3 my-2">Technical Architecture<br>and<br>Implementation</h1>
+        <p class="text-3xl leading-none">🖥📑🖥</p>
+        <p class="text-sm font-semibold text-slate-400 mt-3 mb-6">
+          🧩 <b>System Blueprint:</b> Data Pipelines Directed Acyclic Graphs (DAGs) Simulation Engines & RL Baselines ⚡
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-outfit text-lg font-extrabold text-slate-100 mb-4">🗺️ End-to-End System Execution Flow</h2>
+        <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 shadow-md overflow-x-auto">
+          <div id="graphviz-output" class="graphviz-container flex justify-center items-center py-2"></div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="font-outfit text-lg font-extrabold text-slate-100 mb-4">📚 Notebook & Component Deep Dive</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="feature-card">
+            <h3 class="font-outfit text-base font-bold text-indigo-400 mb-3">📓 Core Research Notebooks</h3>
+            <ul class="text-xs sm:text-sm text-slate-300 space-y-2 leading-relaxed">
+              <li>🛠️ <b><code>Setup.ipynb</code>:</b> Configures runtime environment, installs critical dependencies (<code>xlrd</code>, <code>openpyxl</code>), and streams live macroeconomic datasets including the NY Fed GSCPI index.</li>
+              <li>📊 <b><code>DataCo Supply Chain EDA.ipynb</code>:</b> Performs exploratory data analysis on shipping routes, establishes late delivery distributions, and isolates missing data anomalies.</li>
+              <li>🕸️ <b><code>causal_graph.ipynb</code>:</b> Formulates Directed Acyclic Graphs (DAGs) and Structural Causal Models (SCMs) linking macro variables to transit lateness to neutralize confounding bias.</li>
+              <li>🧠 <b><code>world_model.ipynb</code>:</b> Trains the environment transition dynamics model to generate high-fidelity synthetic counterfactual trajectories for policy training.</li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <h3 class="font-outfit text-base font-bold text-pink-400 mb-3">⚙️ Simulation Engines & Baselines</h3>
+            <ul class="text-xs sm:text-sm text-slate-300 space-y-2 leading-relaxed">
+              <li>🌪️ <b><code>era_swap.ipynb</code>:</b> Implements the counterfactual engine that injects macroeconomic shocks (e.g. COVID-2020 logistics stress or 2008 financial shocks) into current operational states.</li>
+              <li>🎮 <b><code>simulators.ipynb</code>:</b> Wraps world models and era-swapping mechanics into standard step-action-reward interfaces compatible with RL frameworks.</li>
+              <li>🚀 <b><code>risk_twin_pipeline.ipynb</code>:</b> Unifies data ingestion, causal graph construction, world modeling, and simulation into an automated end-to-end execution pipeline.</li>
+              <li>📏 <b><code>sc_ss_policy.ipynb</code>:</b> Implements classical (s, S) inventory policies as an empirical benchmark to quantify the performance gains of Causal RL algorithms.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <hr class="border-slate-800 my-8" />
+
+      <div>
+        <h2 class="font-outfit text-lg font-extrabold text-slate-100 mb-4">👩‍💻 Lead Developer & Research Contact</h2>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          <div class="md:col-span-5 bg-sky-950/40 border border-sky-800/50 p-5 rounded-2xl text-xs sm:text-sm space-y-2 text-slate-300">
+            <p>✨ <b>Lead Developer:</b> Sristi Sarkar</p>
+            <p>📧 <b>Email:</b> <a href="mailto:emailsristisarkar@gmail.com" class="text-sky-400 hover:underline font-semibold">emailsristisarkar@gmail.com</a></p>
+            <p>📱 <b>Contact:</b> <a href="https://wa.me/918240580651" target="_blank" class="text-sky-400 hover:underline font-semibold">+91 8240580651</a></p>
+          </div>
+          <div class="md:col-span-7 feature-card">
+            <h3 class="font-outfit text-base font-bold text-purple-400 mb-2">🤝 Collaborations, Research & Extensions</h3>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+              For baseline extensions, structural causal model (SCM) contributions, custom gym environment wrappers, or integration with enterprise supply chain control towers, feel free to reach out via the provided channels! 🚀
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <hr class="border-slate-800 my-8" />
+
+      <!-- Centered Explore the Platform Section -->
+      <div class="text-center">
+        <h2 class="font-outfit text-sm font-bold text-slate-200 mb-4">🚀 Explore the Platform</h2>
+        <div class="flex flex-wrap justify-center gap-4">
+          <button onclick="navigateTo('p1')" class="btn-gradient">📑 View Project Overview</button>
+          <button onclick="navigateTo('p2')" class="btn-gradient">📈 Launch Simulator</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Navigation Drawer Toggle
+    const navSidebar = document.getElementById('navSidebar');
+    const navOverlay = document.getElementById('navOverlay');
+    let isNavOpen = false;
+
+    function toggleNavSidebar() {
+      isNavOpen = !isNavOpen;
+      if (isNavOpen) {
+        navSidebar.classList.remove('-translate-x-full');
+        navOverlay.classList.remove('hidden');
+      } else {
+        navSidebar.classList.add('-translate-x-full');
+        navOverlay.classList.add('hidden');
+      }
+    }
+
+    // State Router
+    const pages = {
+      p1: document.getElementById('page-p1'),
+      p2: document.getElementById('page-p2'),
+      p3: document.getElementById('page-p3')
+    };
+    let simChartInstance = null;
+
+    function navigateTo(pageId) {
+      Object.keys(pages).forEach(key => {
+        pages[key].classList.toggle('hidden', key !== pageId);
+      });
+
+      if (isNavOpen) {
+        toggleNavSidebar();
+      }
+
+      if (pageId === 'p2') {
+        renderSimulation();
+      } else if (pageId === 'p3') {
+        renderGraphviz();
+      }
+    }
+
+    // Tab Switcher
+    function switchTab(tabId) {
+      const isRetail = tabId === 'tab-retail';
+      document.getElementById('tab-retail').classList.toggle('hidden', !isRetail);
+      document.getElementById('tab-logistics').classList.toggle('hidden', isRetail);
+      
+      const btnRetail = document.getElementById('btn-tab-retail');
+      const btnLogistics = document.getElementById('btn-tab-logistics');
+
+      if (isRetail) {
+        btnRetail.className = "py-2 px-4 font-bold text-xs sm:text-sm border-b-2 border-indigo-500 text-indigo-400 focus:outline-none";
+        btnLogistics.className = "py-2 px-4 font-semibold text-xs sm:text-sm border-b-2 border-transparent text-slate-400 hover:text-slate-200 focus:outline-none";
+      } else {
+        btnRetail.className = "py-2 px-4 font-semibold text-xs sm:text-sm border-b-2 border-transparent text-slate-400 hover:text-slate-200 focus:outline-none";
+        btnLogistics.className = "py-2 px-4 font-bold text-xs sm:text-sm border-b-2 border-indigo-500 text-indigo-400 focus:outline-none";
+      }
+    }
+
+    // Chart.js Setup
+    function initChart() {
+      const ctx = document.getElementById('simChart').getContext('2d');
+      simChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Baseline', 'Counterfactual'],
+          datasets: [{
+            data: [0, 0],
+            backgroundColor: ['#f97316', '#f97316'],
+            borderRadius: 6,
+            barThickness: 44
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: 'rgba(255, 255, 255, 0.08)' },
+              ticks: { color: '#94a3b8', font: { weight: '600' } },
+              title: { display: true, text: '', color: '#cbd5e1', font: { weight: '700' } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: '#94a3b8', font: { weight: '600' } },
+              title: { display: true, text: '', color: '#cbd5e1', font: { weight: '700' } }
+            }
+          }
+        }
+      });
+    }
+
+    // Realtime Simulation Calculations
+    function renderSimulation() {
+      const domain = document.getElementById('domainSelect').value;
+      const isWalmart = domain === 'walmart';
+
+      document.getElementById('walmartControls').classList.toggle('hidden', !isWalmart);
+      document.getElementById('datacoControls').classList.toggle('hidden', isWalmart);
+
+      let baselineRisk, simulatedRisk, metric1Label, metric3Label, metric3Val, xLabel, yLabel, barColor, captionText;
+      const alertBox = document.getElementById('simAlert');
+      alertBox.className = 'hidden p-3.5 rounded-xl border text-xs sm:text-sm font-semibold';
+
+      if (isWalmart) {
+        document.getElementById('simSectionHeader').innerText = "🛒 Walmart Portfolio Risk: Stockout Probability Analysis";
+        const unemp = parseFloat(document.getElementById('unempSlider').value);
+        const cpi = parseFloat(document.getElementById('cpiSlider').value);
+        document.getElementById('unempVal').innerText = `${unemp.toFixed(1)}%`;
+        document.getElementById('cpiVal').innerText = `${cpi.toFixed(1)}`;
+
+        baselineRisk = 0.042;
+        simulatedRisk = baselineRisk + ((unemp - 5.0) * 0.008) + ((cpi - 210.0) * 0.0005);
+        simulatedRisk = Math.max(0.01, Math.min(simulatedRisk, 0.99));
+
+        metric1Label = "🌱 Baseline Risk (2026 DNA)";
+        metric3Label = "📊 Macro Strain Index";
+        metric3Val = `${((unemp / 5.0 + cpi / 210.0) / 2).toFixed(2)}x`;
+        xLabel = "Macroeconomic Scenario";
+        yLabel = "Stockout Probability (%)";
+        barColor = "#fb923c";
+        captionText = "📊 <b>Chart Description:</b> Contrasts expected inventory stockout probability under 2026 operational parameters (Baseline) against counterfactual macroeconomic shocks.";
+
+        if (simulatedRisk > 0.15) {
+          alertBox.innerHTML = "🚨 <b>TAIL RISK DETECTED:</b> Model predicts critical stockout probability exceeding the 15% system threshold! Immediate inventory buffer required.";
+          alertBox.className = "p-3.5 rounded-xl border border-rose-800/80 bg-rose-950/60 text-rose-300 text-xs sm:text-sm font-semibold";
+        } else if (simulatedRisk > baselineRisk + 0.03) {
+          alertBox.innerHTML = "⚠️ <b>ELEVATED INVENTORY RISK:</b> Macro stress detected. Dynamic reorder policy adjustment strongly advised.";
+          alertBox.className = "p-3.5 rounded-xl border border-amber-800/80 bg-amber-950/60 text-amber-300 text-xs sm:text-sm font-semibold";
+        }
+      } else {
+        document.getElementById('simSectionHeader').innerText = "🚢 DataCo Logistics Risk: Late Delivery Probability Analysis";
+        const gscpi = parseFloat(document.getElementById('gscpiSlider').value);
+        const fuel = parseFloat(document.getElementById('fuelSlider').value);
+        document.getElementById('gscpiVal').innerText = gscpi.toFixed(2);
+        document.getElementById('fuelVal').innerText = `$${fuel.toFixed(1)}`;
+
+        baselineRisk = 0.543;
+        simulatedRisk = baselineRisk + (gscpi * 0.04) + ((fuel - 75.0) * 0.001);
+        simulatedRisk = Math.max(0.10, Math.min(simulatedRisk, 0.99));
+
+        metric1Label = "🌱 Baseline Risk (2026 Routes)";
+        metric3Label = "⚓ Port Pressure Index";
+        metric3Val = `${gscpi >= 0 ? '+' : ''}${gscpi.toFixed(2)} SD`;
+        xLabel = "Logistics Environment";
+        yLabel = "Late Delivery Risk (%)";
+        barColor = "#f87171";
+        captionText = "📊 <b>Chart Description:</b> Compares shipment delay risk under standard routing structures (Baseline) versus elevated risk during simulated logistics bottlenecks (Counterfactual).";
+
+        if (simulatedRisk > 0.65) {
+          alertBox.innerHTML = "🚨 <b>EXTREME CONGESTION DETECTED:</b> Late delivery probability is critically high! Freight rerouting algorithms should be triggered immediately.";
+          alertBox.className = "p-3.5 rounded-xl border border-rose-800/80 bg-rose-950/60 text-rose-300 text-xs sm:text-sm font-semibold";
+        } else if (simulatedRisk > baselineRisk + 0.05) {
+          alertBox.innerHTML = "📉 <b>SUPPLY CHAIN STRESS DETECTED:</b> Freight delays likely across primary transit corridors.";
+          alertBox.className = "p-3.5 rounded-xl border border-amber-800/80 bg-amber-950/60 text-amber-300 text-xs sm:text-sm font-semibold";
+        }
+      }
+
+      document.getElementById('simMetric1Label').innerText = metric1Label;
+      document.getElementById('simMetric1Value').innerText = `${(baselineRisk * 100).toFixed(1)}%`;
+      document.getElementById('simMetric2Value').innerText = `${(simulatedRisk * 100).toFixed(1)}%`;
+      
+      const delta = (simulatedRisk - baselineRisk) * 100;
+      document.getElementById('simDeltaValue').innerText = `${delta >= 0 ? '+' : ''}${delta.toFixed(1)}%`;
+      document.getElementById('simMetric3Label').innerText = metric3Label;
+      document.getElementById('simMetric3Value').innerText = metric3Val;
+      document.getElementById('simChartCaption').innerHTML = captionText;
+
+      if (!simChartInstance) initChart();
+      simChartInstance.data.datasets[0].data = [baselineRisk * 100, simulatedRisk * 100];
+      simChartInstance.data.datasets[0].backgroundColor = [barColor, barColor];
+      simChartInstance.options.scales.x.title.text = xLabel;
+      simChartInstance.options.scales.y.title.text = yLabel;
+      simChartInstance.update();
+    }
+
+    // Slider & Dropdown Listeners
+    document.getElementById('domainSelect').addEventListener('change', renderSimulation);
+    document.getElementById('walmartEra').addEventListener('change', (e) => {
+      if (e.target.value.includes('COVID')) {
+        document.getElementById('unempSlider').value = 14.7;
+        document.getElementById('cpiSlider').value = 256.0;
+      } else if (e.target.value.includes('GFC')) {
+        document.getElementById('unempSlider').value = 10.0;
+        document.getElementById('cpiSlider').value = 210.0;
+      } else {
+        document.getElementById('unempSlider').value = 5.0;
+        document.getElementById('cpiSlider').value = 210.0;
+      }
+      renderSimulation();
+    });
+
+    document.getElementById('datacoEra').addEventListener('change', (e) => {
+      if (e.target.value.includes('COVID')) {
+        document.getElementById('gscpiSlider').value = 4.3;
+      } else {
+        document.getElementById('gscpiSlider').value = 0.0;
+      }
+      renderSimulation();
+    });
+
+    ['unempSlider', 'cpiSlider', 'gscpiSlider', 'fuelSlider'].forEach(id => {
+      document.getElementById(id).addEventListener('input', renderSimulation);
+    });
+
+    // Graphviz Renderer
+    let graphRendered = false;
+    function renderGraphviz() {
+      if (graphRendered) return;
+      const dot = `
+      digraph G {
+          rankdir=LR;
+          bgcolor="transparent";
+          node [shape=box, style="rounded,filled", fillcolor="#1e1b4b", fontcolor="#e0e7ff", fontname="Plus Jakarta Sans", fontsize=10, color="#818cf8", penwidth=1.5];
+          edge [color="#818cf8", arrowsize=0.8, penwidth=1.2];
+          
+          subgraph cluster_data {
+              label = "📥 1. Ingestion & Preprocessing";
+              style = "dashed";
+              color = "#38bdf8";
+              fontcolor = "#7dd3fc";
+              fontname="Plus Jakarta Sans";
+              Setup [label="⚙️ Setup.ipynb\\n(Env & GSCPI Ingestion)", fillcolor="#0c4a6e", fontcolor="#e0f2fe", color="#38bdf8"];
+              EDA [label="📊 DataCo EDA.ipynb\\n(Risk Profiling & Cleansing)", fillcolor="#0c4a6e", fontcolor="#e0f2fe", color="#38bdf8"];
+          }
+          
+          subgraph cluster_causal {
+              label = "🧠 2. Causal Architecture";
+              style = "dashed";
+              color = "#c084fc";
+              fontcolor = "#e9d5ff";
+              fontname="Plus Jakarta Sans";
+              CausalGraph [label="🕸️ causal_graph.ipynb\\n(SCM & DAG Definition)", fillcolor="#581c87", fontcolor="#f3e8ff", color="#c084fc"];
+              WorldModel [label="🌐 world_model.ipynb\\n(Transition Dynamics Engine)", fillcolor="#581c87", fontcolor="#f3e8ff", color="#c084fc"];
+          }
+          
+          subgraph cluster_sim {
+              label = "🌪️ 3. Counterfactual Simulation";
+              style = "dashed";
+              color = "#f472b6";
+              fontcolor = "#fbcfe8";
+              fontname="Plus Jakarta Sans";
+              EraSwap [label="⚡ era_swap.ipynb\\n(Macro Shock Injection)", fillcolor="#831843", fontcolor="#fce7f3", color="#f472b6"];
+              Simulators [label="🎮 simulators.ipynb\\n(Gymnasium RL Env)", fillcolor="#831843", fontcolor="#fce7f3", color="#f472b6"];
+              Pipeline [label="🚀 risk_twin_pipeline.ipynb\\n(Unified Pipeline)", fillcolor="#831843", fontcolor="#fce7f3", color="#f472b6"];
+          }
+          
+          subgraph cluster_policies {
+              label = "📈 4. Benchmarks & Frontend";
+              style = "dashed";
+              color = "#34d399";
+              fontcolor = "#a7f3d0";
+              fontname="Plus Jakarta Sans";
+              Baselines [label="📏 sc_ss_policy.ipynb\\n((s, S) OR Control Policy)", fillcolor="#064e3b", fontcolor="#d1fae5", color="#34d399"];
+              Dashboard [label="💻 dashboard.py\\n(Streamlit UI)", fillcolor="#78350f", fontcolor="#fef3c7", color="#fbbf24"];
+          }
+          
+          Setup -> EDA -> CausalGraph;
+          CausalGraph -> WorldModel -> EraSwap -> Simulators -> Pipeline;
+          Simulators -> Baselines;
+          Pipeline -> Dashboard;
+          Baselines -> Dashboard;
+      }
+      `;
+      const viz = new Viz();
+      viz.renderSVGElement(dot)
+        .then(element => {
+          document.getElementById('graphviz-output').appendChild(element);
+          graphRendered = true;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
+    // Initialize View
+    initChart();
+  </script>
+</body>
+</html>
+
