@@ -10,6 +10,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/viz.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/full.render.js"></script>
@@ -17,13 +22,13 @@
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      color: #1e293b;
     }
 
     .font-outfit {
       font-family: 'Outfit', sans-serif;
     }
 
+    /* Light Theme Gradients */
     .hero-title-p1 {
       font-family: 'Outfit', sans-serif;
       font-size: 2.5rem;
@@ -60,6 +65,29 @@
       filter: drop-shadow(0 2px 10px rgba(124, 58, 237, 0.25));
     }
 
+    /* Dark Theme Gradients */
+    .dark .hero-title-p1 {
+      background: linear-gradient(135deg, #38bdf8 0%, #60a5fa 45%, #34d399 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 14px rgba(56, 189, 248, 0.35));
+    }
+
+    .dark .hero-title-p2 {
+      background: linear-gradient(135deg, #fb923c 0%, #f87171 50%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 14px rgba(251, 146, 60, 0.35));
+    }
+
+    .dark .hero-title-p3 {
+      background: linear-gradient(135deg, #a78bfa 0%, #c084fc 45%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 14px rgba(167, 139, 250, 0.35));
+    }
+
+    /* Feature Cards */
     .feature-card {
       border-radius: 16px;
       padding: 22px 24px;
@@ -69,12 +97,25 @@
       transition: all 0.3s ease;
     }
 
+    .dark .feature-card {
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.65));
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(8px);
+    }
+
     .feature-card:hover {
       transform: translateY(-2px);
       box-shadow: 0 14px 30px -4px rgba(99, 102, 241, 0.15);
       border-color: rgba(99, 102, 241, 0.4);
     }
 
+    .dark .feature-card:hover {
+      box-shadow: 0 14px 30px -4px rgba(99, 102, 241, 0.3);
+      border-color: rgba(129, 140, 248, 0.5);
+    }
+
+    /* Badges */
     .metric-badge {
       display: inline-flex;
       align-items: center;
@@ -91,6 +132,13 @@
       margin-bottom: 10px;
     }
 
+    .dark .metric-badge {
+      border: 1px solid rgba(129, 140, 248, 0.35);
+      background: linear-gradient(90deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
+      color: #a5b4fc;
+    }
+
+    /* Buttons */
     .btn-gradient {
       border-radius: 10px;
       font-weight: 700;
@@ -104,12 +152,23 @@
       box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
     }
 
+    .dark .btn-gradient {
+      border: 1px solid rgba(129, 140, 248, 0.4);
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.45);
+    }
+
     .btn-gradient:hover {
       transform: scale(1.02);
       box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
       border-color: #a855f7;
     }
 
+    .dark .btn-gradient:hover {
+      box-shadow: 0 6px 22px rgba(124, 58, 237, 0.6);
+      border-color: #c084fc;
+    }
+
+    /* Inline Code */
     code {
       font-family: 'Fira Code', monospace !important;
       color: #db2777 !important;
@@ -119,6 +178,12 @@
       font-size: 0.88em !important;
     }
 
+    .dark code {
+      color: #f472b6 !important;
+      background-color: rgba(244, 114, 182, 0.15) !important;
+      border: 1px solid rgba(244, 114, 182, 0.25) !important;
+    }
+
     .graphviz-container svg {
       width: 100%;
       height: auto;
@@ -126,38 +191,53 @@
     }
   </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex flex-col relative">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col relative antialiased selection:bg-indigo-500 selection:text-white transition-colors duration-200">
 
   <!-- Top Navbar -->
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 py-3 flex items-center justify-between shadow-sm">
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between shadow-sm dark:shadow-md">
     <div class="flex items-center gap-3">
-      <button onclick="toggleNavSidebar()" class="p-2 bg-indigo-50 text-indigo-600 rounded-xl hover:bg-indigo-100 transition-colors">
+      <button onclick="toggleNavSidebar()" class="p-2 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-transparent dark:border-indigo-800/40 rounded-xl hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
-      <span class="font-black font-outfit text-indigo-950 tracking-tight text-lg">⚡ RISK TWIN OSS ⚡</span>
+      <span class="font-black font-outfit text-indigo-950 dark:text-indigo-300 tracking-tight text-lg">⚡ RISK TWIN OSS ⚡</span>
     </div>
-    <div class="text-xs font-semibold text-slate-500 hidden sm:block">
-      🚀 Causally-Constrained World Model Simulation
+    
+    <!-- Right Actions: Subtitle & Theme Switcher Tab -->
+    <div class="flex items-center gap-4">
+      <div class="text-xs font-semibold text-slate-500 dark:text-slate-400 hidden md:block">
+        🚀 Causally-Constrained World Model Simulation
+      </div>
+
+      <!-- Theme Switcher Tab -->
+      <div class="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-300 dark:border-slate-700">
+        <label for="themeSelect" class="sr-only">Theme Selector</label>
+        <span class="text-xs pl-1.5" id="themeIcon">💻</span>
+        <select id="themeSelect" onchange="setTheme(this.value)" class="bg-transparent text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none cursor-pointer pr-1">
+          <option value="system" class="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100">System</option>
+          <option value="light" class="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100">Light</option>
+          <option value="dark" class="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100">Dark</option>
+        </select>
+      </div>
     </div>
   </header>
 
   <!-- Left Navigation Drawer -->
-  <div id="navOverlay" onclick="toggleNavSidebar()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden"></div>
-  <aside id="navSidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white p-6 border-r border-slate-200 overflow-y-auto transform -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl">
+  <div id="navOverlay" onclick="toggleNavSidebar()" class="fixed inset-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-sm z-50 hidden"></div>
+  <aside id="navSidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-slate-900 p-6 border-r border-slate-200 dark:border-slate-800 overflow-y-auto transform -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl">
     <div class="flex items-center justify-between mb-6">
-      <span class="text-base font-black font-outfit text-indigo-900">🧭 Navigation</span>
-      <button onclick="toggleNavSidebar()" class="text-slate-400 hover:text-slate-600 font-bold text-lg p-1">✕</button>
+      <span class="text-base font-black font-outfit text-indigo-900 dark:text-indigo-300">🧭 Navigation</span>
+      <button onclick="toggleNavSidebar()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 font-bold text-lg p-1">✕</button>
     </div>
     <div class="space-y-2">
-      <button onclick="navigateTo('p1')" class="w-full text-left flex items-center gap-3 p-3 rounded-xl hover:bg-indigo-50 font-semibold text-sm text-slate-700 transition-colors">
+      <button onclick="navigateTo('p1')" class="w-full text-left flex items-center gap-3 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-slate-800/80 font-semibold text-sm text-slate-700 dark:text-slate-200 transition-colors">
         <span>🏠</span> Project Overview
       </button>
-      <button onclick="navigateTo('p2')" class="w-full text-left flex items-center gap-3 p-3 rounded-xl hover:bg-indigo-50 font-semibold text-sm text-slate-700 transition-colors">
+      <button onclick="navigateTo('p2')" class="w-full text-left flex items-center gap-3 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-slate-800/80 font-semibold text-sm text-slate-700 dark:text-slate-200 transition-colors">
         <span>📈</span> Era Swap Simulator
       </button>
-      <button onclick="navigateTo('p3')" class="w-full text-left flex items-center gap-3 p-3 rounded-xl hover:bg-indigo-50 font-semibold text-sm text-slate-700 transition-colors">
+      <button onclick="navigateTo('p3')" class="w-full text-left flex items-center gap-3 p-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-slate-800/80 font-semibold text-sm text-slate-700 dark:text-slate-200 transition-colors">
         <span>🔬</span> Technical Architecture
       </button>
     </div>
@@ -172,52 +252,52 @@
         <p class="text-3xl leading-none">⛓️⚙️⛓️</p>
         <h1 class="hero-title-p1 my-2">Causal-RL<br>for<br>Supply Chain Optimization</h1>
         <p class="text-3xl leading-none">⛓️⚙️⛓️</p>
-        <p class="text-base font-semibold text-slate-600 mt-3 mb-6">
+        <p class="text-base font-semibold text-slate-600 dark:text-slate-400 mt-3 mb-6">
           🌐 <b>RISK TWIN OSS:</b> Causally-Constrained World Model Simulation & Macro Stress-Testing 🌐
         </p>
       </div>
 
       <div class="feature-card">
         <span class="metric-badge">⚙️ SYSTEM CORE & FOUNDATION</span>
-        <p class="text-sm sm:text-base text-slate-700 leading-relaxed m-0">
-          ✨ <b>RISK TWIN OSS</b> builds a causally-constrained simulation environment (a <b>🧠 World Model</b>) to train and evaluate Reinforcement Learning (RL) agents for supply chain and retail optimization. By combining formal Causal Inference with RL this platform simulates extreme macroeconomic shocks (<b>🌪️ Era Swaps</b>) to stress-test logistics and inventory policies under volatile frontier regimes.
+        <p class="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed m-0">
+          ✨ <b>RISK TWIN OSS</b> builds a causally-constrained simulation environment (a <b>🧠 World Model</b>) to train and evaluate Reinforcement Learning (RL) agents for supply chain and retail optimization. By combining formal Causal Inference with RL, this platform simulates extreme macroeconomic shocks (<b>🌪️ Era Swaps</b>) to stress-test logistics and inventory policies under volatile frontier regimes.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="feature-card">
           <span class="metric-badge">🛒 RETAIL TWIN DOMAIN</span>
-          <h3 class="font-outfit text-base font-bold text-blue-900 mb-2">🏪 Domain 1: Walmart (Retail Operations)</h3>
-          <ul class="text-xs sm:text-sm text-slate-700 space-y-2 leading-relaxed">
+          <h3 class="font-outfit text-base font-bold text-blue-900 dark:text-sky-400 mb-2">🏪 Domain 1: Walmart (Retail Operations)</h3>
+          <ul class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
             <li>🎯 <b>Causal Mechanism:</b> Tracks how external labor markets (<b>👥 Unemployment</b>) and inflationary pressures (<b>🏷️ CPI</b>) drive retail inventory stockout risks.</li>
-            <li>🌱 <b>Baseline State (2026 DNA):</b> Stable operational conditions with an expected baseline stockout rate of <b class="text-emerald-600">4.2%</b>.</li>
+            <li>🌱 <b>Baseline State (2026 DNA):</b> Stable operational conditions with an expected baseline stockout rate of <b class="text-emerald-600 dark:text-emerald-400">4.2%</b>.</li>
             <li>🔥 <b>Stress Regimes:</b> Evaluates severe labor-isolation shocks (📉 2008 GFC) and compounded dual-shocks (🦠 COVID-19 Retail Era).</li>
           </ul>
         </div>
 
         <div class="feature-card">
           <span class="metric-badge">🚢 LOGISTICS TWIN DOMAIN</span>
-          <h3 class="font-outfit text-base font-bold text-amber-900 mb-2">📦 Domain 2: DataCo (Logistics Operations)</h3>
-          <ul class="text-xs sm:text-sm text-slate-700 space-y-2 leading-relaxed">
+          <h3 class="font-outfit text-base font-bold text-amber-900 dark:text-amber-400 mb-2">📦 Domain 2: DataCo (Logistics Operations)</h3>
+          <ul class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
             <li>🎯 <b>Causal Mechanism:</b> Tracks how port congestion (<b>⚓ NY Fed GSCPI</b>) paired with global energy costs (<b>⛽ Fuel Price</b>) impact delivery latency.</li>
-            <li>🌱 <b>Baseline State (2026 Routes):</b> High inherent routing friction with a baseline late delivery risk of <b class="text-amber-600">54.3%</b>.</li>
-            <li>🔥 <b>Stress Regimes:</b> Simulates multi-port gridlocks trade embargoes and acute global supply bottlenecks.</li>
+            <li>🌱 <b>Baseline State (2026 Routes):</b> High inherent routing friction with a baseline late delivery risk of <b class="text-amber-600 dark:text-amber-400">54.3%</b>.</li>
+            <li>🔥 <b>Stress Regimes:</b> Simulates multi-port gridlocks, trade embargoes, and acute global supply bottlenecks.</li>
           </ul>
         </div>
       </div>
 
       <div class="pt-4">
-        <h2 class="font-outfit text-lg font-extrabold text-slate-900 mb-4">🎯 Benchmark Findings & Stress-Test Matrix</h2>
+        <h2 class="font-outfit text-lg font-extrabold text-slate-900 dark:text-slate-100 mb-4">🎯 Benchmark Findings & Stress-Test Matrix</h2>
         
-        <div class="flex border-b border-slate-200 mb-4">
-          <button onclick="switchTab('tab-retail')" id="btn-tab-retail" class="py-2 px-4 font-bold text-xs sm:text-sm border-b-2 border-indigo-600 text-indigo-600 focus:outline-none">🛒 Retail Stress Takeaways</button>
-          <button onclick="switchTab('tab-logistics')" id="btn-tab-logistics" class="py-2 px-4 font-semibold text-xs sm:text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800 focus:outline-none">🚢 Logistics Stress Takeaways</button>
+        <div class="flex border-b border-slate-200 dark:border-slate-800 mb-4">
+          <button onclick="switchTab('tab-retail')" id="btn-tab-retail" class="py-2 px-4 font-bold text-xs sm:text-sm border-b-2 border-indigo-600 dark:border-indigo-500 text-indigo-600 dark:text-indigo-400 focus:outline-none">🛒 Retail Stress Takeaways</button>
+          <button onclick="switchTab('tab-logistics')" id="btn-tab-logistics" class="py-2 px-4 font-semibold text-xs sm:text-sm border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 focus:outline-none">🚢 Logistics Stress Takeaways</button>
         </div>
 
         <div id="tab-retail" class="space-y-2">
-          <div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+          <div class="overflow-x-auto bg-white dark:bg-slate-900/90 rounded-xl border border-slate-200 dark:border-slate-800">
             <table class="w-full text-xs sm:text-sm text-left">
-              <thead class="bg-slate-50 text-slate-600 uppercase font-bold border-b border-slate-200">
+              <thead class="bg-slate-50 dark:bg-slate-950/80 text-slate-600 dark:text-slate-400 uppercase font-bold border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th class="py-3 px-3">Scenario 🏷️</th>
                   <th class="py-3 px-3">Unemployment 👥</th>
@@ -226,38 +306,38 @@
                   <th class="py-3 px-3">Delta vs Baseline 📈</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-slate-100 font-medium text-slate-700">
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 font-medium text-slate-700 dark:text-slate-300">
                 <tr>
                   <td class="py-3 px-3">Baseline (2026)</td>
                   <td class="py-3 px-3">5.0%</td>
                   <td class="py-3 px-3">210.0</td>
-                  <td class="py-3 px-3 font-bold text-emerald-600">4.2%</td>
-                  <td class="py-3 px-3">—</td>
+                  <td class="py-3 px-3 font-bold text-emerald-600 dark:text-emerald-400">4.2%</td>
+                  <td class="py-3 px-3 text-slate-400 dark:text-slate-500">—</td>
                 </tr>
                 <tr>
                   <td class="py-3 px-3">GFC 2008 Shock 📉</td>
                   <td class="py-3 px-3">10.0%</td>
                   <td class="py-3 px-3">210.0</td>
-                  <td class="py-3 px-3 font-bold text-amber-600">8.2%</td>
-                  <td class="py-3 px-3 font-semibold text-amber-600">+4.0%</td>
+                  <td class="py-3 px-3 font-bold text-amber-600 dark:text-amber-400">8.2%</td>
+                  <td class="py-3 px-3 font-semibold text-amber-600 dark:text-amber-400">+4.0%</td>
                 </tr>
                 <tr>
                   <td class="py-3 px-3">COVID 2020 Shock 🦠</td>
                   <td class="py-3 px-3">14.7%</td>
                   <td class="py-3 px-3">256.0</td>
-                  <td class="py-3 px-3 font-bold text-rose-600">14.3%</td>
-                  <td class="py-3 px-3 font-semibold text-rose-600">+10.1%</td>
+                  <td class="py-3 px-3 font-bold text-rose-600 dark:text-rose-400">14.3%</td>
+                  <td class="py-3 px-3 font-semibold text-rose-600 dark:text-rose-400">+10.1%</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p class="text-xs text-slate-500">💡 <b>Takeaway:</b> Traditional inventory heuristics collapse under compounded inflation and labor disruption shocks.</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400">💡 <b>Takeaway:</b> Traditional inventory heuristics collapse under compounded inflation and labor disruption shocks.</p>
         </div>
 
         <div id="tab-logistics" class="space-y-2 hidden">
-          <div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+          <div class="overflow-x-auto bg-white dark:bg-slate-900/90 rounded-xl border border-slate-200 dark:border-slate-800">
             <table class="w-full text-xs sm:text-sm text-left">
-              <thead class="bg-slate-50 text-slate-600 uppercase font-bold border-b border-slate-200">
+              <thead class="bg-slate-50 dark:bg-slate-950/80 text-slate-600 dark:text-slate-400 uppercase font-bold border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th class="py-3 px-3">Scenario 🏷️</th>
                   <th class="py-3 px-3">GSCPI (SD) ⚓</th>
@@ -266,33 +346,33 @@
                   <th class="py-3 px-3">Delta vs Baseline 📈</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-slate-100 font-medium text-slate-700">
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 font-medium text-slate-700 dark:text-slate-300">
                 <tr>
                   <td class="py-3 px-3">Baseline (2026)</td>
                   <td class="py-3 px-3">0.00</td>
                   <td class="py-3 px-3">$75.00</td>
-                  <td class="py-3 px-3 font-bold text-amber-600">54.3%</td>
-                  <td class="py-3 px-3">—</td>
+                  <td class="py-3 px-3 font-bold text-amber-600 dark:text-amber-400">54.3%</td>
+                  <td class="py-3 px-3 text-slate-400 dark:text-slate-500">—</td>
                 </tr>
                 <tr>
                   <td class="py-3 px-3">COVID 2020 Shock 🚢</td>
                   <td class="py-3 px-3">4.30</td>
                   <td class="py-3 px-3">$75.00</td>
-                  <td class="py-3 px-3 font-bold text-rose-600">71.5%</td>
-                  <td class="py-3 px-3 font-semibold text-rose-600">+17.2%</td>
+                  <td class="py-3 px-3 font-bold text-rose-600 dark:text-rose-400">71.5%</td>
+                  <td class="py-3 px-3 font-semibold text-rose-600 dark:text-rose-400">+17.2%</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p class="text-xs text-slate-500">💡 <b>Takeaway:</b> Traditional lead-time routing algorithms fail severely when international logistics choke points back up.</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400">💡 <b>Takeaway:</b> Traditional lead-time routing algorithms fail severely when international logistics choke points back up.</p>
         </div>
       </div>
 
-      <hr class="border-slate-200 my-8" />
+      <hr class="border-slate-200 dark:border-slate-800 my-8" />
 
-      <!-- Centered Explore the Platform Section -->
+      <!-- Centered Explore Platform -->
       <div class="text-center">
-        <h2 class="font-outfit text-sm font-bold text-slate-900 mb-4">🚀 Explore the Platform</h2>
+        <h2 class="font-outfit text-sm font-bold text-slate-900 dark:text-slate-200 mb-4">🚀 Explore the Platform</h2>
         <div class="flex flex-wrap justify-center gap-4">
           <button onclick="navigateTo('p2')" class="btn-gradient">📈 Launch Simulator</button>
           <button onclick="navigateTo('p3')" class="btn-gradient">🔬 View Technical Architecture</button>
@@ -306,7 +386,7 @@
         <p class="text-3xl leading-none">📊🧾📊</p>
         <h1 class="hero-title-p2 my-1">RISK TWIN OSS<br>Era Swap Simulator</h1>
         <p class="text-3xl leading-none">📊🧾📊</p>
-        <p class="text-xs sm:text-sm font-semibold text-slate-600 mt-2 mb-4">
+        <p class="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 mt-2 mb-4">
           ⚡ <b>Interactive Sandbox:</b> Simulate Counterfactual Shocks on Causally-Constrained World Models ⚡
         </p>
       </div>
@@ -315,65 +395,65 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         <!-- Controls Column -->
-        <div class="lg:col-span-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="lg:col-span-4 bg-white dark:bg-slate-900/90 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-lg dark:backdrop-blur-md">
           <div class="flex items-center justify-between mb-4">
             <span class="metric-badge m-0">🎛️ CONTROLS</span>
           </div>
           
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-1">🎯 Domain Selection</label>
-          <select id="domainSelect" class="w-full bg-slate-50 text-slate-800 text-xs sm:text-sm font-semibold rounded-xl p-2.5 mb-4 border border-slate-300 focus:ring-2 focus:ring-indigo-500">
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">🎯 Domain Selection</label>
+          <select id="domainSelect" class="w-full bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 text-xs sm:text-sm font-semibold rounded-xl p-2.5 mb-4 border border-slate-300 dark:border-slate-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
             <option value="walmart">Walmart (Retail)</option>
             <option value="dataco">DataCo (Supply Chain)</option>
           </select>
 
           <!-- Walmart Parameters -->
           <div id="walmartControls">
-            <label class="block text-xs font-semibold text-slate-500 mb-1">⚡ Load Predefined Era</label>
-            <select id="walmartEra" class="w-full bg-slate-50 text-slate-800 text-xs sm:text-sm rounded-xl p-2 mb-4 border border-slate-300 font-medium">
+            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">⚡ Load Predefined Era</label>
+            <select id="walmartEra" class="w-full bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 text-xs sm:text-sm rounded-xl p-2 mb-4 border border-slate-300 dark:border-slate-700 font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none">
               <option value="Custom">Custom 🛠️</option>
               <option value="COVID_2020_RETAIL">COVID_2020_RETAIL 🦠</option>
               <option value="GFC_2008_MORTGAGE">GFC_2008_MORTGAGE 📉</option>
             </select>
 
-            <div class="mb-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
-              <div class="flex justify-between text-xs font-bold text-slate-700">
+            <div class="mb-4 bg-slate-50 dark:bg-slate-950/60 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+              <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
                 <span>👥 Unemployment Rate (%)</span>
-                <span id="unempVal" class="text-orange-600">5.0%</span>
+                <span id="unempVal" class="text-orange-600 dark:text-orange-400">5.0%</span>
               </div>
-              <input id="unempSlider" type="range" min="3.0" max="20.0" step="0.1" value="5.0" class="w-full mt-2 accent-orange-600" />
+              <input id="unempSlider" type="range" min="3.0" max="20.0" step="0.1" value="5.0" class="w-full mt-2 accent-orange-600 dark:accent-orange-500 cursor-pointer" />
             </div>
 
-            <div class="mb-2 bg-slate-50 p-3 rounded-xl border border-slate-200">
-              <div class="flex justify-between text-xs font-bold text-slate-700">
+            <div class="mb-2 bg-slate-50 dark:bg-slate-950/60 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+              <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
                 <span>🏷️ CPI (Inflation Index)</span>
-                <span id="cpiVal" class="text-orange-600">210.0</span>
+                <span id="cpiVal" class="text-orange-600 dark:text-orange-400">210.0</span>
               </div>
-              <input id="cpiSlider" type="range" min="180.0" max="300.0" step="1.0" value="210.0" class="w-full mt-2 accent-orange-600" />
+              <input id="cpiSlider" type="range" min="180.0" max="300.0" step="1.0" value="210.0" class="w-full mt-2 accent-orange-600 dark:accent-orange-500 cursor-pointer" />
             </div>
           </div>
 
           <!-- DataCo Parameters -->
           <div id="datacoControls" class="hidden">
-            <label class="block text-xs font-semibold text-slate-500 mb-1">⚡ Load Predefined Era</label>
-            <select id="datacoEra" class="w-full bg-slate-50 text-slate-800 text-xs sm:text-sm rounded-xl p-2 mb-4 border border-slate-300 font-medium">
+            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">⚡ Load Predefined Era</label>
+            <select id="datacoEra" class="w-full bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 text-xs sm:text-sm rounded-xl p-2 mb-4 border border-slate-300 dark:border-slate-700 font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none">
               <option value="Custom">Custom 🛠️</option>
               <option value="COVID_2020_LOGISTICS">COVID_2020_LOGISTICS 🚢</option>
             </select>
 
-            <div class="mb-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
-              <div class="flex justify-between text-xs font-bold text-slate-700">
+            <div class="mb-4 bg-slate-50 dark:bg-slate-950/60 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+              <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
                 <span>⚓ GSCPI (SD)</span>
-                <span id="gscpiVal" class="text-red-600">0.00</span>
+                <span id="gscpiVal" class="text-red-600 dark:text-rose-400">0.00</span>
               </div>
-              <input id="gscpiSlider" type="range" min="-2.0" max="5.0" step="0.1" value="0.0" class="w-full mt-2 accent-red-600" />
+              <input id="gscpiSlider" type="range" min="-2.0" max="5.0" step="0.1" value="0.0" class="w-full mt-2 accent-red-600 dark:accent-rose-500 cursor-pointer" />
             </div>
 
-            <div class="mb-2 bg-slate-50 p-3 rounded-xl border border-slate-200">
-              <div class="flex justify-between text-xs font-bold text-slate-700">
+            <div class="mb-2 bg-slate-50 dark:bg-slate-950/60 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+              <div class="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
                 <span>⛽ Global Oil Price ($/bbl)</span>
-                <span id="fuelVal" class="text-red-600">$75.0</span>
+                <span id="fuelVal" class="text-red-600 dark:text-rose-400">$75.0</span>
               </div>
-              <input id="fuelSlider" type="range" min="40.0" max="150.0" step="1.0" value="75.0" class="w-full mt-2 accent-red-600" />
+              <input id="fuelSlider" type="range" min="40.0" max="150.0" step="1.0" value="75.0" class="w-full mt-2 accent-red-600 dark:accent-rose-500 cursor-pointer" />
             </div>
           </div>
         </div>
@@ -381,26 +461,26 @@
         <!-- Live Output Column -->
         <div class="lg:col-span-8 space-y-4">
           
-          <h2 id="simSectionHeader" class="font-outfit text-base sm:text-lg font-extrabold text-slate-900"></h2>
+          <h2 id="simSectionHeader" class="font-outfit text-base sm:text-lg font-extrabold text-slate-900 dark:text-slate-100"></h2>
 
           <!-- Metric Cards -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-              <div id="simMetric1Label" class="text-[11px] font-bold text-slate-500 tracking-wide uppercase"></div>
-              <div id="simMetric1Value" class="text-2xl font-extrabold text-slate-900 mt-1 font-outfit"></div>
+            <div class="bg-white dark:bg-slate-900/90 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md">
+              <div id="simMetric1Label" class="text-[11px] font-bold text-slate-500 dark:text-slate-400 tracking-wide uppercase"></div>
+              <div id="simMetric1Value" class="text-2xl font-extrabold text-slate-900 dark:text-slate-100 mt-1 font-outfit"></div>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-              <div class="text-[11px] font-bold text-slate-500 tracking-wide uppercase">💥 Counterfactual Risk</div>
+            <div class="bg-white dark:bg-slate-900/90 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md">
+              <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400 tracking-wide uppercase">💥 Counterfactual Risk</div>
               <div class="flex items-baseline gap-2 mt-1">
-                <span id="simMetric2Value" class="text-2xl font-extrabold text-slate-900 font-outfit"></span>
-                <span id="simDeltaValue" class="text-xs font-bold text-rose-600"></span>
+                <span id="simMetric2Value" class="text-2xl font-extrabold text-slate-900 dark:text-slate-100 font-outfit"></span>
+                <span id="simDeltaValue" class="text-xs font-bold text-rose-600 dark:text-rose-400"></span>
               </div>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-              <div id="simMetric3Label" class="text-[11px] font-bold text-slate-500 tracking-wide uppercase"></div>
-              <div id="simMetric3Value" class="text-2xl font-extrabold text-slate-900 mt-1 font-outfit"></div>
+            <div class="bg-white dark:bg-slate-900/90 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md">
+              <div id="simMetric3Label" class="text-[11px] font-bold text-slate-500 dark:text-slate-400 tracking-wide uppercase"></div>
+              <div id="simMetric3Value" class="text-2xl font-extrabold text-slate-900 dark:text-slate-100 mt-1 font-outfit"></div>
             </div>
           </div>
 
@@ -408,21 +488,21 @@
           <div id="simAlert" class="hidden p-3.5 rounded-xl border text-xs sm:text-sm font-semibold"></div>
 
           <!-- Realtime Chart -->
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-            <h3 class="font-outfit text-xs sm:text-sm font-bold text-slate-900 mb-2">📊 Scenario Comparison Analysis</h3>
+          <div class="bg-white dark:bg-slate-900/90 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md">
+            <h3 class="font-outfit text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 mb-2">📊 Scenario Comparison Analysis</h3>
             <div class="h-64 relative">
               <canvas id="simChart"></canvas>
             </div>
-            <p id="simChartCaption" class="text-[11px] text-slate-500 mt-2 leading-tight"></p>
+            <p id="simChartCaption" class="text-[11px] text-slate-500 dark:text-slate-400 mt-2 leading-tight"></p>
           </div>
         </div>
 
       </div>
-      <hr class="border-slate-200 my-8" />
+      <hr class="border-slate-200 dark:border-slate-800 my-8" />
 
-      <!-- Centered Explore the Platform Section -->
+      <!-- Centered Explore Platform -->
       <div class="text-center">
-        <h2 class="font-outfit text-sm font-bold text-slate-900 mb-4">🚀 Explore the Platform</h2>
+        <h2 class="font-outfit text-sm font-bold text-slate-900 dark:text-slate-200 mb-4">🚀 Explore the Platform</h2>
         <div class="flex flex-wrap justify-center gap-4">
           <button onclick="navigateTo('p1')" class="btn-gradient">📑 View Project Overview</button>
           <button onclick="navigateTo('p3')" class="btn-gradient">🔬 View Technical Architecture</button>
@@ -436,78 +516,137 @@
         <p class="text-3xl leading-none">🖥📑🖥</p>
         <h1 class="hero-title-p3 my-2">Technical Architecture<br>and<br>Implementation</h1>
         <p class="text-3xl leading-none">🖥📑🖥</p>
-        <p class="text-sm font-semibold text-slate-600 mt-3 mb-6">
+        <p class="text-sm font-semibold text-slate-600 dark:text-slate-400 mt-3 mb-6">
           🧩 <b>System Blueprint:</b> Data Pipelines Directed Acyclic Graphs (DAGs) Simulation Engines & RL Baselines ⚡
         </p>
       </div>
 
       <div>
-        <h2 class="font-outfit text-lg font-extrabold text-slate-900 mb-4">🗺️ End-to-End System Execution Flow</h2>
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
+        <h2 class="font-outfit text-lg font-extrabold text-slate-900 dark:text-slate-100 mb-4">🗺️ End-to-End System Execution Flow</h2>
+        <div class="bg-white dark:bg-slate-900/90 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md overflow-x-auto">
           <div id="graphviz-output" class="graphviz-container flex justify-center items-center py-2"></div>
         </div>
       </div>
 
       <div>
-        <h2 class="font-outfit text-lg font-extrabold text-slate-900 mb-4">📚 Notebook & Component Deep Dive</h2>
+        <h2 class="font-outfit text-lg font-extrabold text-slate-900 dark:text-slate-100 mb-4">📚 Notebook & Component Deep Dive</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="feature-card">
-            <h3 class="font-outfit text-base font-bold text-indigo-800 mb-3">📓 Core Research Notebooks</h3>
-            <ul class="text-xs sm:text-sm text-slate-700 space-y-2 leading-relaxed">
-              <li>🛠️ <b><code>Setup.ipynb</code>:</b> Configures runtime environment installs critical dependencies (<code>xlrd</code>, <code>openpyxl</code>) and streams live macroeconomic datasets including the NY Fed GSCPI index.</li>
-              <li>📊 <b><code>DataCo Supply Chain EDA.ipynb</code>:</b> Performs exploratory data analysis on shipping routes establishes late delivery distributions and isolates missing data anomalies.</li>
+            <h3 class="font-outfit text-base font-bold text-indigo-800 dark:text-indigo-400 mb-3">📓 Core Research Notebooks</h3>
+            <ul class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
+              <li>🛠️ <b><code>Setup.ipynb</code>:</b> Configures runtime environment, installs critical dependencies (<code>xlrd</code>, <code>openpyxl</code>), and streams live macroeconomic datasets including the NY Fed GSCPI index.</li>
+              <li>📊 <b><code>DataCo Supply Chain EDA.ipynb</code>:</b> Performs exploratory data analysis on shipping routes, establishes late delivery distributions, and isolates missing data anomalies.</li>
               <li>🕸️ <b><code>causal_graph.ipynb</code>:</b> Formulates Directed Acyclic Graphs (DAGs) and Structural Causal Models (SCMs) linking macro variables to transit lateness to neutralize confounding bias.</li>
               <li>🧠 <b><code>world_model.ipynb</code>:</b> Trains the environment transition dynamics model to generate high-fidelity synthetic counterfactual trajectories for policy training.</li>
             </ul>
           </div>
 
           <div class="feature-card">
-            <h3 class="font-outfit text-base font-bold text-pink-700 mb-3">⚙️ Simulation Engines & Baselines</h3>
-            <ul class="text-xs sm:text-sm text-slate-700 space-y-2 leading-relaxed">
+            <h3 class="font-outfit text-base font-bold text-pink-700 dark:text-pink-400 mb-3">⚙️ Simulation Engines & Baselines</h3>
+            <ul class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
               <li>🌪️ <b><code>era_swap.ipynb</code>:</b> Implements the counterfactual engine that injects macroeconomic shocks (e.g. COVID-2020 logistics stress or 2008 financial shocks) into current operational states.</li>
               <li>🎮 <b><code>simulators.ipynb</code>:</b> Wraps world models and era-swapping mechanics into standard step-action-reward interfaces compatible with RL frameworks.</li>
-              <li>🚀 <b><code>risk_twin_pipeline.ipynb</code>:</b> Unifies data ingestion causal graph construction world modeling and simulation into an automated end-to-end execution pipeline.</li>
+              <li>🚀 <b><code>risk_twin_pipeline.ipynb</code>:</b> Unifies data ingestion, causal graph construction, world modeling, and simulation into an automated end-to-end execution pipeline.</li>
               <li>📏 <b><code>sc_ss_policy.ipynb</code>:</b> Implements classical (s, S) inventory policies as an empirical benchmark to quantify the performance gains of Causal RL algorithms.</li>
             </ul>
           </div>
         </div>
       </div>
 
-      <hr class="border-slate-200 my-8" />
+      <hr class="border-slate-200 dark:border-slate-800 my-8" />
 
       <div>
-        <h2 class="font-outfit text-lg font-extrabold text-slate-900 mb-4">👩‍💻 Lead Developer & Research Contact</h2>
+        <h2 class="font-outfit text-lg font-extrabold text-slate-900 dark:text-slate-100 mb-4">👩‍💻 Lead Developer & Research Contact</h2>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-          <div class="md:col-span-5 bg-blue-50 border border-blue-200 p-5 rounded-2xl text-xs sm:text-sm space-y-2 text-slate-800">
+          <div class="md:col-span-5 bg-blue-50 dark:bg-sky-950/40 border border-blue-200 dark:border-sky-800/50 p-5 rounded-2xl text-xs sm:text-sm space-y-2 text-slate-800 dark:text-slate-300">
             <p>✨ <b>Lead Developer:</b> Sristi Sarkar</p>
-            <p>📧 <b>Email:</b> <a href="mailto:emailsristisarkar@gmail.com" class="text-blue-600 hover:underline font-semibold">emailsristisarkar@gmail.com</a></p>
-            <p>📱 <b>Contact:</b> <a href="https://wa.me/918240580651" target="_blank" class="text-blue-600 hover:underline font-semibold">+91 8240580651</a></p>
+            <p>📧 <b>Email:</b> <a href="mailto:emailsristisarkar@gmail.com" class="text-blue-600 dark:text-sky-400 hover:underline font-semibold">emailsristisarkar@gmail.com</a></p>
+            <p>📱 <b>Contact:</b> <a href="https://wa.me/918240580651" target="_blank" class="text-blue-600 dark:text-sky-400 hover:underline font-semibold">+91 8240580651</a></p>
           </div>
           <div class="md:col-span-7 feature-card">
-            <h3 class="font-outfit text-base font-bold text-purple-700 mb-2">🤝 Collaborations Research & Extensions</h3>
-            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed m-0">
-              For baseline extensions structural causal model (SCM) contributions custom gym environment wrappers or integration with enterprise supply chain control towers feel free to reach out via the provided channels! 🚀
+            <h3 class="font-outfit text-base font-bold text-purple-700 dark:text-purple-400 mb-2">🤝 Collaborations Research & Extensions</h3>
+            <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed m-0">
+              For baseline extensions, structural causal model (SCM) contributions, custom gym environment wrappers, or integration with enterprise supply chain control towers, feel free to reach out via the provided channels! 🚀
             </p>
           </div>
         </div>
       </div>
-      <hr class="border-slate-200 my-8" />
 
-      <!-- Centered Explore the Platform Section -->
+      <hr class="border-slate-200 dark:border-slate-800 my-8" />
+
+      <!-- Centered Explore Platform -->
       <div class="text-center">
-        <h2 class="font-outfit text-sm font-bold text-slate-900 mb-4">🚀 Explore the Platform</h2>
+        <h2 class="font-outfit text-sm font-bold text-slate-900 dark:text-slate-200 mb-4">🚀 Explore the Platform</h2>
         <div class="flex flex-wrap justify-center gap-4">
           <button onclick="navigateTo('p1')" class="btn-gradient">📑 View Project Overview</button>
           <button onclick="navigateTo('p2')" class="btn-gradient">📈 Launch Simulator</button>
         </div>
       </div>
     </section>
-    </section>
 
   </main>
 
   <script>
+    // ----------------------------------------------------
+    // Theme Switcher & System Theme Synchronization
+    // ----------------------------------------------------
+    const themeSelect = document.getElementById('themeSelect');
+    const themeIcon = document.getElementById('themeIcon');
+    const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)');
+    let activeGraphTheme = null;
+
+    function applyTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'system';
+      themeSelect.value = savedTheme;
+
+      const isDark = savedTheme === 'dark' || (savedTheme === 'system' && mediaQueryDark.matches);
+      
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
+      themeIcon.innerText = savedTheme === 'system' ? '💻' : (savedTheme === 'dark' ? '🌙' : '☀️');
+
+      // Update Chart Colors on theme change
+      if (simChartInstance) {
+        const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : '#f1f5f9';
+        const tickColor = isDark ? '#94a3b8' : '#64748b';
+        const titleColor = isDark ? '#cbd5e1' : '#475569';
+
+        simChartInstance.options.scales.y.grid.color = gridColor;
+        simChartInstance.options.scales.y.ticks.color = tickColor;
+        simChartInstance.options.scales.y.title.color = titleColor;
+        simChartInstance.options.scales.x.ticks.color = tickColor;
+        simChartInstance.options.scales.x.title.color = titleColor;
+        renderSimulation();
+      }
+
+      // Re-render Graphviz if currently visible or already initialized
+      if (!pages.p3.classList.contains('hidden') || activeGraphTheme !== null) {
+        renderGraphviz(true);
+      }
+    }
+
+    function setTheme(mode) {
+      if (mode === 'system') {
+        localStorage.removeItem('theme');
+      } else {
+        localStorage.setItem('theme', mode);
+      }
+      applyTheme();
+    }
+
+    mediaQueryDark.addEventListener('change', () => {
+      if (!localStorage.getItem('theme') || localStorage.getItem('theme') === 'system') {
+        applyTheme();
+      }
+    });
+
+    // ----------------------------------------------------
     // Navigation Drawer Toggle
+    // ----------------------------------------------------
     const navSidebar = document.getElementById('navSidebar');
     const navOverlay = document.getElementById('navOverlay');
     let isNavOpen = false;
@@ -557,16 +696,17 @@
       const btnLogistics = document.getElementById('btn-tab-logistics');
 
       if (isRetail) {
-        btnRetail.className = "py-2 px-4 font-bold text-xs sm:text-sm border-b-2 border-indigo-600 text-indigo-600 focus:outline-none";
-        btnLogistics.className = "py-2 px-4 font-semibold text-xs sm:text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800 focus:outline-none";
+        btnRetail.className = "py-2 px-4 font-bold text-xs sm:text-sm border-b-2 border-indigo-600 dark:border-indigo-500 text-indigo-600 dark:text-indigo-400 focus:outline-none";
+        btnLogistics.className = "py-2 px-4 font-semibold text-xs sm:text-sm border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 focus:outline-none";
       } else {
-        btnRetail.className = "py-2 px-4 font-semibold text-xs sm:text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800 focus:outline-none";
-        btnLogistics.className = "py-2 px-4 font-bold text-xs sm:text-sm border-b-2 border-indigo-600 text-indigo-600 focus:outline-none";
+        btnRetail.className = "py-2 px-4 font-semibold text-xs sm:text-sm border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 focus:outline-none";
+        btnLogistics.className = "py-2 px-4 font-bold text-xs sm:text-sm border-b-2 border-indigo-600 dark:border-indigo-500 text-indigo-600 dark:text-indigo-400 focus:outline-none";
       }
     }
 
     // Chart.js Setup
     function initChart() {
+      const isDark = document.documentElement.classList.contains('dark');
       const ctx = document.getElementById('simChart').getContext('2d');
       simChartInstance = new Chart(ctx, {
         type: 'bar',
@@ -586,14 +726,14 @@
           scales: {
             y: {
               beginAtZero: true,
-              grid: { color: '#f1f5f9' },
-              ticks: { color: '#64748b', font: { weight: '600' } },
-              title: { display: true, text: '', color: '#475569', font: { weight: '700' } }
+              grid: { color: isDark ? 'rgba(255, 255, 255, 0.08)' : '#f1f5f9' },
+              ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { weight: '600' } },
+              title: { display: true, text: '', color: isDark ? '#cbd5e1' : '#475569', font: { weight: '700' } }
             },
             x: {
               grid: { display: false },
-              ticks: { color: '#64748b', font: { weight: '600' } },
-              title: { display: true, text: '', color: '#475569', font: { weight: '700' } }
+              ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { weight: '600' } },
+              title: { display: true, text: '', color: isDark ? '#cbd5e1' : '#475569', font: { weight: '700' } }
             }
           }
         }
@@ -602,6 +742,7 @@
 
     // Realtime Simulation Calculations
     function renderSimulation() {
+      const isDark = document.documentElement.classList.contains('dark');
       const domain = document.getElementById('domainSelect').value;
       const isWalmart = domain === 'walmart';
 
@@ -628,15 +769,19 @@
         metric3Val = `${((unemp / 5.0 + cpi / 210.0) / 2).toFixed(2)}x`;
         xLabel = "Macroeconomic Scenario";
         yLabel = "Stockout Probability (%)";
-        barColor = "#ea580c";
+        barColor = isDark ? "#fb923c" : "#ea580c";
         captionText = "📊 <b>Chart Description:</b> Contrasts expected inventory stockout probability under 2026 operational parameters (Baseline) against counterfactual macroeconomic shocks.";
 
         if (simulatedRisk > 0.15) {
           alertBox.innerHTML = "🚨 <b>TAIL RISK DETECTED:</b> Model predicts critical stockout probability exceeding the 15% system threshold! Immediate inventory buffer required.";
-          alertBox.className = "p-3.5 rounded-xl border border-red-300 bg-red-50 text-red-700 text-xs sm:text-sm font-semibold";
+          alertBox.className = isDark 
+            ? "p-3.5 rounded-xl border border-rose-800/80 bg-rose-950/60 text-rose-300 text-xs sm:text-sm font-semibold"
+            : "p-3.5 rounded-xl border border-red-300 bg-red-50 text-red-700 text-xs sm:text-sm font-semibold";
         } else if (simulatedRisk > baselineRisk + 0.03) {
           alertBox.innerHTML = "⚠️ <b>ELEVATED INVENTORY RISK:</b> Macro stress detected. Dynamic reorder policy adjustment strongly advised.";
-          alertBox.className = "p-3.5 rounded-xl border border-amber-300 bg-amber-50 text-amber-800 text-xs sm:text-sm font-semibold";
+          alertBox.className = isDark
+            ? "p-3.5 rounded-xl border border-amber-800/80 bg-amber-950/60 text-amber-300 text-xs sm:text-sm font-semibold"
+            : "p-3.5 rounded-xl border border-amber-300 bg-amber-50 text-amber-800 text-xs sm:text-sm font-semibold";
         }
       } else {
         document.getElementById('simSectionHeader').innerText = "🚢 DataCo Logistics Risk: Late Delivery Probability Analysis";
@@ -654,15 +799,19 @@
         metric3Val = `${gscpi >= 0 ? '+' : ''}${gscpi.toFixed(2)} SD`;
         xLabel = "Logistics Environment";
         yLabel = "Late Delivery Risk (%)";
-        barColor = "#dc2626";
+        barColor = isDark ? "#f87171" : "#dc2626";
         captionText = "📊 <b>Chart Description:</b> Compares shipment delay risk under standard routing structures (Baseline) versus elevated risk during simulated logistics bottlenecks (Counterfactual).";
 
         if (simulatedRisk > 0.65) {
           alertBox.innerHTML = "🚨 <b>EXTREME CONGESTION DETECTED:</b> Late delivery probability is critically high! Freight rerouting algorithms should be triggered immediately.";
-          alertBox.className = "p-3.5 rounded-xl border border-red-300 bg-red-50 text-red-700 text-xs sm:text-sm font-semibold";
+          alertBox.className = isDark
+            ? "p-3.5 rounded-xl border border-rose-800/80 bg-rose-950/60 text-rose-300 text-xs sm:text-sm font-semibold"
+            : "p-3.5 rounded-xl border border-red-300 bg-red-50 text-red-700 text-xs sm:text-sm font-semibold";
         } else if (simulatedRisk > baselineRisk + 0.05) {
           alertBox.innerHTML = "📉 <b>SUPPLY CHAIN STRESS DETECTED:</b> Freight delays likely across primary transit corridors.";
-          alertBox.className = "p-3.5 rounded-xl border border-amber-300 bg-amber-50 text-amber-800 text-xs sm:text-sm font-semibold";
+          alertBox.className = isDark
+            ? "p-3.5 rounded-xl border border-amber-800/80 bg-amber-950/60 text-amber-300 text-xs sm:text-sm font-semibold"
+            : "p-3.5 rounded-xl border border-amber-300 bg-amber-50 text-amber-800 text-xs sm:text-sm font-semibold";
         }
       }
 
@@ -713,11 +862,14 @@
       document.getElementById(id).addEventListener('input', renderSimulation);
     });
 
-    // Graphviz Renderer
-    let graphRendered = false;
-    function renderGraphviz() {
-      if (graphRendered) return;
-      const dot = `
+    // Dynamic Graphviz Renderer (Adapts DOT graph colors to light/dark mode)
+    function renderGraphviz(force = false) {
+      const isDark = document.documentElement.classList.contains('dark');
+      const targetTheme = isDark ? 'dark' : 'light';
+
+      if (!force && activeGraphTheme === targetTheme) return;
+
+      const dotLight = `
       digraph G {
           rankdir=LR;
           bgcolor="transparent";
@@ -768,18 +920,78 @@
           Baselines -> Dashboard;
       }
       `;
+
+      const dotDark = `
+      digraph G {
+          rankdir=LR;
+          bgcolor="transparent";
+          node [shape=box, style="rounded,filled", fillcolor="#1e1b4b", fontcolor="#e0e7ff", fontname="Plus Jakarta Sans", fontsize=10, color="#818cf8", penwidth=1.5];
+          edge [color="#818cf8", arrowsize=0.8, penwidth=1.2];
+          
+          subgraph cluster_data {
+              label = "📥 1. Ingestion & Preprocessing";
+              style = "dashed";
+              color = "#38bdf8";
+              fontcolor = "#7dd3fc";
+              fontname="Plus Jakarta Sans";
+              Setup [label="⚙️ Setup.ipynb\\n(Env & GSCPI Ingestion)", fillcolor="#0c4a6e", fontcolor="#e0f2fe", color="#38bdf8"];
+              EDA [label="📊 DataCo EDA.ipynb\\n(Risk Profiling & Cleansing)", fillcolor="#0c4a6e", fontcolor="#e0f2fe", color="#38bdf8"];
+          }
+          
+          subgraph cluster_causal {
+              label = "🧠 2. Causal Architecture";
+              style = "dashed";
+              color = "#c084fc";
+              fontcolor = "#e9d5ff";
+              fontname="Plus Jakarta Sans";
+              CausalGraph [label="🕸️ causal_graph.ipynb\\n(SCM & DAG Definition)", fillcolor="#581c87", fontcolor="#f3e8ff", color="#c084fc"];
+              WorldModel [label="🌐 world_model.ipynb\\n(Transition Dynamics Engine)", fillcolor="#581c87", fontcolor="#f3e8ff", color="#c084fc"];
+          }
+          
+          subgraph cluster_sim {
+              label = "🌪️ 3. Counterfactual Simulation";
+              style = "dashed";
+              color = "#f472b6";
+              fontcolor = "#fbcfe8";
+              fontname="Plus Jakarta Sans";
+              EraSwap [label="⚡ era_swap.ipynb\\n(Macro Shock Injection)", fillcolor="#831843", fontcolor="#fce7f3", color="#f472b6"];
+              Simulators [label="🎮 simulators.ipynb\\n(Gymnasium RL Env)", fillcolor="#831843", fontcolor="#fce7f3", color="#f472b6"];
+              Pipeline [label="🚀 risk_twin_pipeline.ipynb\\n(Unified Pipeline)", fillcolor="#831843", fontcolor="#fce7f3", color="#f472b6"];
+          }
+          
+          subgraph cluster_policies {
+              label = "📈 4. Benchmarks & Frontend";
+              style = "dashed";
+              color = "#34d399";
+              fontcolor = "#a7f3d0";
+              fontname="Plus Jakarta Sans";
+              Baselines [label="📏 sc_ss_policy.ipynb\\n((s, S) OR Control Policy)", fillcolor="#064e3b", fontcolor="#d1fae5", color="#34d399"];
+              Dashboard [label="💻 dashboard.py\\n(Streamlit UI)", fillcolor="#78350f", fontcolor="#fef3c7", color="#fbbf24"];
+          }
+          
+          Setup -> EDA -> CausalGraph;
+          CausalGraph -> WorldModel -> EraSwap -> Simulators -> Pipeline;
+          Simulators -> Baselines;
+          Pipeline -> Dashboard;
+          Baselines -> Dashboard;
+      }
+      `;
+
       const viz = new Viz();
-      viz.renderSVGElement(dot)
+      viz.renderSVGElement(isDark ? dotDark : dotLight)
         .then(element => {
-          document.getElementById('graphviz-output').appendChild(element);
-          graphRendered = true;
+          const container = document.getElementById('graphviz-output');
+          container.innerHTML = '';
+          container.appendChild(element);
+          activeGraphTheme = targetTheme;
         })
         .catch(error => {
           console.error(error);
         });
     }
 
-    // Initialize View
+    // Initialize View & Theme
+    applyTheme();
     initChart();
   </script>
 </body>
