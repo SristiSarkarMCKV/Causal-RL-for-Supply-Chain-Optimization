@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-
 def set_page(page_name):
     st.session_state.current_page = page_name
 
@@ -129,9 +128,10 @@ def main():
             color: #818cf8;
         }}
 
+        /* Fix for Top Bar Cut-Off */
         .block-container {{
             max-width: 1200px;
-            padding-top: 2rem;
+            padding-top: 4rem !important;
             padding-bottom: 3rem;
             margin: 0 auto;
         }}
