@@ -409,7 +409,7 @@ def main():
     # -------------------------------------------------------------------
     if st.session_state.current_page == "🏠 Project Overview":
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">⛓️⚙️⛓️</p>', unsafe_allow_html=True)
-        st.markdown('<p class="hero-title-p1">Causal-RL World Models<br>for<br>Supply Chain Resilience</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p1">Causal-RL World Models<br>for<br>Supply Chain Optimization</p>', unsafe_allow_html=True)
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">⛓️⚙️⛓️</p>', unsafe_allow_html=True)
         st.markdown(f'<p class="hero-subtitle"><br>🌐 <b>RISK TWIN OSS:</b> Counterfactual Simulation & Macro Stress-Testing Platform 🛡️</p>', unsafe_allow_html=True)
         
