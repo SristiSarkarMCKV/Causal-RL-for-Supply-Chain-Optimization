@@ -15,10 +15,12 @@ def main():
     if "current_page" not in st.session_state:
         st.session_state.current_page = "🏠 Project Overview"
     if "theme_mode" not in st.session_state:
-        st.session_state.theme_mode = "Dark"
+        st.session_state.theme_mode = "System Default"
 
     # Dynamic Theme Values
     is_dark = st.session_state.theme_mode == "Dark"
+    is_system = st.session_state.theme_mode == "System Default"
+
     bg_color = "#0f172a" if is_dark else "#ffffff"
     sidebar_bg = "#1e293b" if is_dark else "#f8fafc"
     sidebar_border = "rgba(255, 255, 255, 0.1)" if is_dark else "rgba(0, 0, 0, 0.08)"
@@ -41,23 +43,8 @@ def main():
     header_purple = "#c084fc" if is_dark else "#9333ea"
     header_emerald = "#4ade80" if is_dark else "#059669"
 
-    st.markdown(f"""
-        <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap');
-        
-        {"html, body, [data-testid='stAppViewContainer'] { background-color: " + bg_color + "; color: " + text_color + "; }" if st.session_state.theme_mode != "System Default" else ""}
-
-        /* --- DYNAMIC SIDEBAR / MENU BAR STYLING --- */
-        [data-testid="stSidebar"] {{
-            background-color: {sidebar_bg} !important;
-            border-right: 1px solid {sidebar_border} !important;
-        }}
-
-        html, body, [class*="css"], p, li, span, div {{
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: {text_color};
-        }}
-
+    # CSS Injection Engine
+    popover_override = "" if is_system else f"""
         /* --- HARD OVERRIDE FOR BASEWEB SELECTBOX DROPDOWNS --- */
         [data-testid="stSelectbox"] div[role="combobox"] span,
         [data-baseweb="select"] div,
@@ -103,6 +90,26 @@ def main():
         ul[role="listbox"] li * {{
             color: inherit !important;
         }}
+    """
+
+    st.markdown(f"""
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap');
+        
+        {"html, body, [data-testid='stAppViewContainer'] { background-color: " + bg_color + "; color: " + text_color + "; }" if not is_system else ""}
+
+        /* --- DYNAMIC SIDEBAR / MENU BAR STYLING --- */
+        [data-testid="stSidebar"] {{
+            {"background-color: " + sidebar_bg + " !important;" if not is_system else ""}
+            {"border-right: 1px solid " + sidebar_border + " !important;" if not is_system else ""}
+        }}
+
+        html, body, [class*="css"], p, li, span, div {{
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            {"color: " + text_color + ";" if not is_system else ""}
+        }}
+
+        {popover_override}
 
         /* --- SIDEBAR TOGGLE OVERRIDE --- */
         [data-testid="stSidebarCollapseButton"] button div,
