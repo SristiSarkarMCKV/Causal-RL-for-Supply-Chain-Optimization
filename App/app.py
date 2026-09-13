@@ -111,21 +111,34 @@ def main():
         {popover_override}
 
         /* --- SIDEBAR TOGGLE OVERRIDE --- */
-        [data-testid="stSidebarCollapseButton"] button div,
-        [data-testid="stSidebarCollapseButton"] button svg {{
+        [data-testid="stSidebarCollapsedControl"] button,
+        [data-testid="stSidebarCollapseButton"] button {{
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }}
+
+        [data-testid="stSidebarCollapsedControl"] button svg,
+        [data-testid="stSidebarCollapseButton"] button svg,
+        [data-testid="stSidebarCollapsedControl"] button div,
+        [data-testid="stSidebarCollapseButton"] button div {{
             display: none !important;
+            visibility: hidden !important;
         }}
 
-        [data-testid="stSidebarCollapseButton"] button::after {{
-            content: "Menu";
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: {sub_text};
+        [data-testid="stSidebarCollapsedControl"] button::before,
+        [data-testid="stSidebarCollapseButton"] button::before {{
+            content: "Menu" !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 700 !important;
+            font-size: 0.95rem !important;
+            color: {sub_text} !important;
+            visibility: visible !important;
         }}
 
-        [data-testid="stSidebarCollapseButton"] button:hover::after {{
-            color: #818cf8;
+        [data-testid="stSidebarCollapsedControl"] button:hover::before,
+        [data-testid="stSidebarCollapseButton"] button:hover::before {{
+            color: #818cf8 !important;
         }}
 
         /* Fix for Top Bar Cut-Off */
