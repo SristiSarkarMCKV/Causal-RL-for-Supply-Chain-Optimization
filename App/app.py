@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+
 def set_page(page_name):
     st.session_state.current_page = page_name
 
@@ -7,15 +8,14 @@ def main():
     st.set_page_config(
         page_title="RISK TWIN OSS 🌪️⚡",
         page_icon="🌪️",
-        layout="wide",
-        initial_sidebar_state="collapsed"
+        layout="wide"
     )
 
     # Initialize Session State
     if "current_page" not in st.session_state:
         st.session_state.current_page = "🏠 Project Overview"
     if "theme_mode" not in st.session_state:
-        st.session_state.theme_mode = "Dark"
+        st.session_state.theme_mode = "System Default"
 
     # Dynamic Theme Values
     is_dark = st.session_state.theme_mode == "Dark"
@@ -45,12 +45,14 @@ def main():
 
     # CSS Injection Engine
     popover_override = "" if is_system else f"""
+        /* --- HARD OVERRIDE FOR BASEWEB SELECTBOX DROPDOWNS --- */
         [data-testid="stSelectbox"] div[role="combobox"] span,
         [data-baseweb="select"] div,
         [data-baseweb="select"] span {{
             color: {text_color} !important;
         }}
 
+        /* Dropdown Options Popup Menu */
         div[data-baseweb="popover"],
         div[data-baseweb="menu"],
         ul[role="listbox"] {{
@@ -60,6 +62,7 @@ def main():
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35) !important;
         }}
 
+        /* Option Items inside Dropdown */
         div[data-baseweb="popover"] li,
         div[data-baseweb="menu"] li,
         ul[role="listbox"] li,
@@ -72,6 +75,7 @@ def main():
             padding: 10px 14px !important;
         }}
 
+        /* Option Items Hover & Active States */
         div[data-baseweb="popover"] li:hover,
         div[data-baseweb="menu"] li:hover,
         ul[role="listbox"] [role="option"]:hover,
@@ -92,89 +96,75 @@ def main():
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap');
         
-        html, body, [data-testid="stAppViewContainer"], .stApp {{
-            background-color: {bg_color} !important;
-            color: {text_color} !important;
+        {"html, body, [data-testid='stAppViewContainer'] { background-color: " + bg_color + "; color: " + text_color + "; }" if not is_system else ""}
+
+        /* --- TOP HEADER / UPPER PART DARK THEME FIX --- */
+        [data-testid="stHeader"] {{
+            {"background-color: " + bg_color + " !important;" if not is_system else ""}
+            {"color: " + text_color + " !important;" if not is_system else ""}
         }}
 
-        /* --- 1. HARD OVERRIDE FOR UPPER HEADER (DARK THEME FIX) --- */
-        header[data-testid="stHeader"],
-        [data-testid="stHeader"],
-        .stAppHeader {{
-            background-color: {bg_color} !important;
-            background: {bg_color} !important;
-            border-bottom: none !important;
-        }}
-
-        /* --- 2. RELIABLE "MENU" BUTTON IN COLLAPSED STATE --- */
-        [data-testid="stSidebarCollapsedControl"],
-        [data-testid="stSidebarCollapsedControl"] button,
-        button[aria-label*="Expand"],
-        button[aria-label*="sidebar"] {{
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            width: auto !important;
-            min-width: 90px !important;
-            height: 38px !important;
-            padding: 0px 14px !important;
-            background-color: #1e293b !important;
-            border: 1px solid #38bdf8 !important;
-            border-radius: 8px !important;
-            cursor: pointer !important;
-            overflow: visible !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
-            transition: all 0.2s ease-in-out !important;
-        }}
-
-        /* Hide default Streamlit SVG inside collapsed control */
-        [data-testid="stSidebarCollapsedControl"] svg,
-        [data-testid="stSidebarCollapsedControl"] button svg {{
-            display: none !important;
-            visibility: hidden !important;
-        }}
-
-        /* Explicitly force "Menu ❯" text */
-        [data-testid="stSidebarCollapsedControl"] button::after,
-        [data-testid="stSidebarCollapsedControl"]::after {{
-            content: "Menu ❯" !important;
-            font-family: 'Outfit', sans-serif !important;
-            font-weight: 700 !important;
-            font-size: 0.95rem !important;
-            color: #38bdf8 !important;
-            white-space: nowrap !important;
-            display: block !important;
-            visibility: visible !important;
-        }}
-
-        [data-testid="stSidebarCollapsedControl"]:hover,
-        [data-testid="stSidebarCollapsedControl"] button:hover {{
-            background-color: #0284c7 !important;
-            border-color: #0284c7 !important;
-        }}
-
-        [data-testid="stSidebarCollapsedControl"]:hover::after,
-        [data-testid="stSidebarCollapsedControl"] button:hover::after {{
-            color: #ffffff !important;
-        }}
-
-        /* Dynamic Sidebar Styling */
+        /* --- DYNAMIC SIDEBAR / MENU BAR STYLING --- */
         [data-testid="stSidebar"] {{
-            background-color: {sidebar_bg} !important;
-            border-right: 1px solid {sidebar_border} !important;
+            {"background-color: " + sidebar_bg + " !important;" if not is_system else ""}
+            {"border-right: 1px solid " + sidebar_border + " !important;" if not is_system else ""}
         }}
 
         html, body, [class*="css"], p, li, span, div {{
             font-family: 'Plus Jakarta Sans', sans-serif;
-            color: {text_color};
+            {"color: " + text_color + ";" if not is_system else ""}
         }}
 
         {popover_override}
 
+        /* --- SIDEBAR TOGGLE OVERRIDE: ARROW + "Menu" TEXT --- */
+        [data-testid="stSidebarCollapsedControl"] button,
+        [data-testid="stSidebarCollapseButton"] button {{
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            width: auto !important;
+            padding: 4px 10px !important;
+        }}
+
+        /* Keep arrow visible and styled */
+        [data-testid="stSidebarCollapsedControl"] button svg,
+        [data-testid="stSidebarCollapseButton"] button svg {{
+            display: inline-block !important;
+            visibility: visible !important;
+            fill: {sub_text} !important;
+            color: {sub_text} !important;
+        }}
+
+        /* Add "Menu" text alongside the arrow */
+        [data-testid="stSidebarCollapsedControl"] button::after,
+        [data-testid="stSidebarCollapseButton"] button::after {{
+            content: "Menu" !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 700 !important;
+            font-size: 0.95rem !important;
+            color: {sub_text} !important;
+            visibility: visible !important;
+            display: inline-block !important;
+        }}
+
+        /* Hover interactions for both arrow and text */
+        [data-testid="stSidebarCollapsedControl"] button:hover::after,
+        [data-testid="stSidebarCollapseButton"] button:hover::after {{
+            color: #818cf8 !important;
+        }}
+
+        [data-testid="stSidebarCollapsedControl"] button:hover svg,
+        [data-testid="stSidebarCollapseButton"] button:hover svg {{
+            fill: #818cf8 !important;
+            color: #818cf8 !important;
+        }}
+
         /* Fix for Top Bar Cut-Off */
         .block-container {{
             max-width: 1200px;
-            padding-top: 3.5rem !important;
+            padding-top: 4rem !important;
             padding-bottom: 3rem;
             margin: 0 auto;
         }}
@@ -392,8 +382,8 @@ def main():
     st.sidebar.divider()
     theme_choice = st.sidebar.selectbox(
         "🎨 **Theme Mode**",
-        ["Dark", "Light", "System Default"],
-        index=["Dark", "Light", "System Default"].index(st.session_state.theme_mode)
+        ["System Default", "Light", "Dark"],
+        index=["System Default", "Light", "Dark"].index(st.session_state.theme_mode)
     )
     if theme_choice != st.session_state.theme_mode:
         st.session_state.theme_mode = theme_choice
