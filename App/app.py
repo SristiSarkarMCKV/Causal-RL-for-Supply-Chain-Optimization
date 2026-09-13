@@ -10,7 +10,7 @@ def set_page(page_name):
 def query_gnani_asr(audio_bytes, lang="en-IN"):
     """
     Transcribes operator audio using Gnani.ai ASR REST API.
-    Gracefully falls back to a simulated scenario parse if API keys are not provided.
+    Falls back gracefully if st.secrets keys are not configured.
     """
     token = st.secrets.get("GNANI_TOKEN")
     access_key = st.secrets.get("GNANI_ACCESS_KEY")
@@ -29,9 +29,8 @@ def query_gnani_asr(audio_bytes, lang="en-IN"):
                 data = response.json()
                 return data.get("transcript", "")
         except Exception as e:
-            st.warning(f"Gnani ASR API call encountered an error: {e}. Falling back to default simulation command.")
-
-    # Graceful fallback simulation when keys are not configured
+            st.warning(f"Gnani ASR API Connection failed: {e}. Falling back to default simulation command.")
+            
     return "Simulate 2020 COVID port congestion shock with standard deviation 4.3"
 
 def parse_voice_command_to_scm(transcript):
@@ -422,8 +421,8 @@ def main():
     """, unsafe_allow_html=True)
 
     # Sidebar Navigation Setup
-    st.sidebar.title("⚡ RISK TWIN OSS ⚡")[cite: 1]
-    st.sidebar.caption("🚀 *Causally-Constrained World Model Simulation*")[cite: 1]
+    st.sidebar.title("⚡ RISK TWIN OSS ⚡")[cite: 2]
+    st.sidebar.caption("🚀 *Causally-Constrained World Model Simulation*")[cite: 2]
     
     pages = [
         "🏠 Project Overview",
@@ -439,41 +438,41 @@ def main():
         index=pages.index(st.session_state.current_page)
     )
     
-    st.sidebar.divider()[cite: 1]
+    st.sidebar.divider()[cite: 2]
     theme_choice = st.sidebar.selectbox(
         "🎨 **Theme Mode**",
         ["System Default", "Light", "Dark"],
         index=["System Default", "Light", "Dark"].index(st.session_state.theme_mode)
-    )[cite: 1]
+    )[cite: 2]
     if theme_choice != st.session_state.theme_mode:
-        st.session_state.theme_mode = theme_choice[cite: 1]
-        st.rerun()[cite: 1]
+        st.session_state.theme_mode = theme_choice[cite: 2]
+        st.rerun()[cite: 2]
 
-    st.sidebar.divider()[cite: 1]
+    st.sidebar.divider()[cite: 2]
 
     if selected_page != st.session_state.current_page:
-        st.session_state.current_page = selected_page[cite: 1]
-        st.rerun()[cite: 1]
+        st.session_state.current_page = selected_page[cite: 2]
+        st.rerun()[cite: 2]
 
     def render_footer_nav(current):
-        st.divider()[cite: 1]
-        st.markdown('<div class="section-header" style="font-size: 1.2rem;">🚀 Explore Other Modules</div>', unsafe_allow_html=True)[cite: 1]
-        other_pages = [p for p in pages if p != current][cite: 1]
-        cols = st.columns(len(other_pages))[cite: 1]
+        st.divider()[cite: 2]
+        st.markdown('<div class="section-header" style="font-size: 1.2rem;">🚀 Explore Other Modules</div>', unsafe_allow_html=True)[cite: 2]
+        other_pages = [p for p in pages if p != current][cite: 2]
+        cols = st.columns(len(other_pages))[cite: 2]
         for idx, page in enumerate(other_pages):
             with cols[idx]:
-                st.button(f"👉 {page}", on_click=set_page, args=(page,), use_container_width=True)[cite: 1]
+                st.button(f"👉 {page}", on_click=set_page, args=(page,), use_container_width=True)[cite: 2]
 
     # -------------------------------------------------------------------
     # 1. PROJECT OVERVIEW
     # -------------------------------------------------------------------
     if st.session_state.current_page == "🏠 Project Overview":
-        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">⛓️⚙️⛓️</p>', unsafe_allow_html=True)[cite: 1]
-        st.markdown('<p class="hero-title-p1">Causal-RL World Models<br>for<br>Supply Chain Resilience</p>', unsafe_allow_html=True)[cite: 1]
-        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">⛓️⚙️⛓️</p>', unsafe_allow_html=True)[cite: 1]
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">⛓️⚙️⛓️</p>', unsafe_allow_html=True)[cite: 2]
+        st.markdown('<p class="hero-title-p1">Causal-RL World Models<br>for<br>Supply Chain Resilience</p>', unsafe_allow_html=True)[cite: 2]
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">⛓️⚙️⛓️</p>', unsafe_allow_html=True)[cite: 2]
         st.markdown(f'<p class="hero-subtitle"><br>🌐 <b>RISK TWIN OSS:</b> Counterfactual Simulation, Macro Stress-Testing & Voice AI Control Tower 🛡️</p>', unsafe_allow_html=True)
         
-        col_prob, col_sol = st.columns(2)[cite: 1]
+        col_prob, col_sol = st.columns(2)[cite: 2]
         with col_prob:
             st.markdown(f"""
             <div class="feature-card">
@@ -485,7 +484,7 @@ def main():
                     They <b>fail catastrophically</b> during macro-economic shocks, such as COVID-19 port bottlenecks, labor disruptions, or sudden inflation spikes.
                 </p>
             </div>
-            """, unsafe_allow_html=True)[cite: 1]
+            """, unsafe_allow_html=True)[cite: 2]
             
         with col_sol:
             st.markdown(f"""
@@ -502,9 +501,9 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
-        st.markdown('<div class="section-header">🤖 Detailed Solution Architecture & AI Use Cases</div>', unsafe_allow_html=True)[cite: 1]
+        st.markdown('<div class="section-header">🤖 Detailed Solution Architecture & AI Use Cases</div>', unsafe_allow_html=True)[cite: 2]
 
-        u1, u2 = st.columns(2)[cite: 1]
+        u1, u2 = st.columns(2)[cite: 2]
         with u1:
             st.markdown(f"""
             <div class="feature-card">
@@ -515,7 +514,7 @@ def main():
                     <li><b>Confounder Control:</b> Isolates confounding economic variables so RL agents respond to true disruption drivers.</li>
                 </ul>
             </div>
-            """, unsafe_allow_html=True)[cite: 1]
+            """, unsafe_allow_html=True)[cite: 2]
 
             st.markdown(f"""
             <div class="feature-card">
@@ -526,7 +525,7 @@ def main():
                     <li><b>Causally-Constrained Action Spaces:</b> Bounding policy searches with DAGs prevents reward-hacking on training artifacts and speeds up convergence.</li>
                 </ul>
             </div>
-            """, unsafe_allow_html=True)[cite: 1]
+            """, unsafe_allow_html=True)[cite: 2]
 
         with u2:
             st.markdown(f"""
@@ -538,7 +537,7 @@ def main():
                     <li><b>Tail-Risk Stress-Testing:</b> Exposes structural policy break-points before real capital is deployed under out-of-distribution shocks.</li>
                 </ul>
             </div>
-            """, unsafe_allow_html=True)[cite: 1]
+            """, unsafe_allow_html=True)[cite: 2]
 
             st.markdown(f"""
             <div class="feature-card">
@@ -552,15 +551,15 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
-        render_footer_nav("🏠 Project Overview")[cite: 1]
+        render_footer_nav("🏠 Project Overview")[cite: 2]
 
     # -------------------------------------------------------------------
     # 2. BENCHMARK & VALUE PROP
     # -------------------------------------------------------------------
     elif st.session_state.current_page == "⚖️ Benchmark & Value Prop":
-        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊⚖️📊</p>', unsafe_allow_html=True)[cite: 1]
-        st.markdown('<p class="hero-title-p4">Why Choose RISK TWIN OSS?<br>Model Benchmark & ROI</p>', unsafe_allow_html=True)[cite: 1]
-        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊⚖️📊</p>', unsafe_allow_html=True)[cite: 1]
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊⚖️📊</p>', unsafe_allow_html=True)[cite: 2]
+        st.markdown('<p class="hero-title-p4">Why Choose RISK TWIN OSS?<br>Model Benchmark & ROI</p>', unsafe_allow_html=True)[cite: 2]
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊⚖️📊</p>', unsafe_allow_html=True)[cite: 2]
         st.markdown(f'<p class="hero-subtitle"><br>🏢 <b>Enterprise Value Proposition:</b> Comparing Traditional Paradigms vs Causal-RL & Voice Control ⚡</p>', unsafe_allow_html=True)
 
         st.markdown(f"""
@@ -574,7 +573,7 @@ def main():
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown('<div class="section-header">⚔️ Architectural Comparison Matrix</div>', unsafe_allow_html=True)[cite: 1]
+        st.markdown('<div class="section-header">⚔️ Architectural Comparison Matrix</div>', unsafe_allow_html=True)[cite: 2]
         
         st.markdown("""
         | Dimension | Traditional OR (s, S) | Standard DL / XGBoost | Unconstrained Deep RL | RISK TWIN OSS (Causal-RL + Gnani) |
@@ -588,9 +587,9 @@ def main():
         | **Governance & Authorization**| ❌ Static Manual Logs | ❌ Ungoverned Automated Run | ❌ Autonomous Blind Shifts | ✅ Biometric Voiceprints (Armour365) |
         """)
 
-        st.markdown('<div class="section-header">💡 Key Enterprise Pillars</div>', unsafe_allow_html=True)[cite: 1]
+        st.markdown('<div class="section-header">💡 Key Enterprise Pillars</div>', unsafe_allow_html=True)[cite: 2]
 
-        c1, c2, c3 = st.columns(3)[cite: 1]
+        c1, c2, c3 = st.columns(3)[cite: 2]
         with c1:
             st.markdown(f"""
             <div class="feature-card">
@@ -599,7 +598,7 @@ def main():
                     Eliminates excessive safety buffers while maintaining 99%+ service levels during supply chain bottlenecks.
                 </p>
             </div>
-            """, unsafe_allow_html=True)[cite: 1]
+            """, unsafe_allow_html=True)[cite: 2]
         with c2:
             st.markdown(f"""
             <div class="feature-card">
@@ -608,7 +607,7 @@ def main():
                     Simulate extreme tail risks (like 2008 GFC or 2020 COVID) and observe network breaking points <b>before deploying real capital</b>.
                 </p>
             </div>
-            """, unsafe_allow_html=True)[cite: 1]
+            """, unsafe_allow_html=True)[cite: 2]
         with c3:
             st.markdown(f"""
             <div class="feature-card">
@@ -619,16 +618,16 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
-        render_footer_nav("⚖️ Benchmark & Value Prop")[cite: 1]
+        render_footer_nav("⚖️ Benchmark & Value Prop")[cite: 2]
 
     # -------------------------------------------------------------------
     # 3. ERA SWAP SIMULATOR
     # -------------------------------------------------------------------
     elif st.session_state.current_page == "📈 Era Swap Simulator":
-        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊🧾📊</p>', unsafe_allow_html=True)[cite: 1]
-        st.markdown('<p class="hero-title-p2">RISK TWIN OSS<br>Era Swap Simulator</p>', unsafe_allow_html=True)[cite: 1]
-        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊🧾📊</p>', unsafe_allow_html=True)[cite: 1]
-        st.markdown(f'<p class="hero-subtitle"><br>🧪 <b>Interactive Sandbox:</b> Inject Counterfactual Macro Shocks into World Models ⚡</p>', unsafe_allow_html=True)[cite: 1]
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊🧾📊</p>', unsafe_allow_html=True)[cite: 2]
+        st.markdown('<p class="hero-title-p2">RISK TWIN OSS<br>Era Swap Simulator</p>', unsafe_allow_html=True)[cite: 2]
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊🧾📊</p>', unsafe_allow_html=True)[cite: 2]
+        st.markdown(f'<p class="hero-subtitle"><br>🧪 <b>Interactive Sandbox:</b> Inject Counterfactual Macro Shocks into World Models ⚡</p>', unsafe_allow_html=True)[cite: 2]
 
         # Voice Quick-Inject Bar powered by Gnani.ai
         with st.expander("🎙️ **Quick Voice-Driven Scenario Injection (Gnani.ai Speech Layer)**", expanded=False):
@@ -643,7 +642,7 @@ def main():
 
         v_state = st.session_state.voice_scenario or {}
 
-        col_ctrl, col_viz = st.columns([1, 1.3])[cite: 1]
+        col_ctrl, col_viz = st.columns([1, 1.3])[cite: 2]
 
         with col_ctrl:
             st.markdown(f"""
@@ -651,87 +650,87 @@ def main():
                 <span class="metric-badge">🎛️ CONFIGURATION PANEL</span>
                 <div class="card-header-brown" style="margin-bottom: 6px;">Configure Macro Environment</div>
             </div>
-            """, unsafe_allow_html=True)[cite: 1]
+            """, unsafe_allow_html=True)[cite: 2]
             
             default_domain_idx = 1 if v_state.get("domain") == "DataCo (Supply Chain)" else 0
-            domain = st.selectbox("🎯 **Select Domain Target**", ["Walmart (Retail)", "DataCo (Supply Chain)"], index=default_domain_idx)[cite: 1]
+            domain = st.selectbox("🎯 **Select Domain Target**", ["Walmart (Retail)", "DataCo (Supply Chain)"], index=default_domain_idx)[cite: 2]
 
-            if domain == "Walmart (Retail)":[cite: 1]
-                era = st.selectbox("⚡ Load Predefined Era", ["Custom 🛠️", "COVID_2020_RETAIL 🦠", "GFC_2008_MORTGAGE 📉"])[cite: 1]
+            if domain == "Walmart (Retail)":[cite: 2]
+                era = st.selectbox("⚡ Load Predefined Era", ["Custom 🛠️", "COVID_2020_RETAIL 🦠", "GFC_2008_MORTGAGE 📉"])[cite: 2]
                 
-                def_unemp = v_state.get("unemployment", 14.7 if "COVID" in era else (10.0 if "GFC" in era else 5.0))[cite: 1]
-                def_cpi = v_state.get("cpi", 256.0 if "COVID" in era else 210.0)[cite: 1]
+                def_unemp = v_state.get("unemployment", 14.7 if "COVID" in era else (10.0 if "GFC" in era else 5.0))[cite: 2]
+                def_cpi = v_state.get("cpi", 256.0 if "COVID" in era else 210.0)[cite: 2]
                 
-                unemployment = st.slider("👥 Unemployment Rate (%)", 3.0, 20.0, float(def_unemp), step=0.1)[cite: 1]
-                cpi = st.slider("🏷️ CPI (Inflation Index)", 180.0, 300.0, float(def_cpi), step=0.5)[cite: 1]
+                unemployment = st.slider("👥 Unemployment Rate (%)", 3.0, 20.0, float(def_unemp), step=0.1)[cite: 2]
+                cpi = st.slider("🏷️ CPI (Inflation Index)", 180.0, 300.0, float(def_cpi), step=0.5)[cite: 2]
 
-                baseline_risk = 4.2[cite: 1]
-                simulated_risk = max(0.5, min(baseline_risk + ((unemployment - 5.0) * 0.8) + ((cpi - 210.0) * 0.05), 99.0))[cite: 1]
-                strain_idx = ((unemployment / 5.0 + cpi / 210.0) / 2)[cite: 1]
+                baseline_risk = 4.2[cite: 2]
+                simulated_risk = max(0.5, min(baseline_risk + ((unemployment - 5.0) * 0.8) + ((cpi - 210.0) * 0.05), 99.0))[cite: 2]
+                strain_idx = ((unemployment / 5.0 + cpi / 210.0) / 2)[cite: 2]
 
             else:
-                era = st.selectbox("⚡ Load Predefined Era", ["Custom 🛠️", "COVID_2020_LOGISTICS 🚢"])[cite: 1]
+                era = st.selectbox("⚡ Load Predefined Era", ["Custom 🛠️", "COVID_2020_LOGISTICS 🚢"])[cite: 2]
                 
-                def_gscpi = v_state.get("gscpi", 4.3 if "COVID" in era else 0.0)[cite: 1]
+                def_gscpi = v_state.get("gscpi", 4.3 if "COVID" in era else 0.0)[cite: 2]
                 def_fuel = v_state.get("fuel", 75.0)
                 
-                gscpi = st.slider("⚓ GSCPI (Standard Deviations)", -2.0, 5.0, float(def_gscpi), step=0.1)[cite: 1]
-                fuel = st.slider("⛽ Global Oil Price ($/bbl)", 40.0, 150.0, float(def_fuel), step=1.0)[cite: 1]
+                gscpi = st.slider("⚓ GSCPI (Standard Deviations)", -2.0, 5.0, float(def_gscpi), step=0.1)[cite: 2]
+                fuel = st.slider("⛽ Global Oil Price ($/bbl)", 40.0, 150.0, float(def_fuel), step=1.0)[cite: 2]
 
-                baseline_risk = 54.3 [cite: 1]
-                simulated_risk = max(1.0, min(baseline_risk + (gscpi * 4.0) + ((fuel - 75.0) * 0.1), 99.0))[cite: 1]
-                strain_idx = gscpi[cite: 1]
+                baseline_risk = 54.3[cite: 2]
+                simulated_risk = max(1.0, min(baseline_risk + (gscpi * 4.0) + ((fuel - 75.0) * 0.1), 99.0))[cite: 2]
+                strain_idx = gscpi[cite: 2]
 
         with col_viz:
-            m1, m2, m3 = st.columns(3)[cite: 1]
+            m1, m2, m3 = st.columns(3)[cite: 2]
             with m1:
-                st.metric("🌱 Baseline Risk", f"{baseline_risk:.1f}%")[cite: 1]
+                st.metric("🌱 Baseline Risk", f"{baseline_risk:.1f}%")[cite: 2]
             with m2:
-                diff = simulated_risk - baseline_risk[cite: 1]
-                st.metric("💥 Counterfactual", f"{simulated_risk:.1f}%", f"{diff:+.1f}%", delta_color="inverse")[cite: 1]
+                diff = simulated_risk - baseline_risk[cite: 2]
+                st.metric("💥 Counterfactual", f"{simulated_risk:.1f}%", f"{diff:+.1f}%", delta_color="inverse")[cite: 2]
             with m3:
-                if domain == "Walmart (Retail)":[cite: 1]
-                    st.metric("📊 Macro Strain", f"{strain_idx:.2f}x")[cite: 1]
+                if domain == "Walmart (Retail)":[cite: 2]
+                    st.metric("📊 Macro Strain", f"{strain_idx:.2f}x")[cite: 2]
                 else:
-                    st.metric("⚓ Port Strain", f"{strain_idx:+.2f} SD")[cite: 1]
+                    st.metric("⚓ Port Strain", f"{strain_idx:+.2f} SD")[cite: 2]
 
-            st.write("")[cite: 1]
+            st.write("")[cite: 2]
 
-            risk_increase = simulated_risk - baseline_risk[cite: 1]
+            risk_increase = simulated_risk - baseline_risk[cite: 2]
 
-            if risk_increase > 15.0 or simulated_risk > 25.0:[cite: 1]
-                st.error("🚨 CRITICAL INVENTORY ALERT: Severe macro disruption detected! Immediate reorder policy override required.")[cite: 1]
-            elif risk_increase > 5.0 or simulated_risk > 10.0:[cite: 1]
-                st.warning("⚠️ ELEVATED INVENTORY RISK: Macro stress detected. Dynamic reorder policy adjustment strongly advised.")[cite: 1]
-            elif risk_increase > 1.0:[cite: 1]
-                st.info("ℹ️ MODERATE VARIATION: Slight macroeconomic shift detected within safe operational bounds.")[cite: 1]
+            if risk_increase > 15.0 or simulated_risk > 25.0:[cite: 2]
+                st.error("🚨 CRITICAL INVENTORY ALERT: Severe macro disruption detected! Immediate reorder policy override required.")[cite: 2]
+            elif risk_increase > 5.0 or simulated_risk > 10.0:[cite: 2]
+                st.warning("⚠️ ELEVATED INVENTORY RISK: Macro stress detected. Dynamic reorder policy adjustment strongly advised.")[cite: 2]
+            elif risk_increase > 1.0:[cite: 2]
+                st.info("ℹ️ MODERATE VARIATION: Slight macroeconomic shift detected within safe operational bounds.")[cite: 2]
             else:
-                st.success("✅ OPTIMAL CONDITIONS: Counterfactual risk matches baseline. Operational buffer is stable.")[cite: 1]
+                st.success("✅ OPTIMAL CONDITIONS: Counterfactual risk matches baseline. Operational buffer is stable.")[cite: 2]
 
-            st.write("")[cite: 1]
+            st.write("")[cite: 2]
 
             st.markdown(f"""
             <div class="feature-card" style="padding: 16px;">
                 <div style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 800; color: {text_color}; margin-bottom: 12px;">
                     📊 Scenario Comparison Analysis
                 </div>
-            """, unsafe_allow_html=True)[cite: 1]
+            """, unsafe_allow_html=True)[cite: 2]
             
             chart_df = pd.DataFrame({
                 "Macroeconomic Scenario": ["Baseline", "Counterfactual"],
                 "Stockout Probability (%)": [baseline_risk, simulated_risk]
-            }).set_index("Macroeconomic Scenario")[cite: 1]
+            }).set_index("Macroeconomic Scenario")[cite: 2]
 
-            st.bar_chart(chart_df, y="Stockout Probability (%)", color="#ea580c", height=300)[cite: 1]
+            st.bar_chart(chart_df, y="Stockout Probability (%)", color="#ea580c", height=300)[cite: 2]
 
             st.markdown(f"""
                 <p style="font-size: 0.8rem; color: {sub_text}; margin-top: 8px; margin-bottom: 0;">
                     📊 <b>Chart Description:</b> Contrasts expected inventory stockout probability under baseline operational parameters against counterfactual macroeconomic shocks.
                 </p>
             </div>
-            """, unsafe_allow_html=True)[cite: 1]
+            """, unsafe_allow_html=True)[cite: 2]
 
-        render_footer_nav("📈 Era Swap Simulator")[cite: 1]
+        render_footer_nav("📈 Era Swap Simulator")[cite: 2]
 
     # -------------------------------------------------------------------
     # 4. GNANI VOICE AI CONTROL TOWER
@@ -865,10 +864,10 @@ def main():
     # 5. TECHNICAL ARCHITECTURE & DEVELOPER
     # -------------------------------------------------------------------
     elif st.session_state.current_page == "🔬 Technical Architecture & Developer":
-        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🖥📑🖥</p>', unsafe_allow_html=True)[cite: 1]
-        st.markdown('<p class="hero-title-p3">Technical Architecture<br>and<br>Implementation</p>', unsafe_allow_html=True)[cite: 1]
-        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🖥📑🖥</p>', unsafe_allow_html=True)[cite: 1]
-        st.markdown(f'<p class="hero-subtitle"><br>🧩 <b>System Blueprint:</b> Execution Flow & Component Architecture ⚡</p>', unsafe_allow_html=True)[cite: 1]
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🖥📑🖥</p>', unsafe_allow_html=True)[cite: 2]
+        st.markdown('<p class="hero-title-p3">Technical Architecture<br>and<br>Implementation</p>', unsafe_allow_html=True)[cite: 2]
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🖥📑🖥</p>', unsafe_allow_html=True)[cite: 2]
+        st.markdown(f'<p class="hero-subtitle"><br>🧩 <b>System Blueprint:</b> Execution Flow & Component Architecture ⚡</p>', unsafe_allow_html=True)[cite: 2]
         
         st.markdown(f"""
         <div class="feature-card" style="border-color: rgba(99, 102, 241, 0.5);">
@@ -885,9 +884,9 @@ def main():
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown('<div class="section-header">🗺️ End-to-End System Execution Flow</div>', unsafe_allow_html=True)[cite: 1]
+        st.markdown('<div class="section-header">🗺️ End-to-End System Execution Flow</div>', unsafe_allow_html=True)[cite: 2]
 
-        f1, f2, f3, f4 = st.columns(4)[cite: 1]
+        f1, f2, f3, f4 = st.columns(4)[cite: 2]
         with f1:
             st.markdown(f"""
             <div class="feature-card">
@@ -898,7 +897,7 @@ def main():
                     <li style="margin-top: 6px;"><code>DataCo EDA.ipynb</code><br>(Risk Profiling & Cleansing)</li>
                 </ul>
             </div>
-            """, unsafe_allow_html=True)[cite: 1]
+            """, unsafe_allow_html=True)[cite: 2]
 
         with f2:
             st.markdown(f"""
@@ -910,7 +909,7 @@ def main():
                     <li style="margin-top: 6px;"><code>world_model.ipynb</code><br>(Transition Dynamics Engine)</li>
                 </ul>
             </div>
-            """, unsafe_allow_html=True)[cite: 1]
+            """, unsafe_allow_html=True)[cite: 2]
 
         with f3:
             st.markdown(f"""
@@ -923,7 +922,7 @@ def main():
                     <li style="margin-top: 6px;"><code>risk_twin_pipeline.ipynb</code><br>(Unified Pipeline)</li>
                 </ul>
             </div>
-            """, unsafe_allow_html=True)[cite: 1]
+            """, unsafe_allow_html=True)[cite: 2]
 
         with f4:
             st.markdown(f"""
@@ -938,9 +937,9 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
-        st.markdown('<div class="section-header">📚 Notebook & Component Deep Dive</div>', unsafe_allow_html=True)[cite: 1]
+        st.markdown('<div class="section-header">📚 Notebook & Component Deep Dive</div>', unsafe_allow_html=True)[cite: 2]
 
-        d1, d2 = st.columns(2)[cite: 1]
+        d1, d2 = st.columns(2)[cite: 2]
         with d1:
             st.markdown(f"""
             <div class="feature-card">
@@ -952,7 +951,7 @@ def main():
                     <li style="margin-top: 10px;"><b><code>world_model.ipynb</code>:</b> Trains the environment transition dynamics model to generate high-fidelity synthetic counterfactual trajectories for policy training.</li>
                 </ul>
             </div>
-            """, unsafe_allow_html=True)[cite: 1]
+            """, unsafe_allow_html=True)[cite: 2]
 
         with d2:
             st.markdown(f"""
@@ -980,17 +979,17 @@ def main():
                 </button>
             </a>
         </div>
-        """, unsafe_allow_html=True)[cite: 1]
+        """, unsafe_allow_html=True)[cite: 2]
 
-        st.markdown('<div class="section-header">👩‍💻 Lead Developer Contact Information</div>', unsafe_allow_html=True)[cite: 1]
+        st.markdown('<div class="section-header">👩‍💻 Lead Developer Contact Information</div>', unsafe_allow_html=True)[cite: 2]
         
         st.info("""
         ✨ **Lead Developer:** Sristi Sarkar  
         📧 **Email:** [emailsristisarkar@gmail.com](mailto:emailsristisarkar@gmail.com)  
         📱 **Contact:** [+91 8240580651](https://wa.me/918240580651)
-        """)[cite: 1]
+        """)[cite: 2]
 
-        render_footer_nav("🔬 Technical Architecture & Developer")[cite: 1]
+        render_footer_nav("🔬 Technical Architecture & Developer")[cite: 2]
 
 if __name__ == "__main__":
     main()
