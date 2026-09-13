@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 def set_page(page_name):
     st.session_state.current_page = page_name
@@ -51,6 +52,13 @@ def main():
             color: {text_color};
         }}
 
+        /* Fix Selectbox / Dropdown text visibility */
+        [data-testid="stSelectbox"] div[role="combobox"] span,
+        [data-baseweb="select"] div,
+        [data-baseweb="select"] span {{
+            color: {text_color} !important;
+        }}
+
         /* --- SIDEBAR TOGGLE OVERRIDE --- */
         [data-testid="stSidebarCollapseButton"] button div,
         [data-testid="stSidebarCollapseButton"] button svg {{
@@ -68,7 +76,6 @@ def main():
         [data-testid="stSidebarCollapseButton"] button:hover::after {{
             color: #818cf8;
         }}
-        /* -------------------------------------- */
 
         .block-container {{
             max-width: 1200px;
@@ -179,7 +186,6 @@ def main():
         .card-header-purple {{ font-family: 'Outfit', sans-serif; font-size: 1.22rem; font-weight: 800; color: {header_purple} !important; margin-top: 4px; margin-bottom: 10px; }}
         .card-header-emerald {{ font-family: 'Outfit', sans-serif; font-size: 1.22rem; font-weight: 800; color: {header_emerald} !important; margin-top: 4px; margin-bottom: 10px; }}
 
-        /* --- CONTAINER SIZING UNIFICATION --- */
         [data-testid="column"] {{
             display: flex;
             flex-direction: column;
@@ -251,7 +257,6 @@ def main():
             font-size: 0.88em !important;
         }}
 
-        /* --- MATRIX SCROLL ELIMINATION STYLING --- */
         [data-testid="stTable"], [data-testid="stDataFrame"] {{
             width: 100% !important;
             overflow-x: hidden !important;
@@ -305,7 +310,6 @@ def main():
         st.session_state.current_page = selected_page
         st.rerun()
 
-    # Generic Footer Navigation Generator
     def render_footer_nav(current):
         st.divider()
         st.markdown('<div class="section-header" style="font-size: 1.2rem;">🚀 Explore Other Modules</div>', unsafe_allow_html=True)
@@ -324,7 +328,6 @@ def main():
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">⛓️⚙️⛓️</p>', unsafe_allow_html=True)
         st.markdown(f'<p class="hero-subtitle"><br>🌐 <b>RISK TWIN OSS:</b> Counterfactual Simulation & Macro Stress-Testing Platform 🛡️</p>', unsafe_allow_html=True)
         
-        # Problem & Solution Split
         col_prob, col_sol = st.columns(2)
         with col_prob:
             st.markdown(f"""
@@ -407,7 +410,7 @@ def main():
     # -------------------------------------------------------------------
     # 2. BENCHMARK & VALUE PROP
     # -------------------------------------------------------------------
-    elif st.session_state.current_page == "⚖️ Benchmark & Value Prop":
+    elif st.session_state.current_page == "秤️ Benchmark & Value Prop":
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊⚖️📊</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-title-p4">Why Choose RISK TWIN OSS?<br>Model Benchmark & ROI</p>', unsafe_allow_html=True)
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊⚖️📊</p>', unsafe_allow_html=True)
@@ -466,7 +469,7 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
-        render_footer_nav("⚖️ Benchmark & Value Prop")
+        render_footer_nav("秤️ Benchmark & Value Prop")
 
     # -------------------------------------------------------------------
     # 3. ERA SWAP SIMULATOR
@@ -476,66 +479,87 @@ def main():
         st.markdown('<p class="hero-title-p2">RISK TWIN OSS<br>Era Swap Simulator</p>', unsafe_allow_html=True)
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊🧾📊</p>', unsafe_allow_html=True)
         st.markdown(f'<p class="hero-subtitle"><br>🧪 <b>Interactive Sandbox:</b> Inject Counterfactual Macro Shocks into World Models ⚡</p>', unsafe_allow_html=True)
-        
-        st.markdown(f"""
-        <div class="feature-card">
-            <span class="metric-badge">🎛️ CONFIGURATION PANEL</span>
-            <div class="card-header-brown">Configure Macro Environment</div>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        domain = st.selectbox("🎯 **Select Domain Target**", ["Walmart (Retail)", "DataCo (Supply Chain)"])
-        st.divider()
 
-        if domain == "Walmart (Retail)":
-            c_era, c_unemp, c_cpi = st.columns(3)
-            with c_era:
+        # 2 Column Split Layout: Controls on Left, Visuals & Metrics on Right
+        col_ctrl, col_viz = st.columns([1, 1.3])
+
+        with col_ctrl:
+            st.markdown(f"""
+            <div class="feature-card" style="padding: 18px 20px;">
+                <span class="metric-badge">🎛️ CONFIGURATION PANEL</span>
+                <div class="card-header-brown" style="margin-bottom: 6px;">Configure Macro Environment</div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            domain = st.selectbox("🎯 **Select Domain Target**", ["Walmart (Retail)", "DataCo (Supply Chain)"])
+
+            if domain == "Walmart (Retail)":
                 era = st.selectbox("⚡ Load Predefined Era", ["Custom 🛠️", "COVID_2020_RETAIL 🦠", "GFC_2008_MORTGAGE 📉"])
-            
-            def_unemp = 14.7 if "COVID" in era else (10.0 if "GFC" in era else 5.0)
-            def_cpi = 256.0 if "COVID" in era else 210.0
-            
-            with c_unemp:
-                unemployment = st.slider("👥 Unemployment Rate (%)", 3.0, 20.0, float(def_unemp))
-            with c_cpi:
-                cpi = st.slider("🏷️ CPI (Inflation Index)", 180.0, 300.0, float(def_cpi))
-            
-            st.markdown('<div class="section-header">🛒 Walmart Portfolio Risk Analysis</div>', unsafe_allow_html=True)
-            
-            baseline_risk = 0.042
-            simulated_risk = max(0.01, min(baseline_risk + ((unemployment - 5.0) * 0.008) + ((cpi - 210.0) * 0.0005), 0.99))
-            
-            col1, col2, col3 = st.columns(3)
-            col1.metric("🌱 Baseline Risk", f"{baseline_risk*100:.1f}%")
-            col2.metric("💥 Counterfactual Risk", f"{simulated_risk*100:.1f}%", f"+{(simulated_risk - baseline_risk)*100:.1f}%", delta_color="inverse")
-            col3.metric("📊 Macro Strain Index", f"{((unemployment/5.0 + cpi/210.0)/2):.2f}x")
+                
+                def_unemp = 14.7 if "COVID" in era else (10.0 if "GFC" in era else 5.0)
+                def_cpi = 256.0 if "COVID" in era else 210.0
+                
+                unemployment = st.slider("👥 Unemployment Rate (%)", 3.0, 20.0, float(def_unemp), step=0.1)
+                cpi = st.slider("🏷️ CPI (Inflation Index)", 180.0, 300.0, float(def_cpi), step=0.5)
 
-        elif domain == "DataCo (Supply Chain)":
-            c_era, c_gscpi, c_fuel = st.columns(3)
-            with c_era:
+                baseline_risk = 4.2
+                simulated_risk = max(0.5, min(baseline_risk + ((unemployment - 5.0) * 0.8) + ((cpi - 210.0) * 0.05), 99.0))
+                strain_idx = ((unemployment / 5.0 + cpi / 210.0) / 2)
+
+            else:
                 era = st.selectbox("⚡ Load Predefined Era", ["Custom 🛠️", "COVID_2020_LOGISTICS 🚢"])
+                
+                def_gscpi = 4.3 if "COVID" in era else 0.0
+                
+                gscpi = st.slider("⚓ GSCPI (Standard Deviations)", -2.0, 5.0, float(def_gscpi), step=0.1)
+                fuel = st.slider("⛽ Global Oil Price ($/bbl)", 40.0, 150.0, 75.0, step=1.0)
+
+                baseline_risk = 54.3 
+                simulated_risk = max(1.0, min(baseline_risk + (gscpi * 4.0) + ((fuel - 75.0) * 0.1), 99.0))
+                strain_idx = gscpi
+
+        with col_viz:
+            # Top Metrics Bar
+            m1, m2, m3 = st.columns(3)
+            with m1:
+                st.metric("🌱 Baseline Risk", f"{baseline_risk:.1f}%")
+            with m2:
+                diff = simulated_risk - baseline_risk
+                st.metric("💥 Counterfactual", f"{simulated_risk:.1f}%", f"{diff:+.1f}%", delta_color="inverse")
+            with m3:
+                if domain == "Walmart (Retail)":
+                    st.metric("📊 Macro Strain", f"{strain_idx:.2f}x")
+                else:
+                    st.metric("⚓ Port Strain", f"{strain_idx:+.2f} SD")
+
+            st.write("")
             
-            def_gscpi = 4.3 if "COVID" in era else 0.0
+            # Interactive Bar Chart (Matching target UI image)
+            st.markdown(f"""
+            <div class="feature-card" style="padding: 16px;">
+                <div style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 800; color: {text_color}; margin-bottom: 12px;">
+                    📊 Scenario Comparison Analysis
+                </div>
+            """, unsafe_allow_html=True)
             
-            with c_gscpi:
-                gscpi = st.slider("⚓ GSCPI (Standard Deviations)", -2.0, 5.0, float(def_gscpi))
-            with c_fuel:
-                fuel = st.slider("⛽ Global Oil Price ($/bbl)", 40.0, 150.0, 75.0)
-            
-            st.markdown('<div class="section-header">🚢 DataCo Logistics Risk Analysis</div>', unsafe_allow_html=True)
-            
-            baseline_risk = 0.543 
-            simulated_risk = max(0.10, min(baseline_risk + (gscpi * 0.04) + ((fuel - 75.0) * 0.001), 0.99))
-            
-            col1, col2, col3 = st.columns(3)
-            col1.metric("🌱 Baseline Risk", f"{baseline_risk*100:.1f}%")
-            col2.metric("💥 Counterfactual Risk", f"{simulated_risk*100:.1f}%", f"+{(simulated_risk - baseline_risk)*100:.1f}%", delta_color="inverse")
-            col3.metric("⚓ Port Pressure Index", f"{gscpi:+.2f} SD")
+            chart_df = pd.DataFrame({
+                "Macroeconomic Scenario": ["Baseline", "Counterfactual"],
+                "Stockout Probability (%)": [baseline_risk, simulated_risk]
+            }).set_index("Macroeconomic Scenario")
+
+            st.bar_chart(chart_df, y="Stockout Probability (%)", color="#ea580c", height=300)
+
+            st.markdown(f"""
+                <p style="font-size: 0.8rem; color: {sub_text}; margin-top: 8px; margin-bottom: 0;">
+                    📊 <b>Chart Description:</b> Contrasts expected inventory stockout probability under baseline operational parameters against counterfactual macroeconomic shocks.
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
 
         render_footer_nav("📈 Era Swap Simulator")
 
     # -------------------------------------------------------------------
-    # 4. TECHNICAL ARCHITECTURE & DEVELOPER (UPDATED)
+    # 4. TECHNICAL ARCHITECTURE & DEVELOPER
     # -------------------------------------------------------------------
     elif st.session_state.current_page == "🔬 Technical Architecture & Developer":
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🖥📑🖥</p>', unsafe_allow_html=True)
@@ -543,25 +567,22 @@ def main():
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🖥📑🖥</p>', unsafe_allow_html=True)
         st.markdown(f'<p class="hero-subtitle"><br>🧩 <b>System Blueprint:</b> Execution Flow & Component Architecture ⚡</p>', unsafe_allow_html=True)
         
-        # GitHub Repository Quick Link
+        # Causal RL Explanation Section at the very top
         st.markdown(f"""
-        <div class="feature-card" style="text-align: center; align-items: center; border-color: rgba(99, 102, 241, 0.6);">
-            <span class="metric-badge">📂 SOURCE CODE REPOSITORY</span>
-            <div class="card-header-indigo">Causal-RL for Supply Chain Optimization</div>
-            <p style="font-size: 0.95rem; line-height: 1.6; color: {sub_text}; margin-bottom: 14px;">
-                Access full Jupyter notebooks, SCM DAG definitions, RL Gym environments, and interactive dashboard source code.
+        <div class="feature-card" style="border-color: rgba(99, 102, 241, 0.5);">
+            <span class="metric-badge">🧠 FOUNDATIONAL CONCEPT</span>
+            <div class="card-header-indigo">What is Causal Reinforcement Learning & How It Works</div>
+            <p style="font-size: 0.95rem; line-height: 1.7; color: {sub_text}; margin: 0;">
+                <b>Causal Reinforcement Learning (Causal RL)</b> combines <b>Structural Causal Models (SCMs)</b> with sequential decision-making. 
+                Standard RL algorithms optimize policies based on raw correlation in data, often learning <i>spurious patterns</i> (e.g., assuming higher shipping delays cause inflation). 
+                <br><br>
+                <b>How it works:</b> Causal RL explicitely constructs a <b>Directed Acyclic Graph (DAG)</b> to model true cause-and-effect relationships between variables (e.g., Macro Shock → Transit Bottleneck → Delay → Stockout Risk). By applying Pearl’s <i>do-calculus</i> and bounding the agent's action space with causal constraints, the RL agent evaluates hypothetical <b>counterfactual interventions</b> ("What would happen if GSCPI spikes by +4 SD?") without reward-hacking or failing under out-of-distribution macro shocks.
             </p>
-            <a href="https://github.com/SristiSarkarMCKV/Causal-RL-for-Supply-Chain-Optimization/tree/main" target="_blank" style="text-decoration: none;">
-                <button style="border-radius: 10px; font-weight: 700; font-family: 'Outfit', sans-serif; padding: 10px 24px; border: none; background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: #ffffff; cursor: pointer;">
-                    ⭐ View GitHub Repository 🔗
-                </button>
-            </a>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown('<div class="section-header">🗺️ End-to-End System Execution Flow</div>', unsafe_allow_html=True)
 
-        # 4 Execution Stages
         f1, f2, f3, f4 = st.columns(4)
         with f1:
             st.markdown(f"""
@@ -641,13 +662,29 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
+        # Source Code Repository Section at bottom before developer details
+        st.markdown(f"""
+        <div class="feature-card" style="text-align: center; align-items: center; border-color: rgba(99, 102, 241, 0.6); margin-top: 20px;">
+            <span class="metric-badge">📂 SOURCE CODE REPOSITORY</span>
+            <div class="card-header-indigo">Causal-RL for Supply Chain Optimization</div>
+            <p style="font-size: 0.95rem; line-height: 1.6; color: {sub_text}; margin-bottom: 14px;">
+                Access full Jupyter notebooks, SCM DAG definitions, RL Gym environments, and interactive dashboard source code.
+            </p>
+            <a href="https://github.com/SristiSarkarMCKV/Causal-RL-for-Supply-Chain-Optimization/tree/main" target="_blank" style="text-decoration: none;">
+                <button style="border-radius: 10px; font-weight: 700; font-family: 'Outfit', sans-serif; padding: 10px 24px; border: none; background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: #ffffff; cursor: pointer;">
+                    ⭐ View GitHub Repository 🔗
+                </button>
+            </a>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Lead Developer Contact Details (GitHub link section removed)
         st.markdown('<div class="section-header">👩‍💻 Lead Developer Contact Information</div>', unsafe_allow_html=True)
         
         st.info("""
         ✨ **Lead Developer:** Sristi Sarkar  
         📧 **Email:** [emailsristisarkar@gmail.com](mailto:emailsristisarkar@gmail.com)  
-        📱 **Contact:** [+91 8240580651](https://wa.me/918240580651)  
-        🔗 **GitHub:** [SristiSarkarMCKV/Causal-RL-for-Supply-Chain-Optimization](https://github.com/SristiSarkarMCKV/Causal-RL-for-Supply-Chain-Optimization/tree/main)
+        📱 **Contact:** [+91 8240580651](https://wa.me/918240580651)
         """)
 
         render_footer_nav("🔬 Technical Architecture & Developer")
