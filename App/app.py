@@ -489,7 +489,71 @@ def main():
         render_footer_nav("🏠 Project Overview")
 
     # -------------------------------------------------------------------
-    # 2. GNANI VOICE CONTROL TOWER (NEW INTEGRATED MODULE)
+    # 2. BENCHMARK & VALUE PROP
+    # -------------------------------------------------------------------
+    elif st.session_state.current_page == "⚖️ Benchmark & Value Prop":
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊⚖️📊</p>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-title-p4">Why Choose RISK TWIN OSS?<br>Model Benchmark & ROI</p>', unsafe_allow_html=True)
+        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊⚖️📊</p>', unsafe_allow_html=True)
+        st.markdown(f'<p class="hero-subtitle"><br>🏢 <b>Enterprise Value Proposition:</b> Comparing Traditional Paradigms vs Causal-RL ⚡</p>', unsafe_allow_html=True)
+
+        st.markdown(f"""
+        <div class="feature-card">
+            <span class="metric-badge">Executive Summary</span>
+            <p style="font-size: 1rem; line-height: 1.7; color: {sub_text}; margin: 0;">
+                Traditional methods force enterprises into a trade-off: <b>Static OR rules are safe but rigid</b>, while <b>Black-Box Deep Learning fails out-of-distribution</b>. 
+                <br><b>RISK TWIN OSS</b> bridges this gap using <b>Structural Causal Models (SCMs)</b> to deliver robust, stress-tested, and adaptive policies that prevent catastrophic revenue loss during macro disruptions.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown('<div class="section-header">⚔️ Architectural Comparison Matrix</div>', unsafe_allow_html=True)
+        
+        st.markdown("""
+        | Dimension | Traditional OR (s, S) | Standard DL / XGBoost | Unconstrained Deep RL | RISK TWIN OSS (Causal-RL) |
+        | :--- | :--- | :--- | :--- | :--- |
+        | **Macro Out-of-Distribution** | ❌ Fails Catastrophically | ❌ Degrades heavily | ⚠️ Poor out-of-distribution | ✅ Stress-Tested via Era Swapping |
+        | **Spurious Correlations** | ❌ N/A (Static Rules) | ❌ Confuses Correlation | ❌ Exploits spurious patterns | ✅ Controlled via DAG Discovery |
+        | **Counterfactual Simulation**| ❌ None | ❌ Correlative projections | ⚠️ Limited state space | ✅ Full SCM + Do-Calculus |
+        | **Policy Adaptability** | ❌ Zero (Fixed Stock) | ⚠️ Medium (Predictive only) | ✅ High dynamic response | ✅ Dynamic Continuous Control |
+        | **Reward-Hacking Risk** | ✅ High Safety (Static) | ❌ N/A | ❌ Severe Hacking | ✅ Bounded Action Space |
+        """)
+
+        st.markdown('<div class="section-header">💡 Key Enterprise Pillars</div>', unsafe_allow_html=True)
+
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            st.markdown(f"""
+            <div class="feature-card">
+                <div class="card-header-blue">🛡️ Reduced Holding & Stockout Costs</div>
+                <p style="font-size: 0.88rem; line-height: 1.6; color: {sub_text}; margin: 0;">
+                    Eliminates excessive safety buffers while maintaining 99%+ service levels during supply chain bottlenecks.
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
+        with c2:
+            st.markdown(f"""
+            <div class="feature-card">
+                <div class="card-header-emerald">🔮 Zero-Capital Stress Testing</div>
+                <p style="font-size: 0.88rem; line-height: 1.6; color: {sub_text}; margin: 0;">
+                    Simulate extreme tail risks (like 2008 GFC or 2020 COVID) and observe network breaking points <b>before deploying real capital</b>.
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
+        with c3:
+            st.markdown(f"""
+            <div class="feature-card">
+                <div class="card-header-purple">⚡ Trustworthy AI Decisions</div>
+                <p style="font-size: 0.88rem; line-height: 1.6; color: {sub_text}; margin: 0;">
+                    Causal DAG constraints ensure that RL agents do not exploit data noise, providing interpretable and safe automated actions.
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        render_footer_nav("⚖️ Benchmark & Value Prop")
+
+    # -------------------------------------------------------------------
+    # 3. GNANI VOICE CONTROL TOWER (NEW INTEGRATED MODULE)
     # -------------------------------------------------------------------
     elif st.session_state.current_page == "🎙️ Gnani Voice Control Tower":
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🎙️🤖🎙️</p>', unsafe_allow_html=True)
@@ -593,7 +657,7 @@ def main():
         render_footer_nav("🎙️ Gnani Voice Control Tower")
 
     # -------------------------------------------------------------------
-    # 3. ERA SWAP SIMULATOR
+    # 4. ERA SWAP SIMULATOR
     # -------------------------------------------------------------------
     elif st.session_state.current_page == "📈 Era Swap Simulator":
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊🧾📊</p>', unsafe_allow_html=True)
@@ -657,27 +721,7 @@ def main():
             st.bar_chart(chart_df, y="Stockout Probability (%)", color="#ea580c", height=300)
 
         render_footer_nav("📈 Era Swap Simulator")
-
-    # -------------------------------------------------------------------
-    # 4. BENCHMARK & VALUE PROP
-    # -------------------------------------------------------------------
-    elif st.session_state.current_page == "⚖️ Benchmark & Value Prop":
-        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊⚖️📊</p>', unsafe_allow_html=True)
-        st.markdown('<p class="hero-title-p4">Why Choose RISK TWIN OSS?<br>Model Benchmark & ROI</p>', unsafe_allow_html=True)
-        st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊⚖️📊</p>', unsafe_allow_html=True)
-        st.markdown(f'<p class="hero-subtitle"><br>🏢 <b>Enterprise Value Proposition:</b> Comparing Traditional Paradigms vs Causal-RL ⚡</p>', unsafe_allow_html=True)
-
-        st.markdown("""
-        | Dimension | Traditional OR (s, S) | Standard DL / XGBoost | RISK TWIN OSS + Gnani Voice |
-        | :--- | :--- | :--- | :--- |
-        | **Macro Out-of-Distribution** | ❌ Fails Catastrophically | ❌ Degrades heavily | ✅ Stress-Tested via Era Swapping |
-        | **Voice Interface** | ❌ None | ❌ None | ✅ Multilingual Voice AI (Gnani) |
-        | **Security Overrides** | ❌ Manual Password | ❌ None | ✅ Armour365 Voice Biometrics |
-        | **Counterfactual Simulation**| ❌ None | ❌ Correlative projections | ✅ Full SCM + Do-Calculus |
-        """)
-
-        render_footer_nav("⚖️ Benchmark & Value Prop")
-
+    
     # -------------------------------------------------------------------
     # 5. TECHNICAL ARCHITECTURE & DEVELOPER
     # -------------------------------------------------------------------
