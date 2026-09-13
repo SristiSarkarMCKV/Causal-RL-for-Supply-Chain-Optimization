@@ -19,6 +19,8 @@ def main():
     # Dynamic Theme Values
     is_dark = st.session_state.theme_mode == "Dark"
     bg_color = "#0f172a" if is_dark else "#ffffff"
+    sidebar_bg = "#1e293b" if is_dark else "#f8fafc"
+    sidebar_border = "rgba(255, 255, 255, 0.1)" if is_dark else "rgba(0, 0, 0, 0.08)"
     text_color = "#f8fafc" if is_dark else "#1e293b"
     sub_text = "#cbd5e1" if is_dark else "#475569"
     card_bg = "linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.9))" if is_dark else "linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9))"
@@ -37,6 +39,12 @@ def main():
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap');
         
         {"html, body, [data-testid='stAppViewContainer'] { background-color: " + bg_color + "; color: " + text_color + "; }" if st.session_state.theme_mode != "System Default" else ""}
+
+        /* --- DYNAMIC SIDEBAR / MENU BAR STYLING --- */
+        [data-testid="stSidebar"] {{
+            background-color: {sidebar_bg} !important;
+            border-right: 1px solid {sidebar_border} !important;
+        }}
 
         html, body, [class*="css"], p, li, span, div {{
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -63,7 +71,7 @@ def main():
         /* -------------------------------------- */
 
         .block-container {{
-            max-width: 1100px;
+            max-width: 1200px;
             padding-top: 2rem;
             padding-bottom: 3rem;
             margin: 0 auto;
@@ -171,6 +179,16 @@ def main():
         .card-header-purple {{ font-family: 'Outfit', sans-serif; font-size: 1.22rem; font-weight: 800; color: {header_purple} !important; margin-top: 4px; margin-bottom: 10px; }}
         .card-header-emerald {{ font-family: 'Outfit', sans-serif; font-size: 1.22rem; font-weight: 800; color: {header_emerald} !important; margin-top: 4px; margin-bottom: 10px; }}
 
+        /* --- CONTAINER SIZING UNIFICATION --- */
+        [data-testid="column"] {{
+            display: flex;
+            flex-direction: column;
+        }}
+
+        [data-testid="column"] > div {{
+            height: 100%;
+        }}
+
         .feature-card {{
             border-radius: 16px;
             padding: 22px 24px;
@@ -179,6 +197,11 @@ def main():
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
             margin-bottom: 18px;
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            height: 100%;
+            box-sizing: border-box;
         }}
 
         .metric-badge {{
@@ -196,6 +219,7 @@ def main():
             text-transform: uppercase;
             letter-spacing: 0.06em;
             margin-bottom: 10px;
+            width: fit-content;
         }}
 
         .stButton>button {{
@@ -225,6 +249,25 @@ def main():
             padding: 2px 6px !important;
             border-radius: 6px !important;
             font-size: 0.88em !important;
+        }}
+
+        /* --- MATRIX SCROLL ELIMINATION STYLING --- */
+        [data-testid="stTable"], [data-testid="stDataFrame"] {{
+            width: 100% !important;
+            overflow-x: hidden !important;
+        }}
+
+        [data-testid="stTable"] table {{
+            width: 100% !important;
+            table-layout: fixed !important;
+            font-size: 0.82rem !important;
+        }}
+
+        [data-testid="stTable"] th, [data-testid="stTable"] td {{
+            padding: 6px 8px !important;
+            white-space: normal !important;
+            word-wrap: break-word !important;
+            text-align: left !important;
         }}
         </style>
     """, unsafe_allow_html=True)
@@ -319,7 +362,7 @@ def main():
                 <span class="metric-badge">USE CASE 1</span>
                 <div class="card-header-blue">1. Causal Discovery & DAG Modeling</div>
                 <ul style="font-size: 0.9rem; line-height: 1.6; color: {sub_text}; margin: 0; padding-left: 1.2rem;">
-                    <li><b>Eliminating Spurious Correlations:</b> Standard deep learning confuses correlation with causation (e.g., fuel prices vs late shipments). Algorithms like PC establish structural graphs between macro drivers (Unemployment, CPI, GSCPI) and KPIs.</li>
+                    <li><b>Eliminating Spurious Correlations:</b> Standard deep learning confuses correlation with causation. Algorithms like PC establish structural graphs between macro drivers (Unemployment, CPI, GSCPI) and KPIs.</li>
                     <li><b>Confounder Control:</b> Isolates confounding economic variables so RL agents respond to true disruption drivers.</li>
                 </ul>
             </div>
@@ -362,7 +405,7 @@ def main():
         render_footer_nav("🏠 Project Overview")
 
     # -------------------------------------------------------------------
-    # 2. BENCHMARK & VALUE PROP (NEW PAGE)
+    # 2. BENCHMARK & VALUE PROP
     # -------------------------------------------------------------------
     elif st.session_state.current_page == "⚖️ Benchmark & Value Prop":
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊⚖️📊</p>', unsafe_allow_html=True)
@@ -375,57 +418,22 @@ def main():
             <span class="metric-badge">Executive Summary</span>
             <p style="font-size: 1rem; line-height: 1.7; color: {sub_text}; margin: 0;">
                 Traditional methods force enterprises into a trade-off: <b>Static OR rules are safe but rigid</b>, while <b>Black-Box Deep Learning fails out-of-distribution</b>. 
-                <br><b>RISK TWIN OSS</b> bridge this gap using <b>Structural Causal Models (SCMs)</b> to deliver robust, stress-tested, and adaptive policies that prevent catastrophic revenue loss during macro disruptions.
+                <br><b>RISK TWIN OSS</b> bridges this gap using <b>Structural Causal Models (SCMs)</b> to deliver robust, stress-tested, and adaptive policies that prevent catastrophic revenue loss during macro disruptions.
             </p>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown('<div class="section-header">⚔️ Architectural Comparison Matrix</div>', unsafe_allow_html=True)
         
-        # Interactive Comparison Table
-        comparison_data = {
-            "Dimension": [
-                "Macro Out-of-Distribution Handling",
-                "Spurious Correlation Filtering",
-                "Counterfactual 'What-If' Simulation",
-                "Policy Adaptability",
-                "Reward-Hacking Prevention",
-                "Operational Safety Guarantees"
-            ],
-            "Traditional OR (s, S)": [
-                "❌ Fails Catastrophically",
-                "❌ N/A (Static Rules)",
-                "❌ None",
-                "❌ Zero (Fixed Safety Stock)",
-                "✅ High (Rule-Bound)",
-                "⚠️ Low under Macro Shock"
-            ],
-            "Standard Deep Learning / XGBoost": [
-                "❌ Degrades heavily",
-                "❌ Confuses Correlation/Causation",
-                "❌ Correlative projections only",
-                "⚠️ Medium (Predictive only)",
-                "❌ N/A",
-                "❌ Black-box risks"
-            ],
-            "Unconstrained Deep RL": [
-                "⚠️ Poor out-of-distribution",
-                "❌ Exploits spurious patterns",
-                "⚠️ Limited state space",
-                "✅ High dynamic response",
-                "❌ Severe (Reward Hacking)",
-                "❌ Unpredictable tail actions"
-            ],
-            "RISK TWIN OSS (Causal-RL)": [
-                "✅ Stress-Tested via Era Swapping",
-                "✅ Controlled via DAG Discovery",
-                "✅ Full SCM + Do-Calculus",
-                "✅ Dynamic Continuous Control",
-                "✅ Bounded Action Space",
-                "✅ Superior Resilience"
-            ]
-        }
-        st.dataframe(comparison_data, use_container_width=True, hide_index=True)
+        st.markdown("""
+        | Dimension | Traditional OR (s, S) | Standard DL / XGBoost | Unconstrained Deep RL | RISK TWIN OSS (Causal-RL) |
+        | :--- | :--- | :--- | :--- | :--- |
+        | **Macro Out-of-Distribution** | ❌ Fails Catastrophically | ❌ Degrades heavily | ⚠️ Poor out-of-distribution | ✅ Stress-Tested via Era Swapping |
+        | **Spurious Correlations** | ❌ N/A (Static Rules) | ❌ Confuses Correlation | ❌ Exploits spurious patterns | ✅ Controlled via DAG Discovery |
+        | **Counterfactual Simulation**| ❌ None | ❌ Correlative projections | ⚠️ Limited state space | ✅ Full SCM + Do-Calculus |
+        | **Policy Adaptability** | ❌ Zero (Fixed Stock) | ⚠️ Medium (Predictive only) | ✅ High dynamic response | ✅ Dynamic Continuous Control |
+        | **Reward-Hacking Risk** | ✅ High Safety (Static) | ❌ N/A | ❌ Severe Hacking | ✅ Bounded Action Space |
+        """)
 
         st.markdown('<div class="section-header">💡 Key Enterprise Pillars</div>', unsafe_allow_html=True)
 
@@ -527,18 +535,119 @@ def main():
         render_footer_nav("📈 Era Swap Simulator")
 
     # -------------------------------------------------------------------
-    # 4. TECHNICAL ARCHITECTURE & DEVELOPER
+    # 4. TECHNICAL ARCHITECTURE & DEVELOPER (UPDATED)
     # -------------------------------------------------------------------
     elif st.session_state.current_page == "🔬 Technical Architecture & Developer":
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🖥📑🖥</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-title-p3">Technical Architecture<br>and<br>Implementation</p>', unsafe_allow_html=True)
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🖥📑🖥</p>', unsafe_allow_html=True)
-        st.markdown(f'<p class="hero-subtitle"><br>🧩 <b>System Blueprint:</b> Data Pipelines & Simulation Engines ⚡</p>', unsafe_allow_html=True)
+        st.markdown(f'<p class="hero-subtitle"><br>🧩 <b>System Blueprint:</b> Execution Flow & Component Architecture ⚡</p>', unsafe_allow_html=True)
+        
+        # GitHub Repository Quick Link
+        st.markdown(f"""
+        <div class="feature-card" style="text-align: center; align-items: center; border-color: rgba(99, 102, 241, 0.6);">
+            <span class="metric-badge">📂 SOURCE CODE REPOSITORY</span>
+            <div class="card-header-indigo">Causal-RL for Supply Chain Optimization</div>
+            <p style="font-size: 0.95rem; line-height: 1.6; color: {sub_text}; margin-bottom: 14px;">
+                Access full Jupyter notebooks, SCM DAG definitions, RL Gym environments, and interactive dashboard source code.
+            </p>
+            <a href="https://github.com/SristiSarkarMCKV/Causal-RL-for-Supply-Chain-Optimization/tree/main" target="_blank" style="text-decoration: none;">
+                <button style="border-radius: 10px; font-weight: 700; font-family: 'Outfit', sans-serif; padding: 10px 24px; border: none; background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: #ffffff; cursor: pointer;">
+                    ⭐ View GitHub Repository 🔗
+                </button>
+            </a>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown('<div class="section-header">🗺️ End-to-End System Execution Flow</div>', unsafe_allow_html=True)
+
+        # 4 Execution Stages
+        f1, f2, f3, f4 = st.columns(4)
+        with f1:
+            st.markdown(f"""
+            <div class="feature-card">
+                <span class="metric-badge">STAGE 1</span>
+                <div class="card-header-blue">1. Ingestion & Preprocessing</div>
+                <ul style="font-size: 0.85rem; line-height: 1.5; color: {sub_text}; margin: 0; padding-left: 1rem;">
+                    <li><code>Setup.ipynb</code><br>(Env & GSCPI Ingestion)</li>
+                    <li style="margin-top: 6px;"><code>DataCo EDA.ipynb</code><br>(Risk Profiling & Cleansing)</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with f2:
+            st.markdown(f"""
+            <div class="feature-card">
+                <span class="metric-badge">STAGE 2</span>
+                <div class="card-header-purple">2. Causal Architecture</div>
+                <ul style="font-size: 0.85rem; line-height: 1.5; color: {sub_text}; margin: 0; padding-left: 1rem;">
+                    <li><code>causal_graph.ipynb</code><br>(SCM & DAG Definition)</li>
+                    <li style="margin-top: 6px;"><code>world_model.ipynb</code><br>(Transition Dynamics Engine)</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with f3:
+            st.markdown(f"""
+            <div class="feature-card">
+                <span class="metric-badge">STAGE 3</span>
+                <div class="card-header-brown">3. Counterfactual Simulation</div>
+                <ul style="font-size: 0.85rem; line-height: 1.5; color: {sub_text}; margin: 0; padding-left: 1rem;">
+                    <li><code>era_swap.ipynb</code><br>(Macro Shock Injection)</li>
+                    <li style="margin-top: 6px;"><code>simulators.ipynb</code><br>(Gymnasium RL Env)</li>
+                    <li style="margin-top: 6px;"><code>risk_twin_pipeline.ipynb</code><br>(Unified Pipeline)</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with f4:
+            st.markdown(f"""
+            <div class="feature-card">
+                <span class="metric-badge">STAGE 4</span>
+                <div class="card-header-emerald">4. Benchmarks & Frontend</div>
+                <ul style="font-size: 0.85rem; line-height: 1.5; color: {sub_text}; margin: 0; padding-left: 1rem;">
+                    <li><code>sc_ss_policy.ipynb</code><br>((s, S) OR Control Policy)</li>
+                    <li style="margin-top: 6px;"><code>dashboard.py</code><br>(Streamlit UI)</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown('<div class="section-header">📚 Notebook & Component Deep Dive</div>', unsafe_allow_html=True)
+
+        d1, d2 = st.columns(2)
+        with d1:
+            st.markdown(f"""
+            <div class="feature-card">
+                <div class="card-header-indigo">📓 Core Research Notebooks</div>
+                <ul style="font-size: 0.9rem; line-height: 1.6; color: {sub_text}; margin: 0; padding-left: 1.2rem;">
+                    <li><b><code>Setup.ipynb</code>:</b> Configures runtime environment, installs critical dependencies (<code>xlrd</code>, <code>openpyxl</code>), and streams live macroeconomic datasets including the NY Fed GSCPI index.</li>
+                    <li style="margin-top: 10px;"><b><code>DataCo Supply Chain EDA.ipynb</code>:</b> Performs exploratory data analysis on shipping routes, establishes late delivery distributions, and isolates missing data anomalies.</li>
+                    <li style="margin-top: 10px;"><b><code>causal_graph.ipynb</code>:</b> Formulates Directed Acyclic Graphs (DAGs) and Structural Causal Models (SCMs) linking macro variables to transit lateness to neutralize confounding bias.</li>
+                    <li style="margin-top: 10px;"><b><code>world_model.ipynb</code>:</b> Trains the environment transition dynamics model to generate high-fidelity synthetic counterfactual trajectories for policy training.</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with d2:
+            st.markdown(f"""
+            <div class="feature-card">
+                <div class="card-header-pink">⚙️ Simulation Engines & Baselines</div>
+                <ul style="font-size: 0.9rem; line-height: 1.6; color: {sub_text}; margin: 0; padding-left: 1.2rem;">
+                    <li><b><code>era_swap.ipynb</code>:</b> Implements the counterfactual engine that injects macroeconomic shocks (e.g., COVID-2020 logistics stress or 2008 financial shocks) into current operational states.</li>
+                    <li style="margin-top: 10px;"><b><code>simulators.ipynb</code>:</b> Wraps world models and era-swapping mechanics into standard step-action-reward interfaces compatible with RL frameworks.</li>
+                    <li style="margin-top: 10px;"><b><code>risk_twin_pipeline.ipynb</code>:</b> Unifies data ingestion, causal graph construction, world modeling, and simulation into an automated end-to-end execution pipeline.</li>
+                    <li style="margin-top: 10px;"><b><code>sc_ss_policy.ipynb</code>:</b> Implements classical (s, S) inventory policies as an empirical benchmark to quantify the performance gains of Causal RL algorithms.</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown('<div class="section-header">👩‍💻 Lead Developer Contact Information</div>', unsafe_allow_html=True)
         
         st.info("""
         ✨ **Lead Developer:** Sristi Sarkar  
         📧 **Email:** [emailsristisarkar@gmail.com](mailto:emailsristisarkar@gmail.com)  
         📱 **Contact:** [+91 8240580651](https://wa.me/918240580651)  
+        🔗 **GitHub:** [SristiSarkarMCKV/Causal-RL-for-Supply-Chain-Optimization](https://github.com/SristiSarkarMCKV/Causal-RL-for-Supply-Chain-Optimization/tree/main)
         """)
 
         render_footer_nav("🔬 Technical Architecture & Developer")
