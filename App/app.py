@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+
 def set_page(page_name):
     st.session_state.current_page = page_name
 
@@ -97,6 +98,12 @@ def main():
         
         {"html, body, [data-testid='stAppViewContainer'] { background-color: " + bg_color + "; color: " + text_color + "; }" if not is_system else ""}
 
+        /* --- TOP HEADER / UPPER PART DARK THEME FIX --- */
+        [data-testid="stHeader"] {{
+            {"background-color: " + bg_color + " !important;" if not is_system else ""}
+            {"color: " + text_color + " !important;" if not is_system else ""}
+        }}
+
         /* --- DYNAMIC SIDEBAR / MENU BAR STYLING --- */
         [data-testid="stSidebar"] {{
             {"background-color: " + sidebar_bg + " !important;" if not is_system else ""}
@@ -110,34 +117,47 @@ def main():
 
         {popover_override}
 
-        /* --- SIDEBAR TOGGLE OVERRIDE --- */
+        /* --- SIDEBAR TOGGLE OVERRIDE: ARROW + "Menu" TEXT --- */
         [data-testid="stSidebarCollapsedControl"] button,
         [data-testid="stSidebarCollapseButton"] button {{
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
+            gap: 6px !important;
+            width: auto !important;
+            padding: 4px 10px !important;
         }}
 
+        /* Keep arrow visible and styled */
         [data-testid="stSidebarCollapsedControl"] button svg,
-        [data-testid="stSidebarCollapseButton"] button svg,
-        [data-testid="stSidebarCollapsedControl"] button div,
-        [data-testid="stSidebarCollapseButton"] button div {{
-            display: none !important;
-            visibility: hidden !important;
+        [data-testid="stSidebarCollapseButton"] button svg {{
+            display: inline-block !important;
+            visibility: visible !important;
+            fill: {sub_text} !important;
+            color: {sub_text} !important;
         }}
 
-        [data-testid="stSidebarCollapsedControl"] button::before,
-        [data-testid="stSidebarCollapseButton"] button::before {{
+        /* Add "Menu" text alongside the arrow */
+        [data-testid="stSidebarCollapsedControl"] button::after,
+        [data-testid="stSidebarCollapseButton"] button::after {{
             content: "Menu" !important;
             font-family: 'Outfit', sans-serif !important;
             font-weight: 700 !important;
             font-size: 0.95rem !important;
             color: {sub_text} !important;
             visibility: visible !important;
+            display: inline-block !important;
         }}
 
-        [data-testid="stSidebarCollapsedControl"] button:hover::before,
-        [data-testid="stSidebarCollapseButton"] button:hover::before {{
+        /* Hover interactions for both arrow and text */
+        [data-testid="stSidebarCollapsedControl"] button:hover::after,
+        [data-testid="stSidebarCollapseButton"] button:hover::after {{
+            color: #818cf8 !important;
+        }}
+
+        [data-testid="stSidebarCollapsedControl"] button:hover svg,
+        [data-testid="stSidebarCollapseButton"] button:hover svg {{
+            fill: #818cf8 !important;
             color: #818cf8 !important;
         }}
 
