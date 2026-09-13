@@ -15,7 +15,7 @@ def main():
     if "current_page" not in st.session_state:
         st.session_state.current_page = "🏠 Project Overview"
     if "theme_mode" not in st.session_state:
-        st.session_state.theme_mode = "System Default"
+        st.session_state.theme_mode = "Dark"
 
     # Dynamic Theme Values
     is_dark = st.session_state.theme_mode == "Dark"
@@ -52,31 +52,50 @@ def main():
             color: {text_color};
         }}
 
-        /* Fix Selectbox Input & Dropdown Option Visibility */
+        /* --- HARD OVERRIDE FOR BASEWEB SELECTBOX DROPDOWNS --- */
         [data-testid="stSelectbox"] div[role="combobox"] span,
         [data-baseweb="select"] div,
         [data-baseweb="select"] span {{
             color: {text_color} !important;
         }}
 
-        /* BaseWeb Dropdown Options List Styling */
-        div[aria-expanded="true"] ul[role="listbox"] li,
-        div[data-baseweb="popover"] ul li,
-        div[data-baseweb="popover"] div[role="option"] span,
-        ul[role="listbox"] [role="option"] {{
+        /* Dropdown Options Popup Menu */
+        div[data-baseweb="popover"],
+        div[data-baseweb="menu"],
+        ul[role="listbox"] {{
+            background-color: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 8px !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+        }}
+
+        /* Option Items inside Dropdown */
+        div[data-baseweb="popover"] li,
+        div[data-baseweb="menu"] li,
+        ul[role="listbox"] li,
+        ul[role="listbox"] [role="option"],
+        div[role="option"] {{
+            background-color: #ffffff !important;
             color: #0f172a !important;
-            background-color: #ffffff !important;
-            font-weight: 600 !important;
+            font-weight: 700 !important;
+            font-size: 0.95rem !important;
+            padding: 10px 14px !important;
         }}
 
-        div[data-baseweb="popover"] ul {{
-            background-color: #ffffff !important;
-        }}
-
-        div[data-baseweb="popover"] div[role="option"]:hover,
-        ul[role="listbox"] [role="option"]:hover {{
-            background-color: #f1f5f9 !important;
+        /* Option Items Hover & Active States */
+        div[data-baseweb="popover"] li:hover,
+        div[data-baseweb="menu"] li:hover,
+        ul[role="listbox"] [role="option"]:hover,
+        div[role="option"]:hover,
+        div[aria-selected="true"] {{
+            background-color: #e2e8f0 !important;
             color: #4f46e5 !important;
+        }}
+
+        div[data-baseweb="popover"] li *,
+        div[data-baseweb="menu"] li *,
+        ul[role="listbox"] li * {{
+            color: inherit !important;
         }}
 
         /* --- SIDEBAR TOGGLE OVERRIDE --- */
@@ -500,7 +519,6 @@ def main():
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊🧾📊</p>', unsafe_allow_html=True)
         st.markdown(f'<p class="hero-subtitle"><br>🧪 <b>Interactive Sandbox:</b> Inject Counterfactual Macro Shocks into World Models ⚡</p>', unsafe_allow_html=True)
 
-        # 2 Column Split Layout: Controls on Left, Visuals & Metrics on Right
         col_ctrl, col_viz = st.columns([1, 1.3])
 
         with col_ctrl:
@@ -539,7 +557,6 @@ def main():
                 strain_idx = gscpi
 
         with col_viz:
-            # Top Metrics Bar
             m1, m2, m3 = st.columns(3)
             with m1:
                 st.metric("🌱 Baseline Risk", f"{baseline_risk:.1f}%")
@@ -554,7 +571,6 @@ def main():
 
             st.write("")
 
-            # --- DYNAMIC SCENARIO ALERT BANNER ---
             risk_increase = simulated_risk - baseline_risk
 
             if risk_increase > 15.0 or simulated_risk > 25.0:
@@ -568,7 +584,6 @@ def main():
 
             st.write("")
 
-            # Interactive Bar Chart
             st.markdown(f"""
             <div class="feature-card" style="padding: 16px;">
                 <div style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 800; color: {text_color}; margin-bottom: 12px;">
@@ -601,7 +616,6 @@ def main():
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🖥📑🖥</p>', unsafe_allow_html=True)
         st.markdown(f'<p class="hero-subtitle"><br>🧩 <b>System Blueprint:</b> Execution Flow & Component Architecture ⚡</p>', unsafe_allow_html=True)
         
-        # Causal RL Explanation Section
         st.markdown(f"""
         <div class="feature-card" style="border-color: rgba(99, 102, 241, 0.5);">
             <span class="metric-badge">🧠 FOUNDATIONAL CONCEPT</span>
@@ -696,7 +710,6 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
-        # Source Code Repository Section
         st.markdown(f"""
         <div class="feature-card" style="text-align: center; align-items: center; border-color: rgba(99, 102, 241, 0.6); margin-top: 20px;">
             <span class="metric-badge">📂 SOURCE CODE REPOSITORY</span>
@@ -712,7 +725,6 @@ def main():
         </div>
         """, unsafe_allow_html=True)
 
-        # Lead Developer Contact Details
         st.markdown('<div class="section-header">👩‍💻 Lead Developer Contact Information</div>', unsafe_allow_html=True)
         
         st.info("""
