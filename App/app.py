@@ -52,11 +52,31 @@ def main():
             color: {text_color};
         }}
 
-        /* Fix Selectbox / Dropdown text visibility */
+        /* Fix Selectbox Input & Dropdown Option Visibility */
         [data-testid="stSelectbox"] div[role="combobox"] span,
         [data-baseweb="select"] div,
         [data-baseweb="select"] span {{
             color: {text_color} !important;
+        }}
+
+        /* BaseWeb Dropdown Options List Styling */
+        div[aria-expanded="true"] ul[role="listbox"] li,
+        div[data-baseweb="popover"] ul li,
+        div[data-baseweb="popover"] div[role="option"] span,
+        ul[role="listbox"] [role="option"] {{
+            color: #0f172a !important;
+            background-color: #ffffff !important;
+            font-weight: 600 !important;
+        }}
+
+        div[data-baseweb="popover"] ul {{
+            background-color: #ffffff !important;
+        }}
+
+        div[data-baseweb="popover"] div[role="option"]:hover,
+        ul[role="listbox"] [role="option"]:hover {{
+            background-color: #f1f5f9 !important;
+            color: #4f46e5 !important;
         }}
 
         /* --- SIDEBAR TOGGLE OVERRIDE --- */
@@ -410,7 +430,7 @@ def main():
     # -------------------------------------------------------------------
     # 2. BENCHMARK & VALUE PROP
     # -------------------------------------------------------------------
-    elif st.session_state.current_page == "秤️ Benchmark & Value Prop":
+    elif st.session_state.current_page == "⚖️ Benchmark & Value Prop":
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊⚖️📊</p>', unsafe_allow_html=True)
         st.markdown('<p class="hero-title-p4">Why Choose RISK TWIN OSS?<br>Model Benchmark & ROI</p>', unsafe_allow_html=True)
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">📊⚖️📊</p>', unsafe_allow_html=True)
@@ -469,7 +489,7 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
-        render_footer_nav("秤️ Benchmark & Value Prop")
+        render_footer_nav("⚖️ Benchmark & Value Prop")
 
     # -------------------------------------------------------------------
     # 3. ERA SWAP SIMULATOR
@@ -533,8 +553,22 @@ def main():
                     st.metric("⚓ Port Strain", f"{strain_idx:+.2f} SD")
 
             st.write("")
-            
-            # Interactive Bar Chart (Matching target UI image)
+
+            # --- DYNAMIC SCENARIO ALERT BANNER ---
+            risk_increase = simulated_risk - baseline_risk
+
+            if risk_increase > 15.0 or simulated_risk > 25.0:
+                st.error("🚨 CRITICAL INVENTORY ALERT: Severe macro disruption detected! Immediate reorder policy override required.")
+            elif risk_increase > 5.0 or simulated_risk > 10.0:
+                st.warning("⚠️ ELEVATED INVENTORY RISK: Macro stress detected. Dynamic reorder policy adjustment strongly advised.")
+            elif risk_increase > 1.0:
+                st.info("ℹ️ MODERATE VARIATION: Slight macroeconomic shift detected within safe operational bounds.")
+            else:
+                st.success("✅ OPTIMAL CONDITIONS: Counterfactual risk matches baseline. Operational buffer is stable.")
+
+            st.write("")
+
+            # Interactive Bar Chart
             st.markdown(f"""
             <div class="feature-card" style="padding: 16px;">
                 <div style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 800; color: {text_color}; margin-bottom: 12px;">
@@ -567,7 +601,7 @@ def main():
         st.markdown('<p style="font-size: 2.85rem; text-align: center; margin: 0; line-height: 1;">🖥📑🖥</p>', unsafe_allow_html=True)
         st.markdown(f'<p class="hero-subtitle"><br>🧩 <b>System Blueprint:</b> Execution Flow & Component Architecture ⚡</p>', unsafe_allow_html=True)
         
-        # Causal RL Explanation Section at the very top
+        # Causal RL Explanation Section
         st.markdown(f"""
         <div class="feature-card" style="border-color: rgba(99, 102, 241, 0.5);">
             <span class="metric-badge">🧠 FOUNDATIONAL CONCEPT</span>
@@ -576,7 +610,7 @@ def main():
                 <b>Causal Reinforcement Learning (Causal RL)</b> combines <b>Structural Causal Models (SCMs)</b> with sequential decision-making. 
                 Standard RL algorithms optimize policies based on raw correlation in data, often learning <i>spurious patterns</i> (e.g., assuming higher shipping delays cause inflation). 
                 <br><br>
-                <b>How it works:</b> Causal RL explicitely constructs a <b>Directed Acyclic Graph (DAG)</b> to model true cause-and-effect relationships between variables (e.g., Macro Shock → Transit Bottleneck → Delay → Stockout Risk). By applying Pearl’s <i>do-calculus</i> and bounding the agent's action space with causal constraints, the RL agent evaluates hypothetical <b>counterfactual interventions</b> ("What would happen if GSCPI spikes by +4 SD?") without reward-hacking or failing under out-of-distribution macro shocks.
+                <b>How it works:</b> Causal RL explicitly constructs a <b>Directed Acyclic Graph (DAG)</b> to model true cause-and-effect relationships between variables (e.g., Macro Shock → Transit Bottleneck → Delay → Stockout Risk). By applying Pearl’s <i>do-calculus</i> and bounding the agent's action space with causal constraints, the RL agent evaluates hypothetical <b>counterfactual interventions</b> ("What would happen if GSCPI spikes by +4 SD?") without reward-hacking or failing under out-of-distribution macro shocks.
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -662,7 +696,7 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
-        # Source Code Repository Section at bottom before developer details
+        # Source Code Repository Section
         st.markdown(f"""
         <div class="feature-card" style="text-align: center; align-items: center; border-color: rgba(99, 102, 241, 0.6); margin-top: 20px;">
             <span class="metric-badge">📂 SOURCE CODE REPOSITORY</span>
@@ -678,7 +712,7 @@ def main():
         </div>
         """, unsafe_allow_html=True)
 
-        # Lead Developer Contact Details (GitHub link section removed)
+        # Lead Developer Contact Details
         st.markdown('<div class="section-header">👩‍💻 Lead Developer Contact Information</div>', unsafe_allow_html=True)
         
         st.info("""
