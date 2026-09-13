@@ -746,7 +746,6 @@ def main():
         with d2:
             st.markdown(f"""
             <div class="feature-card">
-                <span class="metric-badge">SIMULATION & BASELINES</span>
                 <div class="card-header-pink">⚙️ Simulation Engines & Baselines</div>
                 <ul style="font-size: 0.9rem; line-height: 1.6; color: {sub_text}; margin: 0; padding-left: 1.2rem;">
                     <li><b><code>era_swap.ipynb</code>:</b> Implements the counterfactual engine that injects macroeconomic shocks (e.g., COVID-2020 logistics stress or 2008 financial shocks) into current operational states.</li>
