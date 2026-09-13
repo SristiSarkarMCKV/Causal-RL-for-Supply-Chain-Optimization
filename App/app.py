@@ -27,6 +27,12 @@ def main():
     card_bg = "linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.9))" if is_dark else "linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9))"
     card_border = "rgba(99, 102, 241, 0.4)" if is_dark else "rgba(99, 102, 241, 0.2)"
 
+    # Dynamic Popover Dropdown Colors
+    pop_bg = "#1e293b" if is_dark else "#ffffff"
+    pop_text = "#f8fafc" if is_dark else "#0f172a"
+    pop_hover = "#334155" if is_dark else "#e2e8f0"
+    pop_border = "rgba(255, 255, 255, 0.15)" if is_dark else "#cbd5e1"
+
     # Dynamic Section Colors
     header_blue = "#60a5fa" if is_dark else "#0284c7"
     header_brown = "#fb923c" if is_dark else "#ea580c"
@@ -63,10 +69,10 @@ def main():
         div[data-baseweb="popover"],
         div[data-baseweb="menu"],
         ul[role="listbox"] {{
-            background-color: #ffffff !important;
-            border: 1px solid #cbd5e1 !important;
+            background-color: {pop_bg} !important;
+            border: 1px solid {pop_border} !important;
             border-radius: 8px !important;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35) !important;
         }}
 
         /* Option Items inside Dropdown */
@@ -75,8 +81,8 @@ def main():
         ul[role="listbox"] li,
         ul[role="listbox"] [role="option"],
         div[role="option"] {{
-            background-color: #ffffff !important;
-            color: #0f172a !important;
+            background-color: {pop_bg} !important;
+            color: {pop_text} !important;
             font-weight: 700 !important;
             font-size: 0.95rem !important;
             padding: 10px 14px !important;
@@ -88,8 +94,8 @@ def main():
         ul[role="listbox"] [role="option"]:hover,
         div[role="option"]:hover,
         div[aria-selected="true"] {{
-            background-color: #e2e8f0 !important;
-            color: #4f46e5 !important;
+            background-color: {pop_hover} !important;
+            color: #818cf8 !important;
         }}
 
         div[data-baseweb="popover"] li *,
@@ -700,6 +706,7 @@ def main():
         with d2:
             st.markdown(f"""
             <div class="feature-card">
+                <span class="metric-badge">SIMULATION & BASELINES</span>
                 <div class="card-header-pink">⚙️ Simulation Engines & Baselines</div>
                 <ul style="font-size: 0.9rem; line-height: 1.6; color: {sub_text}; margin: 0; padding-left: 1.2rem;">
                     <li><b><code>era_swap.ipynb</code>:</b> Implements the counterfactual engine that injects macroeconomic shocks (e.g., COVID-2020 logistics stress or 2008 financial shocks) into current operational states.</li>
